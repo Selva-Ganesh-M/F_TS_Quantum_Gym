@@ -10,7 +10,12 @@ const Navbar = (props: Props) => {
   const [isMenuToggled, setIsMenuToggled] = useState<Boolean>(false);
   return (
     // Navbar
-    <div className="bg-rose-300 px-3 sm:px-10 py-3 flex justify-between items-center">
+    <div
+      className="fixed w-[100vw] shadow-md bg-white px-3 py-3 flex justify-between items-center
+    sm:px-10
+    md:px-20
+     "
+    >
       {/* RIGHT */}
       {/* logo */}
       <img
@@ -26,7 +31,7 @@ const Navbar = (props: Props) => {
         {isLargeScreen ? (
           // {/* nav items - Large Screens */}
           <nav>
-            <ul className="flex gap-5 text-sm">
+            <ul className="flex gap-5 text-sm md:gap-10">
               <li>About Us</li>
               <li>Help</li>
             </ul>
