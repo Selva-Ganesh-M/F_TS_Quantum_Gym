@@ -2,17 +2,17 @@ import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { useDropzone, Accept } from "react-dropzone";
-import { useCallback, useEffect } from "react";
+import { useDropzone, FileWithPath } from "react-dropzone";
+import { useCallback, useEffect, useState } from "react";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 
+// TYPES
 type Props = {};
-
 type TSignup = {
   fullName: string;
   userName: string;
-  image: string;
+  image: any;
   gender: string;
   age: number;
   email: string;
@@ -20,8 +20,13 @@ type TSignup = {
   confirmPassword: string;
 };
 
+// REACT.FC COMPONENT
 const SignUp = (props: Props) => {
+  // DECLARATIONS
+  const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
   const { state, dispatch } = useRootPageContext({});
+
+  // SIDE EFFECTS
   useEffect(() => {
     dispatch({
       action: ERootPageAction.change,
@@ -29,13 +34,17 @@ const SignUp = (props: Props) => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log("uploadedImage", uploadedImage);
+  }, [uploadedImage]);
+
   // INITIAL STATE
   const initialValues: TSignup = {
     fullName: "",
     userName: "",
-    image: "",
-    gender: "",
-    age: 0,
+    image: {},
+    gender: "choose",
+    age: 18,
     email: "",
     password: "",
     confirmPassword: "",
@@ -43,11 +52,11 @@ const SignUp = (props: Props) => {
 
   //   YUP VALIDATION SCHEMA
   const validationSchema = yup.object().shape({
-    fullName: yup.string().required("full name is a required field"),
-    userName: yup.string().required("user name is a required field"),
+    fullName: yup.string().required("required field"),
+    userName: yup.string().required("required field"),
     image: yup.string().required("required"),
     gender: yup.string().required("required"),
-    age: yup.number().required("required"),
+    age: yup.number().required("required").min(18, "must be 18 or above"),
     email: yup.string().email("invalid email").required("required"),
     password: yup
       .string()
@@ -58,7 +67,7 @@ const SignUp = (props: Props) => {
       ),
     confirmPassword: yup
       .string()
-      .required()
+      .required("required")
       .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
@@ -73,12 +82,13 @@ const SignUp = (props: Props) => {
   };
 
   // DROPZONE PREP
-
-  const onDrop = useCallback((acceptedFiles: Array<any>) => {
+  const onDrop = useCallback((acceptedFiles: Array<FileWithPath>) => {
     // had to use any cause I can't find the types
+    setUploadedImage(acceptedFiles[0]);
     console.log(acceptedFiles);
   }, []);
 
+  // USE DROPZONE
   const {
     getRootProps,
     getInputProps,
@@ -90,6 +100,7 @@ const SignUp = (props: Props) => {
     accept: {
       "image/*": [".jpeg", ".png"],
     },
+    multiple: false,
   });
 
   //   CUSTOM ERROR MESSAGE
@@ -142,10 +153,6 @@ const SignUp = (props: Props) => {
                 onBlur={handleBlur}
               />
             </div>
-
-            {/* {touched.userName && errors.userName && (
-              <div className="text-red-900">hello</div>
-            )} */}
             <ErrorMessage name={"userName"}>{customError}</ErrorMessage>
 
             {/* FULL NAME */}
@@ -171,22 +178,24 @@ const SignUp = (props: Props) => {
             <div className="flex w-full gap-5">
               {/* age */}
 
-              <div>
-                <label htmlFor="age" className="block ml-1 mb-1">
-                  Age
-                </label>
-                <Field
-                  type="number"
-                  minimum="18"
-                  name="age"
-                  placeholder="enter age here..."
-                  className="border-2 p-2 w-full text-gray-700"
-                  value={values.age}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
+              <div className="flex flex-col gap-2">
+                <div>
+                  <label htmlFor="age" className="block ml-1 mb-1">
+                    Age
+                  </label>
+                  <Field
+                    type="number"
+                    minimum="18"
+                    name="age"
+                    placeholder="enter age here..."
+                    className="border-2 p-2 w-full text-gray-700"
+                    value={values.age}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <ErrorMessage name={"age"}>{customError}</ErrorMessage>
               </div>
-              <ErrorMessage name={"age"}>{customError}</ErrorMessage>
 
               {/* gender */}
               <div className="flex flex-col gap-2">
@@ -202,6 +211,7 @@ const SignUp = (props: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
+                    <option value="">select</option>
                     <option value="male">male</option>
                     <option value="female">female</option>
                     <option value="prefernottosay">prefer not to say</option>
@@ -281,14 +291,26 @@ const SignUp = (props: Props) => {
                 className="h-14 relative border-dashed border-2"
               >
                 <input {...getInputProps()} className="h-full w-full " />
-                {isDragAccept && <p>All files will be accepted</p>}
-                {isDragReject && <p>Some files will be rejected</p>}
-                {!isDragActive && (
+                {isDragAccept && (
+                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    All files will be accepted
+                  </p>
+                )}
+                {isDragReject && (
+                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    Some files will be rejected
+                  </p>
+                )}
+                {!uploadedImage && !isDragActive && (
                   <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                     Drop your image here ...
                   </p>
                 )}
-                <p></p>
+                {uploadedImage && (
+                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    {uploadedImage.name}
+                  </p>
+                )}
               </div>
             </div>
 
