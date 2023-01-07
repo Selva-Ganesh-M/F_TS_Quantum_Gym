@@ -10,7 +10,9 @@ const LogoFlex = (props: Props) => {
     <section
       className=" pt-24
       sm:w-[600px] sm:pt-24 sm:m-auto
-    md:w-full md:h-[97vh] md:items-center md:px-20 md:pt-24 md:pb-10 md:flex md:flex-row"
+    md:w-full md:h-[97vh] md:items-center md:px-20 md:pt-32 md:pb-10 md:flex md:flex-row
+    lg:pt-36
+    "
     >
       <Outlet />
       {isAboveMediumScreens ? (

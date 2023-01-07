@@ -2,6 +2,8 @@ import FilledBtn from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
+import { useDropzone, Accept } from "react-dropzone";
+import { useCallback } from "react";
 
 type Props = {};
 
@@ -59,6 +61,26 @@ const SignUp = (props: Props) => {
     resetForm();
     return;
   };
+
+  // DROPZONE PREP
+
+  const onDrop = useCallback((acceptedFiles: Array<any>) => {
+    // had to use any cause I can't find the types
+    console.log(acceptedFiles);
+  }, []);
+
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".png"],
+    },
+  });
 
   //   CUSTOM ERROR MESSAGE
   const customError = (msg: string) => {
@@ -170,8 +192,6 @@ const SignUp = (props: Props) => {
                 </div>
                 <ErrorMessage name={"gender"}>{customError}</ErrorMessage>
               </div>
-
-              {/* Dropzone */}
             </div>
 
             {/* email */}
@@ -185,7 +205,7 @@ const SignUp = (props: Props) => {
                 type="email"
                 className="p-2 border-2 w-full"
                 placeholder="enter email here..."
-                autocomplete="off"
+                autoComplete="off"
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -234,6 +254,24 @@ const SignUp = (props: Props) => {
                 <ErrorMessage name={"confirmPassword"}>
                   {customError}
                 </ErrorMessage>
+              </div>
+            </div>
+
+            {/* dropzone */}
+            <div className="border-2 p-5 cursor-pointer">
+              <div
+                {...getRootProps()}
+                className="h-14 relative border-dashed border-2"
+              >
+                <input {...getInputProps()} className="h-full w-full " />
+                {isDragAccept && <p>All files will be accepted</p>}
+                {isDragReject && <p>Some files will be rejected</p>}
+                {!isDragActive && (
+                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    Drop some files here ...
+                  </p>
+                )}
+                <p></p>
               </div>
             </div>
 
