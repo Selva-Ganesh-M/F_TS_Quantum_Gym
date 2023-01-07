@@ -1,13 +1,23 @@
 import useMediaQuery from "@/hooks/useMediaQuery";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import transperant from "@/assets/transperant.png";
 import { motion, AnimatePresence } from "framer-motion";
+import FilledBtn from "@/components/shared/FilledBtn";
+import useRootPageContext from "@/hooks/useRootPageContext";
+import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
+
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const { state, dispatch } = useRootPageContext({});
   const isLargeScreen = useMediaQuery("(min-width:769px)");
   const [isMenuToggled, setIsMenuToggled] = useState<Boolean>(false);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   return (
     // Navbar
     <div
@@ -31,9 +41,33 @@ const Navbar = (props: Props) => {
         {isLargeScreen ? (
           // {/* nav items - Large Screens */}
           <nav>
-            <ul className="flex gap-5 text-sm md:gap-10">
+            <ul className="flex gap-5 text-sm md:gap-10 items-center">
               <li>About Us</li>
               <li>Help</li>
+              {state?.rootCurrentPage === "login" ? (
+                <li
+                  onClick={() =>
+                    dispatch({
+                      action: ERootPageAction.change,
+                      payload: ERootPages.login,
+                    })
+                  }
+                >
+                  <FilledBtn to="/signup" content="signup" />
+                </li>
+              ) : null}
+              {state?.rootCurrentPage === "signup" ? (
+                <li
+                  onClick={() =>
+                    dispatch({
+                      action: ERootPageAction.change,
+                      payload: ERootPages.signup,
+                    })
+                  }
+                >
+                  <FilledBtn to="/login" content="login" />
+                </li>
+              ) : null}
             </ul>
           </nav>
         ) : (

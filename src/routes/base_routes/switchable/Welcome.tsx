@@ -1,13 +1,22 @@
-import transperant from "@/assets/transperant.png";
 import FilledBtn from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
+import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
+import useRootPageContext from "@/hooks/useRootPageContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 type Props = {};
 
 const Welcome = (props: Props) => {
   const navigate = useNavigate();
+  const { state, dispatch } = useRootPageContext({});
+  useEffect(() => {
+    dispatch({
+      action: ERootPageAction.change,
+      payload: ERootPages.welcome,
+    });
+  }, []);
   return (
     <>
       {/* welcome section */}
@@ -24,10 +33,26 @@ const Welcome = (props: Props) => {
         {/* actions */}
 
         <div className="actions flex gap-5 mt-10">
-          <Link to="/login">
+          <Link
+            to="/login"
+            onClick={() =>
+              dispatch({
+                action: ERootPageAction.change,
+                payload: ERootPages.login,
+              })
+            }
+          >
             <FilledBtn content={"Login"} />
           </Link>
-          <Link to={"/signup"}>
+          <Link
+            to={"/signup"}
+            onClick={() =>
+              dispatch({
+                action: ERootPageAction.change,
+                payload: ERootPages.signup,
+              })
+            }
+          >
             <OutlineBtn content={"Sign Up"} />
           </Link>
         </div>

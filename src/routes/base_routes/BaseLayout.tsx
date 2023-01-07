@@ -1,24 +1,24 @@
 import LogoFlex from "./static/LogoFlex";
 import Navbar from "./static/Navbar";
-import { useState } from "react";
+import RootPageContextProvider from "@/context/RootPageContext";
+import useRootPageContext from "@/hooks/useRootPageContext";
+import { ERootPages } from "@/context/RootPageContext";
+import { ERootPageAction } from "@/context/RootPageContext";
 
 type Props = {};
 
-export enum selPageRR {
-  login = "login",
-  signup = "signup",
-  welcome = "welcome",
-}
-
 const BaseLayout = (props: Props) => {
-  const [selectedPage, setSelectedPage] = useState<selPageRR>(
-    selPageRR.welcome
-  );
+  const { state, dispatch } = useRootPageContext({});
+  dispatch({
+    action: ERootPageAction.change,
+    payload: ERootPages.signup,
+  });
+
   return (
-    <>
+    <RootPageContextProvider>
       <Navbar />
       <LogoFlex />
-    </>
+    </RootPageContextProvider>
   );
 };
 

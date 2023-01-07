@@ -3,7 +3,9 @@ import OutlineBtn from "@/components/shared/OutlineBtn";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { useDropzone, Accept } from "react-dropzone";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import useRootPageContext from "@/hooks/useRootPageContext";
+import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 
 type Props = {};
 
@@ -19,6 +21,14 @@ type TSignup = {
 };
 
 const SignUp = (props: Props) => {
+  const { state, dispatch } = useRootPageContext({});
+  useEffect(() => {
+    dispatch({
+      action: ERootPageAction.change,
+      payload: ERootPages.signup,
+    });
+  }, []);
+
   // INITIAL STATE
   const initialValues: TSignup = {
     fullName: "",
