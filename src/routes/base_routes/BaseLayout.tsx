@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 import LogoFlex from "./static/LogoFlex";
 import Navbar from "./static/Navbar";
 
