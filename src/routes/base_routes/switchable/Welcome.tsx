@@ -21,40 +21,43 @@ const Welcome = (props: Props) => {
     <>
       {/* welcome section */}
       <div
-        className=" items-center text-center
-       basis-1/2 flex flex-col md:items-start md:text-start"
+        className=" lg:p-6 lg:shadow-2xl
+        justify-center items-center text-center md:text-start h-[89vh]
+       basis-1/2 flex flex-col "
       >
-        {/* content */}
+        <div>
+          {/* content */}
 
-        <h1 className="text-[36px] text-bold text-slate-900 mb-3">
-          Quantum Gym
-        </h1>
-        <p>One stop for all workout collections and events.</p>
-        {/* actions */}
+          <h1 className="text-[36px] text-bold text-slate-900 mb-3">
+            Quantum Gym
+          </h1>
+          <p>One stop for all workout collections and events.</p>
+          {/* actions */}
 
-        <div className="actions flex gap-5 mt-10">
-          <Link
-            to="/login"
-            onClick={() =>
-              dispatch({
-                action: ERootPageAction.change,
-                payload: ERootPages.login,
-              })
-            }
-          >
-            <FilledBtn content={"Login"} />
-          </Link>
-          <Link
-            to={"/signup"}
-            onClick={() =>
-              dispatch({
-                action: ERootPageAction.change,
-                payload: ERootPages.signup,
-              })
-            }
-          >
-            <OutlineBtn content={"Sign Up"} />
-          </Link>
+          <div className="actions flex justify-center md:justify-start gap-5 mt-10">
+            <Link
+              to="/login"
+              onClick={() =>
+                dispatch({
+                  action: ERootPageAction.change,
+                  payload: ERootPages.login,
+                })
+              }
+            >
+              <FilledBtn content={"Login"} />
+            </Link>
+            <Link
+              to={"/signup"}
+              onClick={() =>
+                dispatch({
+                  action: ERootPageAction.change,
+                  payload: ERootPages.signup,
+                })
+              }
+            >
+              <OutlineBtn content={"Sign Up"} />
+            </Link>
+          </div>
         </div>
       </div>
     </>

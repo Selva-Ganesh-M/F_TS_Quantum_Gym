@@ -11,3 +11,11 @@
   font-family: "DM Sans", sans-serif;
   @apply text-gray-900;
 }
+
+.app {
+  padding-top: 80.0625px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

@@ -1,12 +1,17 @@
 import React from "react";
+import { EButtonType } from "./FilledBtn";
 
 type Props = {
   content: string;
+  type?: EButtonType;
 };
 
-const OutlineBtn = ({ content }: Props) => {
+const OutlineBtn = ({ content, type }: Props) => {
   return (
-    <button className=" p-3 px-10 text-pink-900 border-2 font-bold rounded-lg">
+    <button
+      className=" hover:bg-black hover:text-white p-3 px-10 text-pink-900 border-2 font-bold rounded-lg"
+      type={type ? type : "button"}
+    >
       {content}
     </button>
   );

@@ -6,10 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import FilledBtn from "@/components/shared/FilledBtn";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const navigate = useNavigate();
   const { state, dispatch } = useRootPageContext({});
   const isLargeScreen = useMediaQuery("(min-width:769px)");
   const [isMenuToggled, setIsMenuToggled] = useState<Boolean>(false);
@@ -21,7 +23,7 @@ const Navbar = (props: Props) => {
   return (
     // Navbar
     <div
-      className="fixed w-[100vw] shadow-md bg-white px-3 py-3 flex justify-between items-center
+      className="sticky top-0 w-[100vw] shadow-md bg-white px-3 py-3 flex justify-between items-center
     sm:px-10
     md:px-20
      "
@@ -29,6 +31,7 @@ const Navbar = (props: Props) => {
       {/* RIGHT */}
       {/* logo */}
       <img
+        onClick={() => navigate("/")}
         src={transperant}
         alt="logo"
         width={"90px"}

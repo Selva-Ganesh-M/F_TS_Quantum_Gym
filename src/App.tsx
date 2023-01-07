@@ -8,13 +8,15 @@ type Props = {};
 
 const App = (props: Props) => {
   return (
-    <Routes>
-      <Route path="/" element={<BaseLayout />}>
-        <Route index element={<Welcome />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-      </Route>
-    </Routes>
+    <div className="relative">
+      <Routes>
+        <Route path="/" element={<BaseLayout />}>
+          <Route index element={<Welcome />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+        </Route>
+      </Routes>
+    </div>
   );
 };
 

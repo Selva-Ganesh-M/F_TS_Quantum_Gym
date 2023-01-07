@@ -8,17 +8,23 @@ const LogoFlex = (props: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
   return (
     <section
-      className=" pt-24
-      sm:w-[600px] sm:pt-24 sm:m-auto
-    md:w-full md:h-[97vh] md:items-center md:px-20 md:pt-32 md:pb-10 md:flex md:flex-row
-    lg:pt-36
+      className="mt-5 
+      sm:w-[600px] sm:m-auto
+    md:w-full md:items-center md:px-20 md:flex md:flex-row
     "
     >
+      {/* OUTLET ITEM */}
       <Outlet />
+
+      {/* LOGO ITEM */}
       {isAboveMediumScreens ? (
         // {/* logo section */}
         <div className="basis-1/2">
-          <img src={transperant} alt="quantum-gym-logo" />
+          <img
+            src={transperant}
+            alt="quantum-gym-logo"
+            // className="absolute top-0"
+          />
         </div>
       ) : null}
     </section>

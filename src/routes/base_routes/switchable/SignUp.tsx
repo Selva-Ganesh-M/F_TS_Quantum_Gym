@@ -1,4 +1,4 @@
-import FilledBtn from "@/components/shared/FilledBtn";
+import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
@@ -99,8 +99,15 @@ const SignUp = (props: Props) => {
 
   //   JSX RETURN
   return (
-    <div id="signup" className="basis-1/2 p-4 lg:text-sm text-xs ">
-      <h1 className="text-[34px] mb-2 text-center font-bold">Sign Up</h1>
+    <div
+      id="signup"
+      className="basis-1/2 p-4 lg:text-sm text-xs h-[89vh] scrollbar-hide scroll overflow-y-scroll
+      w-[90%] sm:w-[80%] mx-auto
+      md: py-10 md:shadow-2xl md:px-5
+      lg:shadow-2xl lg:px-10
+      "
+    >
+      <h1 className="text-[34px] mb-2 text-center font-bold ">Sign Up</h1>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -278,7 +285,7 @@ const SignUp = (props: Props) => {
                 {isDragReject && <p>Some files will be rejected</p>}
                 {!isDragActive && (
                   <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    Drop some files here ...
+                    Drop your image here ...
                   </p>
                 )}
                 <p></p>
@@ -287,11 +294,11 @@ const SignUp = (props: Props) => {
 
             {/* actions */}
 
-            <div className="flex">
-              <a className="mr-10">
-                <FilledBtn content={"Submit"} />
+            <div className="flex justify-center md:justify-start">
+              <a className="mr-2">
+                <FilledBtn content={"Submit"} type={EButtonType.submit} />
               </a>
-              <OutlineBtn content={"Reset"} />
+              <OutlineBtn content={"Reset"} type={EButtonType.reset} />
             </div>
           </Form>
         )}
