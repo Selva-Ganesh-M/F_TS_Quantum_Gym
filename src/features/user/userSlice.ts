@@ -36,6 +36,7 @@ export const register = createAsyncThunk(
       const user: IUserLog = await response.json();
       return thunkApi.fulfillWithValue(user);
     } catch (err: any) {
+      console.log(err.message);
       return thunkApi.rejectWithValue(err.message);
     }
   }

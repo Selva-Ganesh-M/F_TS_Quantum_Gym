@@ -6,6 +6,9 @@ import { useDropzone, FileWithPath } from "react-dropzone";
 import { useCallback, useEffect, useState } from "react";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
+import { useDispatch } from "react-redux/es/exports";
+import { register } from "@/features/user/userSlice";
+import { TStoreDispatch } from "@/store/store";
 
 // TYPES
 type Props = {};
@@ -23,13 +26,14 @@ export type TSignup = {
 // REACT.FC COMPONENT
 const SignUp = (props: Props) => {
   // DECLARATIONS
+  const dispatch: TStoreDispatch = useDispatch();
   const [overallWarning, setOverallWarning] = useState<boolean>();
   const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
-  const { state, dispatch } = useRootPageContext({});
+  const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
 
   // SIDE EFFECTS
   useEffect(() => {
-    dispatch({
+    dispatchRootPageContext({
       action: ERootPageAction.change,
       payload: ERootPages.signup,
     });
@@ -83,6 +87,9 @@ const SignUp = (props: Props) => {
     }
     values.image = uploadedImage;
     console.log(values);
+
+    // UPDATING STATE
+    dispatch(register(values));
 
     // CLEANING FORM
     resetForm();
