@@ -9,7 +9,7 @@ import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 
 // TYPES
 type Props = {};
-type TSignup = {
+export type TSignup = {
   fullName: string;
   userName: string;
   image: FileWithPath | undefined;

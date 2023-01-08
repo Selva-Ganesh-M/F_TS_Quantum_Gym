@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
+    "@reduxjs/toolkit": "^1.9.1",
     "formik": "^2.2.9",
     "framer-motion": "^8.1.9",
     "path": "^0.12.7",
