@@ -34,11 +34,9 @@ export const register = createAsyncThunk(
       //   dev error boundary
       if (!response.ok) throw new Error("user register failed");
       const user: IUserLog = await response.json();
-      thunkApi.fulfillWithValue(user);
-      return;
+      return thunkApi.fulfillWithValue(user);
     } catch (err: any) {
-      thunkApi.rejectWithValue(err.message);
-      return;
+      return thunkApi.rejectWithValue(err.message);
     }
   }
 );
@@ -55,11 +53,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     removeUser: (state) => {
+      localStorage.removeItem("user");
       return initialState;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(register.fulfilled, (state, action) => {
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return action.payload;
     });
   },
