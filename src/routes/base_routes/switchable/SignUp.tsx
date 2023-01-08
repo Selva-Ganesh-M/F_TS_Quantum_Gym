@@ -12,7 +12,7 @@ type Props = {};
 type TSignup = {
   fullName: string;
   userName: string;
-  image: any;
+  image: FileWithPath | undefined;
   gender: string;
   age: number;
   email: string;
@@ -23,6 +23,7 @@ type TSignup = {
 // REACT.FC COMPONENT
 const SignUp = (props: Props) => {
   // DECLARATIONS
+  const [overallWarning, setOverallWarning] = useState<boolean>();
   const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
   const { state, dispatch } = useRootPageContext({});
 
@@ -34,15 +35,11 @@ const SignUp = (props: Props) => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("uploadedImage", uploadedImage);
-  }, [uploadedImage]);
-
   // INITIAL STATE
   const initialValues: TSignup = {
     fullName: "",
     userName: "",
-    image: {},
+    image: undefined,
     gender: "choose",
     age: 18,
     email: "",
@@ -54,7 +51,6 @@ const SignUp = (props: Props) => {
   const validationSchema = yup.object().shape({
     fullName: yup.string().required("required field"),
     userName: yup.string().required("required field"),
-    image: yup.string().required("required"),
     gender: yup.string().required("required"),
     age: yup.number().required("required").min(18, "must be 18 or above"),
     email: yup.string().email("invalid email").required("required"),
@@ -76,8 +72,22 @@ const SignUp = (props: Props) => {
     values: TSignup,
     { setSubmitting, resetForm }: any
   ) => {
+    console.log("form submit func");
+
+    if (!Object.values(values).every(Boolean)) {
+      // showing common error on form for 500ms
+      setOverallWarning(true);
+      // hiding the error
+      setTimeout(() => setOverallWarning(false), 500);
+      return;
+    }
+    values.image = uploadedImage;
     console.log(values);
+
+    // CLEANING FORM
     resetForm();
+    setOverallWarning(false);
+    setUploadedImage(undefined);
     return;
   };
 
@@ -290,7 +300,7 @@ const SignUp = (props: Props) => {
                 {...getRootProps()}
                 className="h-14 relative border-dashed border-2"
               >
-                <input {...getInputProps()} className="h-full w-full " />
+                <div {...getInputProps()} className="h-full w-full " />
                 {isDragAccept && (
                   <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                     All files will be accepted
@@ -307,12 +317,19 @@ const SignUp = (props: Props) => {
                   </p>
                 )}
                 {uploadedImage && (
-                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    {uploadedImage.name}
+                  <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    {`${uploadedImage.name.substring(0, 30)}...`}
                   </p>
                 )}
               </div>
             </div>
+
+            {/* Overall warning */}
+            {overallWarning && (
+              <div className="text-center p-4 border-2 text-md bg-red-300 border-red-600">
+                Please fill all the required fields
+              </div>
+            )}
 
             {/* actions */}
 
@@ -320,7 +337,14 @@ const SignUp = (props: Props) => {
               <a className="mr-2">
                 <FilledBtn content={"Submit"} type={EButtonType.submit} />
               </a>
-              <OutlineBtn content={"Reset"} type={EButtonType.reset} />
+              <a
+                onClick={() => {
+                  setOverallWarning(false);
+                  resetForm();
+                }}
+              >
+                <OutlineBtn content={"Reset"} />
+              </a>
             </div>
           </Form>
         )}

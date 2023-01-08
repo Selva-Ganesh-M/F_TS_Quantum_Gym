@@ -16,10 +16,6 @@ const Navbar = (props: Props) => {
   const isLargeScreen = useMediaQuery("(min-width:769px)");
   const [isMenuToggled, setIsMenuToggled] = useState<Boolean>(false);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   return (
     // Navbar
     <div
