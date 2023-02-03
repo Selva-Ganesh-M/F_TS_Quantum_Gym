@@ -61,7 +61,7 @@ const Login = (props: Props) => {
   return (
     <div
       id="signup"
-      className="basis-1/2 p-10 md:p-4 lg:text-sm text-xs h-[89vh] flex items-center lg:shadow-2xl lg:px-10"
+      className="basis-1/2 p-10 md:p-4 lg:text-sm text-xs h-[89vh] flex items-center lg:px-10"
     >
       <div className="w-full">
         <h1 className="text-[34px] mb-6 md:mb-4 text-center font-bold">

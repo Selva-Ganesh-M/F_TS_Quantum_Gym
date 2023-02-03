@@ -21,7 +21,7 @@ const Welcome = (props: Props) => {
     <>
       {/* welcome section */}
       <div
-        className=" lg:p-6 lg:shadow-2xl
+        className=" lg:p-6
         justify-center items-center text-center md:text-start h-[89vh]
        basis-1/2 flex flex-col "
       >

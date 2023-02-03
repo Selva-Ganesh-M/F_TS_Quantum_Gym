@@ -28,6 +28,8 @@ type Props = {
   children: React.ReactNode;
 };
 
+
+
 // REDUCER PREP
 
 export enum ERootPageAction {
@@ -59,6 +61,8 @@ export const RootPageReducer = (
   }
 };
 
+
+// component prep
 const RootPageContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(RootPageReducer, {
     rootCurrentPage: ERootPages.welcome,

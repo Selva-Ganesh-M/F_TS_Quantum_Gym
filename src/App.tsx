@@ -3,6 +3,7 @@ import BaseLayout from "./routes/base_routes/BaseLayout";
 import Login from "./routes/base_routes/switchable/Login";
 import SignUp from "./routes/base_routes/switchable/SignUp";
 import Welcome from "./routes/base_routes/switchable/Welcome";
+import "./app.css"
 
 type Props = {};
 

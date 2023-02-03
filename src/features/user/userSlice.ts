@@ -69,5 +69,6 @@ const userSlice = createSlice({
 export const getUser = (state: TRootState): IUserLog => {
   return state.user;
 };
+
 export const { removeUser } = userSlice.actions;
 export default userSlice.reducer;

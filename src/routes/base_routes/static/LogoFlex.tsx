@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import transperant from "@/assets/transperant.png";
+import gym_vector from "@/assets/gym_vector.jpg"
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 type Props = {};
@@ -19,11 +20,12 @@ const LogoFlex = (props: Props) => {
       {/* LOGO ITEM */}
       {isAboveMediumScreens ? (
         // {/* logo section */}
-        <div className="basis-1/2">
+        <div className="basis-1/2 ">
           <img
-            src={transperant}
+            className="object-cover h-full"
+            src={gym_vector}
             alt="quantum-gym-logo"
-            // className="absolute top-0"
+          // className="absolute top-0"
           />
         </div>
       ) : null}

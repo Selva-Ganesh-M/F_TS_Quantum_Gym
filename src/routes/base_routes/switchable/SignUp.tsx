@@ -13,351 +13,364 @@ import { TStoreDispatch } from "@/store/store";
 // TYPES
 type Props = {};
 export type TSignup = {
-  fullName: string;
-  userName: string;
-  image: FileWithPath | undefined;
-  gender: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
+    fullName: string;
+    userName: string;
+    image: FileWithPath | undefined;
+    gender: string;
+    age: number;
+    email: string;
+    password: string;
+    confirmPassword: string;
 };
+
 
 // REACT.FC COMPONENT
 const SignUp = (props: Props) => {
-  // DECLARATIONS
-  const dispatch: TStoreDispatch = useDispatch();
-  const [overallWarning, setOverallWarning] = useState<boolean>();
-  const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
-  const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
+    // DECLARATIONS
+    const dispatch: TStoreDispatch = useDispatch();
+    const [overallWarning, setOverallWarning] = useState<boolean>();
+    const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
+    const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
 
-  // SIDE EFFECTS
-  useEffect(() => {
-    dispatchRootPageContext({
-      action: ERootPageAction.change,
-      payload: ERootPages.signup,
+
+    // #region - YUP validation
+
+    // INITIAL STATE
+    const initialValues: TSignup = {
+        fullName: "",
+        userName: "",
+        image: undefined,
+        gender: "choose",
+        age: 18,
+        email: "",
+        password: "",
+        confirmPassword: "",
+    };
+
+    //   YUP VALIDATION SCHEMA
+    const validationSchema = yup.object().shape({
+        fullName: yup.string().required("required field"),
+        userName: yup.string().required("required field"),
+        gender: yup.string().required("required"),
+        age: yup.number().required("required").min(18, "must be 18 or above"),
+        email: yup.string().email("invalid email").required("required"),
+        password: yup
+            .string()
+            .required("required")
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+            ),
+        confirmPassword: yup
+            .string()
+            .required("required")
+            .oneOf([yup.ref("password"), null], "Passwords must match"),
     });
-  }, []);
 
-  // INITIAL STATE
-  const initialValues: TSignup = {
-    fullName: "",
-    userName: "",
-    image: undefined,
-    gender: "choose",
-    age: 18,
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
+    //#endregion
 
-  //   YUP VALIDATION SCHEMA
-  const validationSchema = yup.object().shape({
-    fullName: yup.string().required("required field"),
-    userName: yup.string().required("required field"),
-    gender: yup.string().required("required"),
-    age: yup.number().required("required").min(18, "must be 18 or above"),
-    email: yup.string().email("invalid email").required("required"),
-    password: yup
-      .string()
-      .required("required")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
-    confirmPassword: yup
-      .string()
-      .required("required")
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
-  });
+    //#region : dropzone
 
-  //   FORM SUBMISSION HANDLER
-  const handleFormSubmit = async (
-    values: TSignup,
-    { setSubmitting, resetForm }: any
-  ) => {
-    console.log("form submit func");
+    // DROPZONE PREP
+    const onDrop = useCallback((acceptedFiles: Array<FileWithPath>) => {
+        // had to use any cause I can't find the types
+        setUploadedImage(acceptedFiles[0]);
+        console.log(acceptedFiles);
+    }, []);
 
-    if (!Object.values(values).every(Boolean)) {
-      // showing common error on form for 500ms
-      setOverallWarning(true);
-      // hiding the error
-      setTimeout(() => setOverallWarning(false), 500);
-      return;
-    }
-    values.image = uploadedImage;
-    console.log(values);
+    // USE DROPZONE
+    const {
+        getRootProps,
+        getInputProps,
+        isDragActive,
+        isDragAccept,
+        isDragReject,
+    } = useDropzone({
+        onDrop,
+        accept: {
+            "image/*": [".jpeg", ".png"],
+        },
+        multiple: false,
+    });
 
-    // UPDATING STATE
-    dispatch(register(values));
+    //#endregion
 
-    // CLEANING FORM
-    resetForm();
-    setOverallWarning(false);
-    setUploadedImage(undefined);
-    return;
-  };
+    // SIDE EFFECTS
+    useEffect(() => {
+        dispatchRootPageContext({
+            action: ERootPageAction.change,
+            payload: ERootPages.signup,
+        });
+    }, []);
 
-  // DROPZONE PREP
-  const onDrop = useCallback((acceptedFiles: Array<FileWithPath>) => {
-    // had to use any cause I can't find the types
-    setUploadedImage(acceptedFiles[0]);
-    console.log(acceptedFiles);
-  }, []);
+    //#region : functions
+    //   CUSTOM ERROR MESSAGE
+    const customError = (msg: string) => {
+        return <div className="text-red-900">{`* ${msg}`}</div>;
+    };
+    //   FORM SUBMISSION HANDLER
+    const handleFormSubmit = async (
+        values: TSignup,
+        { setSubmitting, resetForm }: any
+    ) => {
+        console.log("form submit func");
 
-  // USE DROPZONE
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".jpeg", ".png"],
-    },
-    multiple: false,
-  });
+        values.image = uploadedImage;
+        if (!Object.values(values).every(Boolean)) {
+            console.log(values);
+            // showing common error on form for 500ms
+            setOverallWarning(true);
+            // hiding the error
+            setTimeout(() => setOverallWarning(false), 500);
+            return;
+        }
+        console.log(values);
 
-  //   CUSTOM ERROR MESSAGE
-  const customError = (msg: string) => {
-    return <div className="text-red-900">{`* ${msg}`}</div>;
-  };
+        // updating state
+        dispatch(register(values));
+        console.log();
 
-  //   JSX RETURN
-  return (
-    <div
-      id="signup"
-      className="basis-1/2 p-4 lg:text-sm text-xs h-[89vh] scrollbar-hide scroll overflow-y-scroll
+        // clean up
+        // resetForm();
+        setOverallWarning(false);
+        setUploadedImage(undefined);
+        return;
+    };
+
+    //#endregion
+
+    //   JSX RETURN
+    return (
+        <div
+            id="signup"
+            className="basis-1/2 p-4 lg:text-sm text-xs h-[89vh] scrollbar-hide scroll overflow-y-scroll
       w-[90%] sm:w-[80%] mx-auto
-      md: py-10 md:shadow-2xl md:px-5
-      lg:shadow-2xl lg:px-10
+      md: py-10 md:px-5 lg:px-10
       "
-    >
-      <h1 className="text-[34px] mb-2 text-center font-bold ">Sign Up</h1>
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          setFieldValue,
-          resetForm,
-        }) => (
-          <Form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            {/* name flex */}
-            {/* <div className="flex gap-3"> */}
-            {/* USER NAME */}
+        >
+            <h1 className="text-[34px] mb-2 text-center font-bold ">Sign Up</h1>
+            <Formik
+                onSubmit={handleFormSubmit}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                    setFieldValue,
+                    resetForm,
+                }) => (
+                    <Form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                        {/* name flex */}
+                        {/* <div className="flex gap-3"> */}
+                        {/* USER NAME */}
 
-            <div className="basis-1/2">
-              <label htmlFor="userName" className="block ml-1">
-                User Name
-              </label>
-              <Field
-                type="string"
-                name="userName"
-                placeholder="enter username here..."
-                className="border-2 p-2 w-full text-gray-700"
-                value={values.userName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage name={"userName"}>{customError}</ErrorMessage>
+                        <div className="basis-1/2">
+                            <label htmlFor="userName" className="block ml-1">
+                                User Name
+                            </label>
+                            <Field
+                                type="string"
+                                name="userName"
+                                placeholder="enter username here..."
+                                className="border-2 p-2 w-full text-gray-700"
+                                value={values.userName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                        </div>
+                        <ErrorMessage name={"userName"}>{customError}</ErrorMessage>
 
-            {/* FULL NAME */}
-            <div className="basis-1/2">
-              <label htmlFor="fullName" className="block ml-1">
-                Full Name
-              </label>
-              <Field
-                type="string"
-                name="fullName"
-                placeholder="enter fullname here..."
-                className="border-2 p-2 w-full text-gray-700"
-                value={values.fullName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage name={"fullName"}>{customError}</ErrorMessage>
+                        {/* FULL NAME */}
+                        <div className="basis-1/2">
+                            <label htmlFor="fullName" className="block ml-1">
+                                Full Name
+                            </label>
+                            <Field
+                                type="string"
+                                name="fullName"
+                                placeholder="enter fullname here..."
+                                className="border-2 p-2 w-full text-gray-700"
+                                value={values.fullName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                        </div>
+                        <ErrorMessage name={"fullName"}>{customError}</ErrorMessage>
 
-            {/* </div> */}
+                        {/* </div> */}
 
-            {/* age and gender */}
-            <div className="flex w-full gap-5">
-              {/* age */}
+                        {/* age and gender */}
+                        <div className="flex w-full gap-5">
+                            {/* age */}
 
-              <div className="flex flex-col gap-2">
-                <div>
-                  <label htmlFor="age" className="block ml-1 mb-1">
-                    Age
-                  </label>
-                  <Field
-                    type="number"
-                    minimum="18"
-                    name="age"
-                    placeholder="enter age here..."
-                    className="border-2 p-2 w-full text-gray-700"
-                    value={values.age}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <ErrorMessage name={"age"}>{customError}</ErrorMessage>
-              </div>
+                            <div className="flex flex-col gap-2">
+                                <div>
+                                    <label htmlFor="age" className="block ml-1 mb-1">
+                                        Age
+                                    </label>
+                                    <Field
+                                        type="number"
+                                        minimum="18"
+                                        name="age"
+                                        placeholder="enter age here..."
+                                        className="border-2 p-2 w-full text-gray-700"
+                                        value={values.age}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </div>
+                                <ErrorMessage name={"age"}>{customError}</ErrorMessage>
+                            </div>
 
-              {/* gender */}
-              <div className="flex flex-col gap-2">
-                <div>
-                  <label htmlFor="gender" className="block ml-1 mb-1">
-                    Gender
-                  </label>
-                  <Field
-                    as="select"
-                    name="gender"
-                    className="p-2 border-2"
-                    value={values.gender}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <option value="">select</option>
-                    <option value="male">male</option>
-                    <option value="female">female</option>
-                    <option value="prefernottosay">prefer not to say</option>
-                  </Field>
-                </div>
-                <ErrorMessage name={"gender"}>{customError}</ErrorMessage>
-              </div>
-            </div>
+                            {/* gender */}
+                            <div className="flex flex-col gap-2">
+                                <div>
+                                    <label htmlFor="gender" className="block ml-1 mb-1">
+                                        Gender
+                                    </label>
+                                    <Field
+                                        as="select"
+                                        name="gender"
+                                        className="p-2 border-2"
+                                        value={values.gender}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        <option value="">select</option>
+                                        <option value="male">male</option>
+                                        <option value="female">female</option>
+                                        <option value="prefernottosay">prefer not to say</option>
+                                    </Field>
+                                </div>
+                                <ErrorMessage name={"gender"}>{customError}</ErrorMessage>
+                            </div>
+                        </div>
 
-            {/* email */}
+                        {/* email */}
 
-            <div>
-              <label htmlFor="email" className="block">
-                Email
-              </label>
-              <Field
-                name="email"
-                type="email"
-                className="p-2 border-2 w-full"
-                placeholder="enter email here..."
-                autoComplete="off"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage name={"email"}>{customError}</ErrorMessage>
+                        <div>
+                            <label htmlFor="email" className="block">
+                                Email
+                            </label>
+                            <Field
+                                name="email"
+                                type="email"
+                                className="p-2 border-2 w-full"
+                                placeholder="enter email here..."
+                                autoComplete="off"
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                        </div>
+                        <ErrorMessage name={"email"}>{customError}</ErrorMessage>
 
-            {/* password flex */}
+                        {/* password flex */}
 
-            <div className="flex gap-3">
-              {/* password */}
-              <div className="flex basis-1/2 flex-col gap-2">
-                <div>
-                  <label htmlFor="password" className="block">
-                    Password
-                  </label>
-                  <Field
-                    name="password"
-                    type="password"
-                    className="p-2 border-2 w-full"
-                    placeholder="enter password here..."
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <ErrorMessage name={"password"}>{customError}</ErrorMessage>
-              </div>
+                        <div className="flex gap-3">
+                            {/* password */}
+                            <div className="flex basis-1/2 flex-col gap-2">
+                                <div>
+                                    <label htmlFor="password" className="block">
+                                        Password
+                                    </label>
+                                    <Field
+                                        name="password"
+                                        type="password"
+                                        className="p-2 border-2 w-full"
+                                        placeholder="enter password here..."
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </div>
+                                <ErrorMessage name={"password"}>{customError}</ErrorMessage>
+                            </div>
 
-              {/* confirm password */}
-              <div className="flex basis-1/2 flex-col gap-2">
-                <div>
-                  <label htmlFor="password" className="block">
-                    Confirm Password
-                  </label>
-                  <Field
-                    name="confirmPassword"
-                    type="password"
-                    className="p-2 border-2 w-full"
-                    placeholder="confirm password here..."
-                    value={values.confirmPassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <ErrorMessage name={"confirmPassword"}>
-                  {customError}
-                </ErrorMessage>
-              </div>
-            </div>
+                            {/* confirm password */}
+                            <div className="flex basis-1/2 flex-col gap-2">
+                                <div>
+                                    <label htmlFor="password" className="block">
+                                        Confirm Password
+                                    </label>
+                                    <Field
+                                        name="confirmPassword"
+                                        type="password"
+                                        className="p-2 border-2 w-full"
+                                        placeholder="confirm password here..."
+                                        value={values.confirmPassword}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </div>
+                                <ErrorMessage name={"confirmPassword"}>
+                                    {customError}
+                                </ErrorMessage>
+                            </div>
+                        </div>
 
-            {/* dropzone */}
-            <div className="border-2 p-5 cursor-pointer">
-              <div
-                {...getRootProps()}
-                className="h-14 relative border-dashed border-2"
-              >
-                <div {...getInputProps()} className="h-full w-full " />
-                {isDragAccept && (
-                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    All files will be accepted
-                  </p>
+                        {/* dropzone */}
+                        <div className="border-2 p-5 cursor-pointer">
+                            <div
+                                {...getRootProps()}
+                                className="h-14 relative border-dashed border-2"
+                            >
+                                <div {...getInputProps()} className="h-full w-full " />
+                                {isDragAccept && (
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                        All files will be accepted
+                                    </p>
+                                )}
+                                {isDragReject && (
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                        Some files will be rejected
+                                    </p>
+                                )}
+                                {!uploadedImage && !isDragActive && (
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                        Drop your image here ...
+                                    </p>
+                                )}
+                                {uploadedImage && (
+                                    <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                        {`${uploadedImage.name.substring(0, 30)}...`}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Overall warning */}
+                        {overallWarning && (
+                            <div className="text-center p-4 border-2 text-md bg-red-300 border-red-600">
+                                Please fill all the required fields
+                            </div>
+                        )}
+
+                        {/* actions */}
+
+                        <div className="flex justify-center md:justify-start">
+                            <a className="mr-2">
+                                <FilledBtn content={"Submit"} type={EButtonType.submit} />
+                            </a>
+                            <a
+                                onClick={() => {
+                                    setOverallWarning(false);
+                                    resetForm();
+                                }}
+                            >
+                                <OutlineBtn content={"Reset"} />
+                            </a>
+                        </div>
+                    </Form>
                 )}
-                {isDragReject && (
-                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    Some files will be rejected
-                  </p>
-                )}
-                {!uploadedImage && !isDragActive && (
-                  <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    Drop your image here ...
-                  </p>
-                )}
-                {uploadedImage && (
-                  <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                    {`${uploadedImage.name.substring(0, 30)}...`}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Overall warning */}
-            {overallWarning && (
-              <div className="text-center p-4 border-2 text-md bg-red-300 border-red-600">
-                Please fill all the required fields
-              </div>
-            )}
-
-            {/* actions */}
-
-            <div className="flex justify-center md:justify-start">
-              <a className="mr-2">
-                <FilledBtn content={"Submit"} type={EButtonType.submit} />
-              </a>
-              <a
-                onClick={() => {
-                  setOverallWarning(false);
-                  resetForm();
-                }}
-              >
-                <OutlineBtn content={"Reset"} />
-              </a>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+            </Formik>
+        </div>
+    );
 };
 
 export default SignUp;
