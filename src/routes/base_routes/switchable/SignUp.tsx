@@ -11,13 +11,14 @@ import { register } from "@/features/user/userSlice";
 import { TStoreDispatch } from "@/store/store";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "@/firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 
 // TYPES
 type Props = {};
 export type TSignup = {
-    fullName: string;
-    userName: string;
+    fullname: string;
+    username: string;
     image: string;
     gender: string;
     age: number;
@@ -31,6 +32,7 @@ export type TSignup = {
 const SignUp = (props: Props) => {
     // DECLARATIONS
     const dispatch: TStoreDispatch = useDispatch();
+    const navigate = useNavigate()
     const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
 
     // custom declarations
@@ -46,8 +48,8 @@ const SignUp = (props: Props) => {
 
     // INITIAL STATE
     const initialValues: TSignup = {
-        fullName: "",
-        userName: "",
+        fullname: "",
+        username: "",
         image: "",
         gender: "choose",
         age: 18,
@@ -58,8 +60,8 @@ const SignUp = (props: Props) => {
 
     //   YUP VALIDATION SCHEMA
     const validationSchema = yup.object().shape({
-        fullName: yup.string().required("required field"),
-        userName: yup.string().required("required field"),
+        fullname: yup.string().required("required field"),
+        username: yup.string().required("required field"),
         gender: yup.string().required("required"),
         age: yup.number().required("required").min(18, "must be 18 or above"),
         email: yup.string().email("invalid email").required("required"),
@@ -116,13 +118,6 @@ const SignUp = (props: Props) => {
         uploadedImage && uploadFile(uploadedImage)
     }, [uploadedImage])
 
-    useEffect(() => {
-        if (imagePer === 100) {
-            setImageFirebaseUploadSuccess(true)
-        }
-    }, [
-        imagePer
-    ])
 
     //#endregion
 
@@ -138,21 +133,23 @@ const SignUp = (props: Props) => {
         { setSubmitting, resetForm }: any
     ) => {
         console.log("form submit func");
+        console.log(values)
 
-        if (!uploadedImageUrl && imagePer > 0) {
-            setCustomWarning("Please wait until the image is being uploaded.")
-        }
-
-        if (!uploadedImage) {
+        if (!uploadedImageUrl) {
             setCustomWarning("Please upload the image.")
+            return
         }
+
+        console.log("both conditions failed")
+        console.log("uploaded image url", uploadedImageUrl)
+        values.image = uploadedImageUrl!
 
         if (!Object.values(values).every(Boolean)) {
             console.log(values);
             // showing common error on form for 500ms
             setOverallWarning(true);
             // hiding the error
-            setTimeout(() => setOverallWarning(false), 500);
+            setTimeout(() => setOverallWarning(false), 3000);
             return;
         }
         console.log(values);
@@ -165,14 +162,18 @@ const SignUp = (props: Props) => {
         // resetForm();
         setOverallWarning(false);
         setUploadedImage(undefined);
-        return;
+        setImagePer(0)
+        setImageFirebaseUploadSuccess(false)
+        setUploadedImageUrl("")
+        setCustomWarning("")
+        navigate("/login")
     };
 
     // handle firebase image upload
     const uploadFile = async (file: File) => {
         const storage = getStorage(app);
-        const fileName = new Date().getDate() + file.name
-        const storageRef = ref(storage, fileName);
+        const fileName = new Date().toString() + file.name
+        const storageRef = ref(storage, "profileImages/" + fileName);
 
         const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -196,6 +197,7 @@ const SignUp = (props: Props) => {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setImageFirebaseUploadSuccess(true)
                     setUploadedImageUrl(downloadURL)
                 });
             }
@@ -235,37 +237,37 @@ const SignUp = (props: Props) => {
                         {/* USER NAME */}
 
                         <div className="basis-1/2">
-                            <label htmlFor="userName" className="block ml-1">
+                            <label htmlFor="username" className="block ml-1">
                                 User Name
                             </label>
                             <Field
                                 type="string"
-                                name="userName"
+                                name="username"
                                 placeholder="enter username here..."
                                 className="border-2 p-2 w-full text-gray-700"
-                                value={values.userName}
+                                value={values.username}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             />
                         </div>
-                        <ErrorMessage name={"userName"}>{customError}</ErrorMessage>
+                        <ErrorMessage name={"username"}>{customError}</ErrorMessage>
 
                         {/* FULL NAME */}
                         <div className="basis-1/2">
-                            <label htmlFor="fullName" className="block ml-1">
+                            <label htmlFor="fullname" className="block ml-1">
                                 Full Name
                             </label>
                             <Field
                                 type="string"
-                                name="fullName"
+                                name="fullname"
                                 placeholder="enter fullname here..."
                                 className="border-2 p-2 w-full text-gray-700"
-                                value={values.fullName}
+                                value={values.fullname}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             />
                         </div>
-                        <ErrorMessage name={"fullName"}>{customError}</ErrorMessage>
+                        <ErrorMessage name={"fullname"}>{customError}</ErrorMessage>
 
                         {/* </div> */}
 
@@ -380,7 +382,7 @@ const SignUp = (props: Props) => {
                         </div>
 
                         {/* dropzone */}
-                        <div className={`border-2 p-5 cursor-pointer ${imageFirebaseUploadSuccess ? "" : "border-red-600"}`}>
+                        <div className={`border-2 p-5 cursor-pointer ${uploadedImageUrl && "border-green-600"}`}>
                             <div
                                 {...getRootProps()}
                                 className="h-14 relative border-dashed border-2"
@@ -402,9 +404,11 @@ const SignUp = (props: Props) => {
                                     </p>
                                 )}
                                 {uploadedImage && (
-                                    <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                                        {`${uploadedImage.name.substring(0, 30)}...`}
-                                    </p>
+                                    <>
+                                        <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                            {`${uploadedImage.name.substring(0, 30)}...`}{"  "}{imagePer > 0 ? imagePer : null}%
+                                        </p>
+                                    </>
                                 )}
                             </div>
                         </div>

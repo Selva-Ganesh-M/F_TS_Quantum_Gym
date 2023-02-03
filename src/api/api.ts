@@ -7,7 +7,7 @@ export type TPayload<T> = {
 }
 
 export const api = axios.create({
-    baseURL: 'http://localhost:4000',
+    baseURL: 'http://localhost:4000/api',
     // timeout: 1000*3,
     withCredentials: true,
     headers: {'X-Custom-Header': 'foobar'},

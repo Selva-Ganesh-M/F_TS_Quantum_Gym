@@ -30,18 +30,11 @@ export const register = createAsyncThunk(
   "user/register",
   async (data: TSignup, thunkApi) => {
     try {
-      const response = await api.post<TPayload<IUserLog>>("/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).catch((err) => {
-        throw err;
-      });
+      const response = await api.post<TPayload<IUserLog>>("/auth/signup", data)
       //   dev error boundary
-      if (response.statusText!=="OK") throw new Error("user register failed");
+      if (response.statusText!=="Created") throw new Error("user register failed");
       const user: IUserLog = response.data.payload;
+      console.log(user);
       return thunkApi.fulfillWithValue(user);
     } catch (err: any) {
       console.log(err.message);

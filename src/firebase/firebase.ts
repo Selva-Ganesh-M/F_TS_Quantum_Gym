@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDjEzseOUcgeAo0LrG1oNg5T3O5Rvk7LJw",
+  apiKey: import.meta.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "quantumgym-cecdc.firebaseapp.com",
   projectId: "quantumgym-cecdc",
   storageBucket: "quantumgym-cecdc.appspot.com",
