@@ -2,20 +2,23 @@ import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { useDropzone, FileWithPath } from "react-dropzone";
+import { FileWithPath, useDropzone } from "react-dropzone";
 import { useCallback, useEffect, useState } from "react";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import { useDispatch } from "react-redux/es/exports";
 import { register } from "@/features/user/userSlice";
 import { TStoreDispatch } from "@/store/store";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { app } from "@/firebase/firebase";
+
 
 // TYPES
 type Props = {};
 export type TSignup = {
     fullName: string;
     userName: string;
-    image: FileWithPath | undefined;
+    image: string;
     gender: string;
     age: number;
     email: string;
@@ -28,9 +31,15 @@ export type TSignup = {
 const SignUp = (props: Props) => {
     // DECLARATIONS
     const dispatch: TStoreDispatch = useDispatch();
+    const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
+
+    // custom declarations
     const [overallWarning, setOverallWarning] = useState<boolean>();
     const [uploadedImage, setUploadedImage] = useState<FileWithPath>();
-    const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
+    const [imagePer, setImagePer] = useState<number>(0)
+    const [imageFirebaseUploadSuccess, setImageFirebaseUploadSuccess] = useState<Boolean>(false)
+    const [uploadedImageUrl, setUploadedImageUrl] = useState<string>()
+    const [customWarning, setCustomWarning] = useState<string>("")
 
 
     // #region - YUP validation
@@ -39,7 +48,7 @@ const SignUp = (props: Props) => {
     const initialValues: TSignup = {
         fullName: "",
         userName: "",
-        image: undefined,
+        image: "",
         gender: "choose",
         age: 18,
         email: "",
@@ -95,7 +104,7 @@ const SignUp = (props: Props) => {
 
     //#endregion
 
-    // SIDE EFFECTS
+    // #region : side-effects
     useEffect(() => {
         dispatchRootPageContext({
             action: ERootPageAction.change,
@@ -103,11 +112,26 @@ const SignUp = (props: Props) => {
         });
     }, []);
 
+    useEffect(() => {
+        uploadedImage && uploadFile(uploadedImage)
+    }, [uploadedImage])
+
+    useEffect(() => {
+        if (imagePer === 100) {
+            setImageFirebaseUploadSuccess(true)
+        }
+    }, [
+        imagePer
+    ])
+
+    //#endregion
+
     //#region : functions
     //   CUSTOM ERROR MESSAGE
     const customError = (msg: string) => {
         return <div className="text-red-900">{`* ${msg}`}</div>;
     };
+
     //   FORM SUBMISSION HANDLER
     const handleFormSubmit = async (
         values: TSignup,
@@ -115,7 +139,14 @@ const SignUp = (props: Props) => {
     ) => {
         console.log("form submit func");
 
-        values.image = uploadedImage;
+        if (!uploadedImageUrl && imagePer > 0) {
+            setCustomWarning("Please wait until the image is being uploaded.")
+        }
+
+        if (!uploadedImage) {
+            setCustomWarning("Please upload the image.")
+        }
+
         if (!Object.values(values).every(Boolean)) {
             console.log(values);
             // showing common error on form for 500ms
@@ -136,6 +167,40 @@ const SignUp = (props: Props) => {
         setUploadedImage(undefined);
         return;
     };
+
+    // handle firebase image upload
+    const uploadFile = async (file: File) => {
+        const storage = getStorage(app);
+        const fileName = new Date().getDate() + file.name
+        const storageRef = ref(storage, fileName);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setImagePer(progress)
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                    default:
+                        break;
+                }
+            },
+            (error) => {
+                // Handle unsuccessful uploads
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setUploadedImageUrl(downloadURL)
+                });
+            }
+        );
+    }
 
     //#endregion
 
@@ -315,7 +380,7 @@ const SignUp = (props: Props) => {
                         </div>
 
                         {/* dropzone */}
-                        <div className="border-2 p-5 cursor-pointer">
+                        <div className={`border-2 p-5 cursor-pointer ${imageFirebaseUploadSuccess ? "" : "border-red-600"}`}>
                             <div
                                 {...getRootProps()}
                                 className="h-14 relative border-dashed border-2"
@@ -347,7 +412,7 @@ const SignUp = (props: Props) => {
                         {/* Overall warning */}
                         {overallWarning && (
                             <div className="text-center p-4 border-2 text-md bg-red-300 border-red-600">
-                                Please fill all the required fields
+                                {customWarning || "Please fill all the required fields"}
                             </div>
                         )}
 
