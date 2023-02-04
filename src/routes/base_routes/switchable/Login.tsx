@@ -8,6 +8,9 @@ import OutlineBtn from "@/components/shared/OutlineBtn";
 import { login } from "@/features/user/authSlice";
 import { useDispatch } from "react-redux";
 import { TStoreDispatch } from "@/store/store"
+import { auth, provider } from "@/firebase/firebase";
+import { signInWithPopup } from "firebase/auth";
+import GoogleButton from "@/components/GoogleButton";
 
 type Props = {};
 
@@ -61,6 +64,16 @@ const Login = (props: Props) => {
     resetForm();
     return;
   };
+
+  const handleSignInWithGoogle = async () => {
+    signInWithPopup(auth, provider)
+      .then((data) => {
+        console.log(data.user);
+      })
+      .catch((err) => {
+        console.log("google sign-in popup error:", err.message);
+      })
+  }
 
   // JSX RENDERING
   return (
@@ -130,9 +143,12 @@ const Login = (props: Props) => {
               </div>
 
               {/* actions */}
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-center">
                 <FilledBtn type={EButtonType.submit} content="Login" />
                 <OutlineBtn content="Reset" />
+              </div>
+              <div className="mt-5 flex justify-center hover:text-white ">
+                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={handleSignInWithGoogle} />
               </div>
             </Form>
           )}
