@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import { useDispatch } from "react-redux/es/exports";
-import { register } from "@/features/user/userSlice";
+import { register } from "@/features/user/authSlice";
 import { TStoreDispatch } from "@/store/store";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "@/firebase/firebase";
@@ -33,7 +33,7 @@ const SignUp = (props: Props) => {
     // DECLARATIONS
     const dispatch: TStoreDispatch = useDispatch();
     const navigate = useNavigate()
-    const { state, dispatch: dispatchRootPageContext } = useRootPageContext({});
+    const { state, dispatch: rootDispatch } = useRootPageContext({});
 
     // custom declarations
     const [overallWarning, setOverallWarning] = useState<boolean>();
@@ -108,7 +108,7 @@ const SignUp = (props: Props) => {
 
     // #region : side-effects
     useEffect(() => {
-        dispatchRootPageContext({
+        rootDispatch({
             action: ERootPageAction.change,
             payload: ERootPages.signup,
         });
@@ -156,7 +156,6 @@ const SignUp = (props: Props) => {
 
         // updating state
         dispatch(register(values));
-        console.log();
 
         // clean up
         // resetForm();

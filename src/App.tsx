@@ -5,6 +5,8 @@ import SignUp from "./routes/base_routes/switchable/SignUp";
 import Welcome from "./routes/base_routes/switchable/Welcome";
 import "./app.css"
 import { useEffect } from "react";
+import HomeLayout from "./routes/home_routes/HomeLayout";
+import HomePage from "./routes/home_routes/switchable/HomePage";
 
 type Props = {};
 
@@ -21,6 +23,9 @@ const App = (props: Props) => {
   return (
     <div className="relative">
       <Routes>
+        <Route path="/home" element={<HomeLayout />}>
+          <Route index element={<HomePage />} />
+        </Route>
         <Route path="/" element={<BaseLayout />}>
           <Route index element={<Welcome />} />
           <Route path="login" element={<Login />} />

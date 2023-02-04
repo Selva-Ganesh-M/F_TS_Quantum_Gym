@@ -3,14 +3,23 @@ import useRootPageContext from "@/hooks/useRootPageContext";
 import { useEffect } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import FilledBtn from "@/components/shared/FilledBtn";
+import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
+import { login } from "@/features/user/authSlice";
+import { useDispatch } from "react-redux";
+import { TStoreDispatch } from "@/store/store"
 
 type Props = {};
 
+export type TLogin = {
+  email: string;
+  password: string;
+};
+
 const Login = (props: Props) => {
   // STATES DECLARATIONS
-  const { state, dispatch } = useRootPageContext({});
+  const { state, dispatch: rootDispatch } = useRootPageContext({});
+  const dispatch = useDispatch<TStoreDispatch>()
 
   // FUNCTIONS DECLARATIONS
   const customError = (msg: string) => {
@@ -19,18 +28,13 @@ const Login = (props: Props) => {
 
   // SIDE EFFECTS
   useEffect(() => {
-    dispatch({
+    rootDispatch({
       action: ERootPageAction.change,
       payload: ERootPages.login,
     });
   }, []);
 
   // FORMIK SPECIFICS
-  type TLogin = {
-    email: string;
-    password: string;
-  };
-
   const initialValues: TLogin = {
     email: "",
     password: "",
@@ -53,6 +57,7 @@ const Login = (props: Props) => {
     { setSubmitting, resetForm }: any
   ) => {
     console.log(values);
+    await dispatch(login(values))
     resetForm();
     return;
   };
@@ -126,7 +131,7 @@ const Login = (props: Props) => {
 
               {/* actions */}
               <div className="flex gap-4">
-                <FilledBtn content="Login" />
+                <FilledBtn type={EButtonType.submit} content="Login" />
                 <OutlineBtn content="Reset" />
               </div>
             </Form>

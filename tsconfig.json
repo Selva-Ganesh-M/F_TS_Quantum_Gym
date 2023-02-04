@@ -5,6 +5,7 @@
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
+    "strictNullChecks": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,

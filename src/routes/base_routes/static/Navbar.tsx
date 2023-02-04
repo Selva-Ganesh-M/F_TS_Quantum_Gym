@@ -78,7 +78,7 @@ const Navbar = (props: Props) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.25 }}
-                className="menu absolute top-0 left-0 h-full py-5 px-4  w-[200px] xs:w-[300px] xs:pl-20 xs:p-5 sm:w-[350px] bg-rose-300"
+                className="menu absolute top-0 left-0 h-[100vh] py-5 px-4  w-[200px] xs:w-[300px] xs:pl-20 xs:p-5 sm:w-[350px] bg-rose-300"
               >
                 <XMarkIcon
                   onClick={() => setIsMenuToggled(false)}
@@ -89,6 +89,30 @@ const Navbar = (props: Props) => {
                 <ul className="font-bold text-lg flex flex-col gap-3">
                   <li className="">About Us</li>
                   <li>Help</li>
+                  {state?.rootCurrentPage === "login" ? (
+                    <li
+                      onClick={() =>
+                        dispatch({
+                          action: ERootPageAction.change,
+                          payload: ERootPages.login,
+                        })
+                      }
+                    >
+                      <FilledBtn to="/signup" content="signup" />
+                    </li>
+                  ) : null}
+                  {state?.rootCurrentPage === "signup" ? (
+                    <li
+                      onClick={() =>
+                        dispatch({
+                          action: ERootPageAction.change,
+                          payload: ERootPages.signup,
+                        })
+                      }
+                    >
+                      <FilledBtn to="/login" content="login" />
+                    </li>
+                  ) : null}
                 </ul>
               </motion.nav>
             ) : (

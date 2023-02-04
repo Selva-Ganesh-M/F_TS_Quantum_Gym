@@ -10,9 +10,9 @@ type Props = {};
 
 const Welcome = (props: Props) => {
   const navigate = useNavigate();
-  const { state, dispatch } = useRootPageContext({});
+  const { state, dispatch: rootDispatch } = useRootPageContext({});
   useEffect(() => {
-    dispatch({
+    rootDispatch({
       action: ERootPageAction.change,
       payload: ERootPages.welcome,
     });
@@ -38,7 +38,7 @@ const Welcome = (props: Props) => {
             <Link
               to="/login"
               onClick={() =>
-                dispatch({
+                rootDispatch({
                   action: ERootPageAction.change,
                   payload: ERootPages.login,
                 })
@@ -49,7 +49,7 @@ const Welcome = (props: Props) => {
             <Link
               to={"/signup"}
               onClick={() =>
-                dispatch({
+                rootDispatch({
                   action: ERootPageAction.change,
                   payload: ERootPages.signup,
                 })

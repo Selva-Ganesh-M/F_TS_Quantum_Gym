@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export type TPayload<T> = {
-  status: string,
+  statusText: string,
+  statusCode: number,
   message: string,
   payload: T
 }
