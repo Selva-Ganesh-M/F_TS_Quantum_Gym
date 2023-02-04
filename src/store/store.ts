@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import homeRoutesSlice from "@/features/routes/homeRoutesSlice";
+import togglerSlice from "@/features/togglers/togglerSlice";
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   homeRoute: homeRoutesSlice,
+  toggler: togglerSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

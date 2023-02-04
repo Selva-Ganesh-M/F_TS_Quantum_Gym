@@ -59,6 +59,7 @@ const HoverBoard = (props: Props) => {
 
     return (
         <div id="hoverBoard" className=" bg-white z-10 absolute flex max-w-[769px] bottom-10 rounded-full w-[70%] left-[50%] translate-x-[-50%] " style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}>
+            {/* section-1 */}
             <div
                 onClick={() => handleClick(EHomeRoutes.events)}
                 className={`${page === EHomeRoutes.events ? "bg-slate-300" : "bg-white hover:bg-slate-200 cursor-pointer"}
@@ -69,6 +70,8 @@ const HoverBoard = (props: Props) => {
                 </div>
                 <p className={`${resp} font-bold text-lg`}>EVENTS</p>
             </div>
+
+            {/* section-2 */}
             <div
                 onClick={() => handleClick(EHomeRoutes.global)}
                 className={`${page === EHomeRoutes.global ? "bg-slate-300" : "bg-white hover:bg-slate-200 cursor-pointer"}
@@ -77,10 +80,12 @@ const HoverBoard = (props: Props) => {
                 <p className={`${resp} font-bold text-lg`}>GLOBAL</p>
                 {/* <GoGlobe /> */}
             </div>
+
+            {/* section-3 */}
             <div
                 onClick={() => handleClick(EHomeRoutes.myWorkouts)}
                 className={`${page === EHomeRoutes.myWorkouts ? "bg-slate-300" : "bg-white hover:bg-slate-200 cursor-pointer"}
-            gap-5 p-2 flex justify-center items-center flex-1 text-center rounded-r-lg`}
+             gap-5 p-2 flex justify-center items-center flex-1 text-center rounded-r-full`}
             >
                 <div className='h-10 w-10 overflow-hidden rounded-full'>
                     <img src={workout} alt="events-img" className='w-full h-full object-cover' />
