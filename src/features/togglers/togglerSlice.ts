@@ -19,7 +19,7 @@ const togglerSlice = createSlice({
 })
 
 // pull selectors
-const getToggler = (state: TRootState)=>state.toggler
+export const getToggler = (state: TRootState)=>state.toggler
 
 // export actions
 export const {toggle} = togglerSlice.actions
