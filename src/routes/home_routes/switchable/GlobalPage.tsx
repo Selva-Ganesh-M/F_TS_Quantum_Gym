@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 type Props = {}
 
-const HomePage = (props: Props) => {
+const GlobalPage = (props: Props) => {
     //#region : declarations
     const dispatch = useDispatch()
     //#endregion
@@ -106,4 +106,4 @@ const HomePage = (props: Props) => {
     )
 }
 
-export default HomePage
+export default GlobalPage

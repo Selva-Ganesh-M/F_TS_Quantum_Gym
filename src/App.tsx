@@ -6,9 +6,11 @@ import Welcome from "./routes/base_routes/switchable/Welcome";
 import "./app.css"
 import { useEffect } from "react";
 import HomeLayout from "./routes/home_routes/HomeLayout";
-import HomePage from "./routes/home_routes/switchable/HomePage";
 import { useSelector } from "react-redux";
 import { getUser } from "./features/user/authSlice";
+import GlobalPage from "./routes/home_routes/switchable/GlobalPage";
+import EventsPage from "./routes/home_routes/switchable/EventsPage";
+import MyWorkoutsPage from "./routes/home_routes/switchable/MyWorkoutsPage";
 
 type Props = {};
 
@@ -21,8 +23,10 @@ const App = (props: Props) => {
   return (
     <div className="relative w-[100vw] h-[100vh]">
       <Routes>
-        <Route path="/home" element={<HomeLayout />}>
-          <Route index element={<HomePage />} />
+        <Route path="/home/" element={<HomeLayout />}>
+          <Route path="global" element={<GlobalPage />} />
+          <Route path="events" element={<EventsPage />} />
+          <Route path="my_workouts" element={<MyWorkoutsPage />} />
         </Route>
         <Route path="/" element={!user ? <BaseLayout /> : <Navigate to={"/home"} />}>
           <Route index element={<Welcome />} />
