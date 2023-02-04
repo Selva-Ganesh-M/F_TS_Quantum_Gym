@@ -11,6 +11,7 @@ import { TStoreDispatch } from "@/store/store"
 import { auth, provider } from "@/firebase/firebase";
 import { signInWithPopup } from "firebase/auth";
 import GoogleButton from "@/components/GoogleButton";
+import { handleSignInWithGoogle } from "@/googleAuth/googleAuth";
 
 type Props = {};
 
@@ -65,28 +66,7 @@ const Login = (props: Props) => {
     return;
   };
 
-  const handleSignInWithGoogle = async () => {
-    signInWithPopup(auth, provider)
-      .then((data) => {
-        const user = data.user
-        // data prep
-        const payload = {
-          username: user.displayName ? user.displayName : user.email?.split("@")[0]!,
-          fullname: user.displayName ? user.displayName : user.email?.split("@")[0]!,
-          email: user.email!,
-          gender: "prefernottosay",
-          age: 18,
-          image: user.photoURL!,
-          isGoogleCreated: true,
-        };
 
-        // thunk google signin
-        dispatch(googleAuth(payload))
-      })
-      .catch((err) => {
-        console.log("google sign-in popup error:", err.message);
-      })
-  }
 
   // JSX RENDERING
   return (
@@ -161,7 +141,7 @@ const Login = (props: Props) => {
                 <OutlineBtn content="Reset" />
               </div>
               <div className="mt-5 flex justify-center hover:text-white ">
-                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={handleSignInWithGoogle} />
+                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
               </div>
             </Form>
           )}

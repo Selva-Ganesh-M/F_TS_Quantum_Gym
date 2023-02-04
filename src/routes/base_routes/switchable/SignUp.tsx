@@ -12,6 +12,8 @@ import { TStoreDispatch } from "@/store/store";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "@/firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import GoogleButton from "@/components/GoogleButton";
+import { handleSignInWithGoogle } from "@/googleAuth/googleAuth";
 
 
 // TYPES
@@ -420,19 +422,25 @@ const SignUp = (props: Props) => {
                         )}
 
                         {/* actions */}
+                        <div>
+                            <div className="flex justify-center md:justify-start">
+                                <a className="mr-2">
+                                    <FilledBtn content={"Submit"} type={EButtonType.submit} />
+                                </a>
+                                <a
+                                    onClick={() => {
+                                        setOverallWarning(false);
+                                        resetForm();
+                                    }}
+                                >
+                                    <OutlineBtn content={"Reset"} />
+                                </a>
+                            </div>
 
-                        <div className="flex justify-center md:justify-start">
-                            <a className="mr-2">
-                                <FilledBtn content={"Submit"} type={EButtonType.submit} />
-                            </a>
-                            <a
-                                onClick={() => {
-                                    setOverallWarning(false);
-                                    resetForm();
-                                }}
-                            >
-                                <OutlineBtn content={"Reset"} />
-                            </a>
+                            <div className="mt-5 flex justify-center hover:text-white ">
+                                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+                            </div>
+
                         </div>
                     </Form>
                 )}

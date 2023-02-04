@@ -5,12 +5,16 @@ import useRootPageContext from "@/hooks/useRootPageContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import GoogleButton from "@/components/GoogleButton";
+import { handleSignInWithGoogle } from "@/googleAuth/googleAuth";
+import { useDispatch } from "react-redux";
 
 type Props = {};
 
 const Welcome = (props: Props) => {
   const navigate = useNavigate();
   const { state, dispatch: rootDispatch } = useRootPageContext({});
+  const dispatch = useDispatch()
   useEffect(() => {
     rootDispatch({
       action: ERootPageAction.change,
@@ -32,31 +36,37 @@ const Welcome = (props: Props) => {
             Quantum Gym
           </h1>
           <p>One stop for all workout collections and events.</p>
-          {/* actions */}
 
-          <div className="actions flex justify-center md:justify-start gap-5 mt-10">
-            <Link
-              to="/login"
-              onClick={() =>
-                rootDispatch({
-                  action: ERootPageAction.change,
-                  payload: ERootPages.login,
-                })
-              }
-            >
-              <FilledBtn content={"Login"} />
-            </Link>
-            <Link
-              to={"/signup"}
-              onClick={() =>
-                rootDispatch({
-                  action: ERootPageAction.change,
-                  payload: ERootPages.signup,
-                })
-              }
-            >
-              <OutlineBtn content={"Sign Up"} />
-            </Link>
+
+          {/* actions */}
+          <div>
+            <div className="actions flex justify-center gap-5 mt-10">
+              <Link
+                to="/login"
+                onClick={() =>
+                  rootDispatch({
+                    action: ERootPageAction.change,
+                    payload: ERootPages.login,
+                  })
+                }
+              >
+                <FilledBtn content={"Login"} />
+              </Link>
+              <Link
+                to={"/signup"}
+                onClick={() =>
+                  rootDispatch({
+                    action: ERootPageAction.change,
+                    payload: ERootPages.signup,
+                  })
+                }
+              >
+                <OutlineBtn content={"Sign Up"} />
+              </Link>
+            </div>
+            <div className="mt-5 flex justify-center hover:text-white ">
+              <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+            </div>
           </div>
         </div>
       </div>
