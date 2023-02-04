@@ -5,7 +5,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
 import OutlineBtn from "@/components/shared/OutlineBtn";
-import { login } from "@/features/user/authSlice";
+import { googleAuth, login } from "@/features/user/authSlice";
 import { useDispatch } from "react-redux";
 import { TStoreDispatch } from "@/store/store"
 import { auth, provider } from "@/firebase/firebase";
@@ -68,7 +68,20 @@ const Login = (props: Props) => {
   const handleSignInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then((data) => {
-        console.log(data.user);
+        const user = data.user
+        // data prep
+        const payload = {
+          username: user.displayName ? user.displayName : user.email?.split("@")[0]!,
+          fullname: user.displayName ? user.displayName : user.email?.split("@")[0]!,
+          email: user.email!,
+          gender: "prefernottosay",
+          age: 18,
+          image: user.photoURL!,
+          isGoogleCreated: true,
+        };
+
+        // thunk google signin
+        dispatch(googleAuth(payload))
       })
       .catch((err) => {
         console.log("google sign-in popup error:", err.message);

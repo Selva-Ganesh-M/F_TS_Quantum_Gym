@@ -19,6 +19,16 @@ interface IUserLog {
     token: string;
   }
 
+export type TGoogleAuth = {
+  fullname: string;
+    username: string;
+    email: string;
+    image: string;
+    age: number;
+    gender: string;
+    isGoogleCreated: Boolean;
+}
+
   const initialState = <{user: IUserLog}>{
     user: {
     fullname: "",
@@ -71,6 +81,25 @@ export const register = createAsyncThunk(
   }
 })
 
+export const googleAuth = createAsyncThunk(
+  "auth/googleAuth",
+  async (data: TGoogleAuth, thunkApi)=>{
+    try {
+      const res = await api.post<TPayload<IUserLog>>("/auth/google", data)
+      if (res.data.statusText==="failure") {
+        console.log(res.data.message); 
+        return thunkApi.rejectWithValue(res.data.message)
+      }
+      console.log(res.data.message);
+      return thunkApi.fulfillWithValue(res.data.payload)
+    }catch (error: any){
+      console.log(error.message);
+      
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
 //#endregion
 
 
@@ -82,14 +111,22 @@ const authSlice = createSlice({
   // extra reducers
   extraReducers: (builder) => {
     builder
+    // register
     .addCase(register.fulfilled, (state, action) => {
       return {user:action.payload}
     })
+    // login
     .addCase(
       login.fulfilled, 
       (state, action)=>{
       return {user: action.payload}
     })
+    .addCase(
+      googleAuth.fulfilled, 
+      (state, action)=>{
+        return {user: action.payload}
+      }
+    )
   }
 })
 
