@@ -7,7 +7,7 @@ import { MdOutlineFitnessCenter } from "react-icons/md"
 import { FaHome } from "react-icons/fa"
 import { MdHelpCenter } from "react-icons/md"
 import { RiContactsFill } from "react-icons/ri"
-import { FcAbout } from "react-icons/fc"
+import useMediaQuery from '@/hooks/useMediaQuery'
 
 type Props = {
     sidebarOpen: Boolean,
@@ -17,7 +17,7 @@ type Props = {
 const HomeSidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
     return (
         <>
-            <div className={`${sidebarOpen ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-blue-900 top-0 z-50 text-white`}>
+            <div className={`${sidebarOpen && useMediaQuery("(max-width:769px)") ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-blue-900 top-0 z-50 text-white`}>
                 {/* header */}
                 <div className='bg-white py-1 px-1 rounded-b-lg flex items-center gap-4 font-bold text-gray-600'>
                     <AiFillCloseCircle className='text-white cursor-pointer rounded-full w-[40px] h-[40px]' onClick={() => setSidebarOpen(false)} />
