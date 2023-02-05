@@ -29,7 +29,7 @@ export type TGoogleAuth = {
     isGoogleCreated: Boolean;
 }
 
-  const initialState = <{user: IUserLog}>{
+  const initialState = <{user: IUserLog, isUser: Boolean}>{
     user: {
     fullname: "",
     username: "",
@@ -38,7 +38,8 @@ export type TGoogleAuth = {
     age: 0,
     gender: "",
     token: ""
-    }
+    },
+    isUser: false
 };
 
 // #region : async thunk ops
@@ -107,31 +108,41 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   // reducers
-  reducers: {},
+  reducers: {
+    signout: (state)=>{
+      console.log("user is removed");
+      return initialState
+    }
+  },
   // extra reducers
   extraReducers: (builder) => {
     builder
     // register
     .addCase(register.fulfilled, (state, action) => {
-      return {user:action.payload}
+      state.user = action.payload
+      state.isUser=true
     })
     // login
     .addCase(
       login.fulfilled, 
       (state, action)=>{
-      return {user: action.payload}
-    })
-    .addCase(
-      googleAuth.fulfilled, 
-      (state, action)=>{
-        return {user: action.payload}
+        state.user = action.payload
+        state.isUser=true
+      })
+      .addCase(
+        googleAuth.fulfilled, 
+        (state, action)=>{
+          state.user = action.payload
+          state.isUser=true
       }
     )
   }
 })
 
-export const getUser = (state: TRootState): IUserLog => {
-  return state.auth.user;
+export const getUser = (state: TRootState) => {
+  return state.auth;
 };
+
+export const {signout} = authSlice.actions
 
 export default authSlice.reducer;

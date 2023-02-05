@@ -28,7 +28,7 @@ const App = (props: Props) => {
           <Route path="events" element={<EventsPage />} />
           <Route path="my_workouts" element={<MyWorkoutsPage />} />
         </Route>
-        <Route path="/" element={!user ? <BaseLayout /> : <Navigate to={"/home"} />}>
+        <Route path="/" element={!user.isUser ? <BaseLayout /> : <Navigate to={"/home/global"} />}>
           <Route index element={<Welcome />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />

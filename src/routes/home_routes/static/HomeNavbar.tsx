@@ -1,5 +1,5 @@
-import { getUser } from '@/features/user/authSlice'
-import React from 'react'
+import { getUser, signout } from '@/features/user/authSlice'
+import React, { useEffect } from 'react'
 import { GiHamburgerMenu } from "react-icons/Gi"
 import { useDispatch, useSelector } from 'react-redux'
 import transperant from "@/assets/transperant.png";
@@ -8,6 +8,7 @@ import { ETogglers, getToggler, toggle } from '@/features/togglers/togglerSlice'
 import { MdAccountBox } from "react-icons/md"
 import { MdManageAccounts } from "react-icons/md"
 import { GoSignOut } from "react-icons/go"
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
     sidebarOpen: Boolean,
@@ -17,8 +18,10 @@ type Props = {
 const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
     //#region : declarations
     const isLargeScreen = useMediaQuery("(min-width:769px)");
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const user = useSelector(getUser)
+    const user = useSelector(getUser).user
+    const isUser = useSelector(getUser).isUser
     const toggler = useSelector(getToggler)
     //#endregion
 
@@ -60,6 +63,8 @@ const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
                 className='w-[40px] h-[40px] rounded-full relative bg-slate-400 '>
                 {/* user-image */}
                 <img src={user.image} onClick={() => dispatch(toggle(ETogglers.userMenu))} alt="user-image" className='max-w-full max-h-full rounded-full object-cover cursor-pointer' />
+
+
                 {/* user-menu */}
                 <div
                     style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}
@@ -129,7 +134,12 @@ const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className='hover:bg-slate-100 cursor-pointer rounded-b-xl p-2'>
+                                <div className='hover:bg-slate-100 cursor-pointer rounded-b-xl p-2'
+                                    onClick={() => {
+                                        dispatch(signout())
+                                        dispatch(toggle(ETogglers.userMenu))
+                                        navigate("/")
+                                    }}>
                                     <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
                                         <GoSignOut />
                                         <p>
