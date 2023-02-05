@@ -8,36 +8,77 @@ import { FaHome } from "react-icons/fa"
 import { MdHelpCenter } from "react-icons/md"
 import { RiContactsFill } from "react-icons/ri"
 import useMediaQuery from '@/hooks/useMediaQuery'
+import { changeHomeRoute, EHomeRoutes } from '@/features/routes/homeRoutesSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { ETogglers, getToggler, toggle } from '@/features/togglers/togglerSlice'
 
-type Props = {
-    sidebarOpen: Boolean,
-    setSidebarOpen: React.Dispatch<React.SetStateAction<Boolean>>
-}
+type Props = {}
 
-const HomeSidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
+const HomeSidebar = (props: Props) => {
+    //#region : declarations
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const toggler = useSelector(getToggler)
+    const isSmallScreens = useMediaQuery("(max-width:769px)")
+    //#endregion
+
+    //#region : custom-declarations
+
+    //#endregion
+
+    //#region : side-effects
+
+    //#endregion
+
+    //#region : functions
+    // handling redirect
+    const handleRedirect = (page: EHomeRoutes): void => {
+        if (Object.values(EHomeRoutes).includes(page)) {
+            console.log("entered if", page)
+            navigate(`/home/${page}`)
+            dispatch(toggle(ETogglers.homeSidebar))
+        }
+    }
+
+    //#endregion
+
+    //jsx rendering
     return (
         <>
-            <div className={`${sidebarOpen && useMediaQuery("(max-width:769px)") ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-blue-900 top-0 z-50 text-white`}>
+            <div className={`${toggler.homeSidebar && isSmallScreens ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-blue-900 top-0 z-50 text-white`}>
                 {/* header */}
                 <div className='bg-white py-1 px-1 rounded-b-lg flex items-center gap-4 font-bold text-gray-600'>
-                    <AiFillCloseCircle className='text-white cursor-pointer rounded-full w-[40px] h-[40px]' onClick={() => setSidebarOpen(false)} />
+                    <AiFillCloseCircle className='text-white cursor-pointer rounded-full w-[40px] h-[40px]'
+                        onClick={() => {
+                            // closing the sidebar
+                            dispatch(toggle(ETogglers.homeSidebar))
+                        }} />
                     Quantum Gym
                     {/* <GiHamburgerMenu className='h-[40px] w-[40px] ' color='#fff' onClick={() => setSidebarOpen(true)} /> */}
                 </div>
 
                 {/* section-1 */}
-                <div className='bg-white my-5 rounded-t-xl hover:rounded-t-xl'>
-                    <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
+                <div
+                    className='bg-white my-5 rounded-t-xl hover:rounded-t-xl'>
+                    <div
+                        onClick={() => handleRedirect(EHomeRoutes.global)}
+                        className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
                         <GoGlobe /> Global
                     </div>
-                    <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'>
+                    <div
+                        onClick={() => handleRedirect(EHomeRoutes.events)}
+                        className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'>
                         <MdOutlineEmojiEvents />Events
                     </div>
-                    <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'><MdOutlineFitnessCenter />My Workouts</div>
+                    <div
+                        onClick={() => handleRedirect(EHomeRoutes.myWorkouts)}
+                        className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'><MdOutlineFitnessCenter />My Workouts</div>
                 </div>
 
                 {/* section-2 */}
-                <div className='bg-white my-5 rounded-b-xl'>
+                <div
+                    className='bg-white my-5 rounded-b-xl'>
                     <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md '>
                         <FaHome /> Home
                     </div>

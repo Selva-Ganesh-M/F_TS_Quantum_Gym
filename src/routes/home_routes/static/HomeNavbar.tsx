@@ -10,12 +10,9 @@ import { MdManageAccounts } from "react-icons/md"
 import { GoSignOut } from "react-icons/go"
 import { useNavigate } from 'react-router-dom';
 
-type Props = {
-    sidebarOpen: Boolean,
-    setSidebarOpen: React.Dispatch<React.SetStateAction<Boolean>>
-}
+type Props = {}
 
-const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
+const HomeNavbar = (props: Props) => {
     //#region : declarations
     const isLargeScreen = useMediaQuery("(min-width:769px)");
     const navigate = useNavigate()
@@ -39,14 +36,22 @@ const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
 
     //jsx rendering
     return (
-        <section id="homeNavbar" className='sticky top-0 left-0 w-full flex justify-between p-[1em] shadow-md'>
+        <section id="homeNavbar" className='sticky top-0 left-0 w-full flex justify-between p-[1em] shadow-md bg-white z-25'>
             {/* left */}
             {/* logo hamburger switch */}
             {
                 isLargeScreen ? (
-                    <img src={transperant} alt="logo" className='h-[40px] w-[40px]' />
+                    <img onClick={() => navigate("/home/global")} src={transperant} alt="logo" className='h-[40px] w-[40px] cursor-pointer' />
                 ) : (
-                    <GiHamburgerMenu className='h-[40px] w-[40px]' onClick={() => setSidebarOpen(true)} />
+                    <GiHamburgerMenu className='h-[40px] w-[40px]' onClick={() => {
+                        // opening sidebar
+                        dispatch(toggle(ETogglers.homeSidebar))
+                        // closing userbar if its open
+                        if (toggler.userMenu) {
+                            dispatch(toggle(ETogglers.userMenu))
+                        }
+
+                    }} />
                 )
             }
 
@@ -62,7 +67,15 @@ const HomeNavbar = ({ setSidebarOpen, sidebarOpen }: Props) => {
             <div
                 className='w-[40px] h-[40px] rounded-full relative bg-slate-400 '>
                 {/* user-image */}
-                <img src={user.image} onClick={() => dispatch(toggle(ETogglers.userMenu))} alt="user-image" className='max-w-full max-h-full rounded-full object-cover cursor-pointer' />
+                <img src={user.image} onClick={() => {
+                    // open userMenu
+                    dispatch(toggle(ETogglers.userMenu))
+                    // close sidebar if its open
+                    if (toggler.homeSidebar) {
+                        dispatch(toggle(ETogglers.homeSidebar))
+                    }
+                }
+                } alt="user-image" className='max-w-full max-h-full rounded-full object-cover cursor-pointer' />
 
 
                 {/* user-menu */}

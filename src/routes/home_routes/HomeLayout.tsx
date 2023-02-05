@@ -13,7 +13,6 @@ const HomeLayout = (props: Props) => {
     const toggler = useSelector(getToggler)
 
     // custom
-    const [sidebarOpen, setSidebarOpen] = useState<Boolean>(false)
 
     // side-effects
     // cleaner
@@ -28,9 +27,9 @@ const HomeLayout = (props: Props) => {
     // jsx rendering
     return (
         <section id="HomeLayout" className='relative h-full'>
-            <HomeNavbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <HomeNavbar />
             {/* side nav */}
-            <HomeSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <HomeSidebar />
             <HoverBoard />
             <Outlet />
         </section>

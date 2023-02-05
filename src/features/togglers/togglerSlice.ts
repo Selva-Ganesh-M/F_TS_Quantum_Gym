@@ -3,12 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export enum ETogglers  {
     userMenu="userMenu",
+    homeSidebar="homeSidebar"
 } 
 
 const togglerSlice = createSlice({
     name: "toggler",
     initialState: {
-        userMenu: false
+        userMenu: false,
+        homeSidebar: false
     },
     reducers: {
         toggle: (state, action: {type: string, payload:ETogglers})=>{

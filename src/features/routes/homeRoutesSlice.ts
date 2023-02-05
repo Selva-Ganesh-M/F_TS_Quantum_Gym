@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export enum EHomeRoutes {
     global = "global",
     events = "events",
-    myWorkouts = "myWorkouts"
+    myWorkouts = "my_workouts"
 }
 
 const homeRoutesSlice = createSlice({

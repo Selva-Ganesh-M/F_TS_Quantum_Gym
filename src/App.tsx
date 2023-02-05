@@ -24,6 +24,7 @@ const App = (props: Props) => {
     <div className="relative w-[100vw] h-[100vh]">
       <Routes>
         <Route path="/home/" element={<HomeLayout />}>
+          <Route index element={<Navigate to="/home/global" />} />
           <Route path="global" element={<GlobalPage />} />
           <Route path="events" element={<EventsPage />} />
           <Route path="my_workouts" element={<MyWorkoutsPage />} />
