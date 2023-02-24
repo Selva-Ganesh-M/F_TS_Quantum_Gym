@@ -16,6 +16,9 @@ const MyWorkoutsPage = (props: Props) => {
     //#region : side-effects
     useEffect(() => {
         dispatch(changeHomeRoute(EHomeRoutes.myWorkouts))
+        return () => {
+            dispatch(changeHomeRoute(EHomeRoutes.other))
+        }
     }, [])
     //#endregion
 

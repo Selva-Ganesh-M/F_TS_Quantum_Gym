@@ -36,7 +36,7 @@ const HomeNavbar = (props: Props) => {
 
     //jsx rendering
     return (
-        <section id="homeNavbar" className='sticky top-0 left-0 w-full flex justify-between p-[1em] shadow-md bg-white z-25'>
+        <section id="homeNavbar" className='sticky top-0 left-0 w-full flex justify-between p-[1em] shadow-md bg-white z-50 items-center'>
             {/* left */}
             {/* logo hamburger switch */}
             {
@@ -59,7 +59,23 @@ const HomeNavbar = (props: Props) => {
             {/* nav links toggle */}
             {
                 isLargeScreen && (
-                    <div></div>
+                    <div className='flex gap-6 cursor-pointer'>
+                        <div onClick={() => {
+                            navigate("/home")
+                        }} className="cursor-pointer">Home</div>
+                        <div onClick={() => {
+                            navigate("/home/global")
+                        }} className="cursor-pointer">Global</div>
+                        <div onClick={() => {
+                            navigate("/home/events")
+                        }} className="cursor-pointer">Events</div>
+                        <div onClick={() => {
+                            navigate("/home/my_workouts")
+                        }} className="cursor-pointer">Workouts</div>
+                        <div onClick={() => {
+                            navigate("/home/contact")
+                        }} className="cursor-pointer">Contact</div>
+                    </div>
                 )
             }
 
@@ -81,8 +97,9 @@ const HomeNavbar = (props: Props) => {
                 {/* user-menu */}
                 <div
                     style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}
-                    className={`${toggler.userMenu ? ` ${isLargeScreen ? `w-[400px] h-[380px]` : `w-60 h-[370px]`}` : "h-0 w-0"}
-                            absolute top-0 right-0 bg-blue-900 text-white transition-all rounded-2xl pb-[2.5em]` }>
+                    className={`
+                    ${toggler.userMenu ? ` ${isLargeScreen ? `w-[400px] h-[380px]` : `w-60 h-[370px]`}` : "h-0 w-0"}
+                    absolute top-0 right-0 bg-blue-900 text-white transition-all rounded-2xl pb-[2.5em] z-50` }>
                     {
                         toggler.userMenu ? (<>
                             {/* top-edge */}
@@ -128,7 +145,7 @@ const HomeNavbar = (props: Props) => {
 
 
                             {/* body */}
-                            <div className='bg-white rounded-b-xl w-[85%] m-auto mt-5'>
+                            <div className='bg-white rounded-b-xl w-[85%] m-auto mt-5 z-50'>
                                 <div className='hover:bg-slate-100 cursor-pointer p-2 border-b-2'>
                                     <div className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
                                         <MdAccountBox />

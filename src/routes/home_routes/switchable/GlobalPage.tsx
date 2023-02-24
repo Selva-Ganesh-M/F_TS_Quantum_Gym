@@ -16,6 +16,10 @@ const GlobalPage = (props: Props) => {
     //#region : side-effects
     useEffect(() => {
         dispatch(changeHomeRoute(EHomeRoutes.global))
+
+        return () => {
+            dispatch(changeHomeRoute(EHomeRoutes.other))
+        }
     }, [])
     //#endregion
 
