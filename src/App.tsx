@@ -14,6 +14,7 @@ import MyWorkoutsPage from "./routes/home_routes/switchable/MyWorkoutsPage";
 import "./app.css"
 import EventsLayout from "./routes/home_routes/EventsLayout";
 import ViewEvent from "./routes/home_routes/switchable/events/ViewEvent";
+import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
 
 type Props = {};
 
@@ -35,6 +36,7 @@ const App = (props: Props) => {
           <Route path="events" element={<EventsLayout />}>
             <Route index element={<EventsPage />} />
             <Route path="view/:id" element={<ViewEvent />} />
+            <Route path="create" element={<CreateEvent />} />
           </Route>
           <Route path="my_workouts" element={<MyWorkoutsPage />} />
         </Route>

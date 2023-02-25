@@ -8,10 +8,12 @@ import useMediaQuery from '@/hooks/useMediaQuery'
 import { HiUserGroup } from "react-icons/hi"
 import { SlCalender } from "react-icons/sl"
 import { Link } from 'react-router-dom'
+import { TSEvent } from '@/routes/home_routes/switchable/events/CreateEvent'
+import eventPreviewPlaceholder from "../../assets/eventPreviewPlaceholder.png"
 
-type Props = { item: TEvent, width?: string }
+type Props = { item: TSEvent, width?: string }
 
-const EventCard = ({ item, width }: Props) => {
+const EventPreviewCard = ({ item, width }: Props) => {
     //#region : grabbing
     const isAboveMobile = useMediaQuery("(min-width:426px")
     //#endregion
@@ -37,18 +39,18 @@ const EventCard = ({ item, width }: Props) => {
             `}>
                 {/* top */}
                 <div className='flex-1 w-full h-auto rounded-md overflow-clip'>
-                    <img src={item.img} alt="" className='object-cover h-[300px] w-full' />
+                    <img src={item.img || eventPreviewPlaceholder} alt={"event-img"} className='object-cover h-[300px] w-full ' />
                 </div>
 
                 {/* bottom */}
                 <div className='p-5' >
                     {/* header */}
-                    <div className="flex justify-between gap-3">
+                    <div className="flex justify-between gap-3 items-center">
                         {/* name & rating */}
-                        <div className='flex flex-col gap-2'>
-                            <h2 className=' text-lg font-semibold text-pink-900' >{item.title}</h2>
+                        <div className=''>
+                            <h2 className=' text-lg font-semibold text-pink-900' >{item.title.length > 30 ? item.title.slice(0, 30) + "..." : item.title}</h2>
                             {/* rating */}
-                            <div className="flex gap-2 items-center">
+                            {/* <div className="flex gap-2 items-center">
                                 {
                                     [...Array(item.rating).keys()].map((item) => {
                                         return (
@@ -67,7 +69,7 @@ const EventCard = ({ item, width }: Props) => {
                                         )
                                     })
                                 }
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* button */}
@@ -93,7 +95,7 @@ const EventCard = ({ item, width }: Props) => {
                         {/* location */}
                         <div className='flex gap-2 items-center' >
                             <HiUserGroup />
-                            {item.registrations.length} registrations
+                            0 registrations
                         </div>
                     </div>
 
@@ -104,4 +106,4 @@ const EventCard = ({ item, width }: Props) => {
     )
 }
 
-export default EventCard
+export default EventPreviewCard

@@ -26,7 +26,8 @@ const ViewEvent = (props: Props) => {
         location: "tuticorin",
         registrations: [],
         img: event1,
-        rating: [true, true, true, true, false]
+        rating: 4,
+        userId: '1',
     }
 
     const Competitors = []
@@ -83,7 +84,7 @@ const ViewEvent = (props: Props) => {
             <div id="right" className='mt-5 md:mt-0 flex-[1.5] flex flex-col gap-6'>
 
                 {/* registered users */}
-                <div className='h-[310px] bg-pink-100 overflow-scroll relative shadow-md'>
+                <div className='max-h-[310px] bg-pink-100 overflow-scroll relative shadow-md rounded-lg'>
 
                     {/* header */}
                     <div className='p-3 bg-pink-900 text-lg font-extrabold flex items-center gap-4 sticky top-0'>
@@ -95,7 +96,6 @@ const ViewEvent = (props: Props) => {
 
                     {/* users */}
                     <div className=' flex flex-col gap-1 text-sm'>
-
                         {/* item */}
                         <div className='px-3 py-2 flex gap-3 items-center'>
                             {/* image */}
@@ -166,12 +166,13 @@ const ViewEvent = (props: Props) => {
                             <h3 className='text-gray-600'>23</h3>
 
                         </div>
+
 
                     </div>
                 </div>
 
                 {/* event organizer */}
-                <div className='shadow-md overflow-clip'>
+                <div className='shadow-md overflow-clip rounded-lg'>
 
                     {/* header */}
                     <div className='bg-pink-900 font-bold text-white text-xl p-3'>Event Organizer</div>
@@ -204,7 +205,7 @@ const ViewEvent = (props: Props) => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 

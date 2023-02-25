@@ -1,7 +1,7 @@
 import { ETogglers, getToggler, toggle } from '@/features/togglers/togglerSlice'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import HomeNavbar from './static/HomeNavbar'
 import HomeSidebar from './static/HomeSidebar'
 import HoverBoard from './static/HoverBoard'
@@ -9,12 +9,18 @@ import HoverBoard from './static/HoverBoard'
 type Props = {}
 
 const HomeLayout = (props: Props) => {
+
+    //#region : grabbing
     const dispatch = useDispatch()
     const toggler = useSelector(getToggler)
+    const { pathname } = useLocation()
+    //#endregion
 
-    // custom
+    //#region : custom-declarations
 
-    // side-effects
+    //#endregion
+
+    //#region : side-effects
     // cleaner
     useEffect(() => {
         return () => {
@@ -24,13 +30,25 @@ const HomeLayout = (props: Props) => {
         }
     }, [])
 
+    //#endregion
+
+    //#region : functions
+
+    //#endregion
+
+    //jsx rendering
+
+
     // jsx rendering
     return (
         <section id="HomeLayout" className='relative h-full'>
             <HomeNavbar />
             {/* side nav */}
             <HomeSidebar />
-            <HoverBoard />
+            {
+                pathname !== "/home/events/create" && <HoverBoard />
+            }
+
             <Outlet />
         </section>
     )

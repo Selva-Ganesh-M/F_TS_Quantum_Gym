@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { GoGlobe } from "react-icons/go"
 import { MdOutlineEmojiEvents } from "react-icons/md"
 import { MdOutlineFitnessCenter } from "react-icons/md"
@@ -20,6 +20,7 @@ const HoverBoard = (props: Props) => {
     //#region : grabbing
     const isLargeScreen = useMediaQuery("(min-width:769px)");
     const { pathname } = useLocation()
+    const hoverBoardRef = useRef<HTMLInputElement>(null)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -27,12 +28,13 @@ const HoverBoard = (props: Props) => {
     //#endregion
 
     //#region : custom-declarations
+    const [hovering, setHovering] = useState(false)
     const [visibility, setVisibility] = useState(false)
+    let timeout: NodeJS.Timeout;
 
     //#endregion
 
     //#region : side-effects
-
     //#endregion
 
     //#region : functions
@@ -65,10 +67,21 @@ const HoverBoard = (props: Props) => {
             {/* main */}
             <div
                 id="hoverBoard"
+                ref={hoverBoardRef}
                 className={`${visibility ? "opacity-100 bottom-10" : "opacity-0 bottom-5"} bg-white z-10 absolute flex max-w-[769px] rounded-full w-[70%] left-[50%] translate-x-[-50%] transition-all `}
                 style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}
-                onMouseEnter={() => setVisibility(true)}
-                onMouseLeave={() => setTimeout(() => { setVisibility(false) }, 1000)}
+                onMouseOver={() => {
+                    setVisibility(true)
+                }}
+                onMouseEnter={() => {
+                    setHovering(true)
+                    setVisibility(true)
+                    clearTimeout(timeout)
+                }}
+                onMouseLeave={() => {
+                    setTimeout(() => { setVisibility(false) }, 1000)
+                    setHovering(false)
+                }}
             >
                 {/* section-1 */}
                 <div
@@ -116,9 +129,6 @@ const HoverBoard = (props: Props) => {
                 w-[50px] h-[50px] absolute rounded-full animate-bounce cursor-pointer right-[40px] z-50 bg-white `}
                 onClick={() => {
                     setVisibility(true)
-                    setTimeout(() => {
-                        setVisibility(false)
-                    }, 2000)
                 }} />
 
         </>

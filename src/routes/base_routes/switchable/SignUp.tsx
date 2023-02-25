@@ -430,6 +430,7 @@ const SignUp = (props: Props) => {
                                 <a
                                     onClick={() => {
                                         setOverallWarning(false);
+                                        setUploadedImage(undefined)
                                         resetForm();
                                     }}
                                 >
