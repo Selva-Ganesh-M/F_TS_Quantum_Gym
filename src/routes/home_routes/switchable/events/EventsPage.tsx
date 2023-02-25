@@ -1,8 +1,9 @@
 import EventCard from '@/components/cards/EventCard'
 import FilledBtn from '@/components/shared/FilledBtn'
-import { selectAllEvents } from '@/features/events/eventSlice'
+import { getAllEvents, selectAllEvents } from '@/features/events/eventSlice'
 import { changeHomeRoute, EHomeRoutes } from '@/features/routes/homeRoutesSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import { TStoreDispatch } from '@/store/store'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +26,7 @@ type Props = {}
 
 const EventsPage = (props: Props) => {
     //#region : grabbing
-    const dispatch = useDispatch()
+    const dispatch: TStoreDispatch = useDispatch()
     const navigate = useNavigate()
     const isAboveMobile = useMediaQuery("(min-width:426px")
     const events = useSelector(selectAllEvents)
@@ -34,7 +35,6 @@ const EventsPage = (props: Props) => {
     //#region : custom-declarations
 
     //#endregion
-
     //#region : side-effects
     useEffect(() => {
         dispatch(changeHomeRoute(EHomeRoutes.events))
@@ -42,6 +42,11 @@ const EventsPage = (props: Props) => {
         return () => {
             dispatch(changeHomeRoute(EHomeRoutes.other))
         }
+    }, [])
+
+    // loading events
+    useEffect(() => {
+        dispatch(getAllEvents())
     }, [])
     //#endregion
 

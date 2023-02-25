@@ -25,22 +25,26 @@ const Welcome = (props: Props) => {
     <>
       {/* welcome section */}
       <div
-        className=" lg:p-6
-        justify-center items-center text-center md:text-start h-[89vh]
+        className=" lg:p-6 items-center justify-center
+       md:text-start h-[89vh]
        basis-1/2 flex flex-col "
       >
-        <div>
+        <div className=" flex flex-col items-start">
           {/* content */}
+          <div>
 
-          <h1 className="text-[36px] text-bold text-slate-900 mb-3">
-            Quantum Gym
-          </h1>
-          <p>One stop for all workout collections and events.</p>
+            <h1 className="text-[36px] text-bold text-slate-900 mb-3">
+              Quantum Gym
+            </h1>
+            <p>One stop for all workout collections and events.</p>
+          </div>
 
 
           {/* actions */}
           <div>
-            <div className="actions flex justify-center gap-5 mt-10">
+            <div className="actions flex justify-center items-center gap-5 mt-10">
+
+              {/* login */}
               <Link
                 to="/login"
                 onClick={() =>
@@ -52,6 +56,8 @@ const Welcome = (props: Props) => {
               >
                 <FilledBtn content={"Login"} />
               </Link>
+
+              {/* sign up */}
               <Link
                 to={"/signup"}
                 onClick={() =>
@@ -63,11 +69,16 @@ const Welcome = (props: Props) => {
               >
                 <OutlineBtn content={"Sign Up"} />
               </Link>
-            </div>
-            <div className="mt-5 flex justify-center hover:text-white ">
-              <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+
+              {/* google */}
+              <div className=" hover:text-white scale-[1.2] ">
+                <OutlineBtn className="hover:text-white" px="px-[14px]" rounded="rounded-full" width="w-max" content={<GoogleButton variant="sm" />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+              </div>
+
+
             </div>
           </div>
+
         </div>
       </div>
     </>

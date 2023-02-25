@@ -83,12 +83,11 @@ const ViewEvent = (props: Props) => {
                     </div>
 
 
-
                     {/* right */}
-                    <div id="right" className='mt-5 md:mt-0 flex-[1.5] flex flex-col gap-6'>
+                    <div id="right" className='mt-5 md:mt-0 flex-[1.5] flex md:m-auto justify-center md:flex-col gap-6 sm:flex-row'>
 
                         {/* registered users */}
-                        <div className='max-h-[310px] bg-pink-100 overflow-scroll relative shadow-md rounded-lg'>
+                        <div className='max-h-[310px] bg-pink-100 overflow-scroll relative shadow-md rounded-lg flex-[1.5]'>
 
                             {/* header */}
                             <div className='p-3 bg-pink-900 text-lg font-extrabold flex items-center gap-4 sticky top-0'>
@@ -176,18 +175,18 @@ const ViewEvent = (props: Props) => {
                         </div>
 
                         {/* event organizer */}
-                        <div className='shadow-md overflow-clip rounded-lg'>
+                        <div className='shadow-md overflow-clip rounded-lg h-max flex-1'>
 
                             {/* header */}
-                            <div className='bg-pink-900 font-bold text-white text-xl p-3'>Event Organizer</div>
+                            <div className='bg-pink-900 font-bold text-white text-lg p-3'>Event Organizer</div>
 
                             {/* content */}
                             <div className='flex items-start gap-3 p-2 flex-col'>
                                 {/* top */}
-                                <div className='flex gap-3 items-center'>
+                                <div className='flex gap-3 items-center '>
                                     {/* left */}
-                                    <div className='flex-[1] h-max bg-gray-600 rounded-full'>
-                                        <img src={user.image} alt="" className='object-cover min-w-[32px] h-full rounded-full' />
+                                    <div className='flex-[1] bg-gray-600 rounded-full w-[40px]'>
+                                        <img src={user.image} alt="" className='object-cover rounded-full' />
                                     </div>
 
                                     {/* right */}

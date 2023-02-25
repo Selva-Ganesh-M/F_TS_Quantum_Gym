@@ -1,12 +1,14 @@
 import React from 'react'
 import { FcGoogle } from "react-icons/fc"
 
-type Props = {}
+type Props = {
+    variant?: string
+}
 
-const GoogleButton = (props: Props) => {
+const GoogleButton = ({ variant }: Props) => {
     return (
         <div className='flex hover:text-white items-center text-inherit' >
-            <FcGoogle className='mr-5 text-lg' />Sign In with Google
+            <FcGoogle className={variant === "sm" ? "" : 'mr-5 text-lg'} />{variant === "sm" ? "" : "Sign In with Google"}
         </div>
     )
 }

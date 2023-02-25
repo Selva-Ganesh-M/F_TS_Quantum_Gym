@@ -27,19 +27,25 @@ const App = (props: Props) => {
   return (
     <div className="relative w-[100vw] h-[100vh]">
       <Routes>
-        {/* home routes */}
-        <Route path="/home/" element={<HomeLayout />}>
-          <Route index element={<Navigate to="/home/global" />} />
-          <Route path="global" element={<GlobalPage />} />
 
-          {/* events route */}
-          <Route path="events" element={<EventsLayout />}>
-            <Route index element={<EventsPage />} />
-            <Route path="view/:id" element={<ViewEvent />} />
-            <Route path="create" element={<CreateEvent />} />
-          </Route>
-          <Route path="my_workouts" element={<MyWorkoutsPage />} />
-        </Route>
+        {
+          user.isUser && (
+            <Route path="/home/" element={<HomeLayout />}>
+              <Route index element={<Navigate to="/home/global" />} />
+              <Route path="global" element={<GlobalPage />} />
+
+              {/* events route */}
+              <Route path="events" element={<EventsLayout />}>
+                <Route index element={<EventsPage />} />
+                <Route path="view/:id" element={<ViewEvent />} />
+                <Route path="create" element={<CreateEvent />} />
+              </Route>
+              <Route path="my_workouts" element={<MyWorkoutsPage />} />
+            </Route>
+
+          )
+        }
+        {/* home routes */}
 
         {/* root routes */}
         <Route path="/" element={!user.isUser ? <BaseLayout /> : <Navigate to={"/home/global"} />}>
@@ -47,6 +53,9 @@ const App = (props: Props) => {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
+
+        {/* handling other routes */}
+        <Route path="/*" element={<Navigate to={user.isUser ? "/home" : "/"} />} />
       </Routes>
     </div>
   );
