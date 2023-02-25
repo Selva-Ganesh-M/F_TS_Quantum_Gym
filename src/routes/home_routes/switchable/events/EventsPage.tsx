@@ -1,41 +1,13 @@
 import EventCard from '@/components/cards/EventCard'
 import FilledBtn from '@/components/shared/FilledBtn'
+import { selectAllEvents } from '@/features/events/eventSlice'
 import { changeHomeRoute, EHomeRoutes } from '@/features/routes/homeRoutesSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import event1 from "../../../../assets/event1.jpg"
 import event2 from "../../../../assets/event2.png"
-
-
-const events = [
-    {
-        _id: 1,
-        title: "Quantum war",
-        desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum suscipit, totam explicabo temporibus debitis in dicta deserunt mollitia consectetur error voluptatem earum facilis veniam maxime culpa, dolorem facere. Eaque architecto eos odit nemo aut sint, tempore sapiente temporibus quae, aspernatur consequuntur neque modi, officia id veritatis placeat vero necessitatibus ex tenetur cum provident! Earum quod deleniti ipsum non atque aut ullam ratione eum temporibus, et possimus tempora hic placeat provident quam similique quasi ex nostrum delectus ipsa dolorum saepe nulla accusamus totam! Animi natus sequi veniam unde obcaecati sint ex eveniet, blanditiis optio? Nesciunt, ipsum iusto! Voluptatibus velit fugiat at voluptatum ipsum deleniti, impedit inventore cum corrupti vero eligendi cumque odit temporibus similique ea nesciunt soluta! Reiciendis, blanditiis officiis. Nihil, sequi delectus totam sapiente ratione architecto vitae non, vel magni tempore modi praesentium similique voluptatibus quis a alias cupiditate ea temporibus voluptate consectetur perferendis! Debitis aspernatur odit incidunt non repudiandae.",
-        date: "2023-02-25T10:32:51.041Z",
-        prize: ["1M", "100k", "50k"],
-        location: "tuticorin",
-        registrations: [],
-        img: event1,
-        rating: 3,
-        userId: "2"
-    },
-    {
-        _id: 2,
-        title: "Light weight baby",
-        desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum suscipit, totam explicabo temporibus debitis in dicta deserunt mollitia consectetur error voluptatem earum facilis veniam maxime culpa, dolorem facere. Eaque architecto eos odit nemo aut sint, tempore sapiente temporibus quae, aspernatur consequuntur neque modi, officia id veritatis placeat vero necessitatibus ex tenetur cum provident! Earum quod deleniti ipsum non atque aut ullam ratione eum temporibus, et possimus tempora hic placeat provident quam similique quasi ex nostrum delectus ipsa dolorum saepe nulla accusamus totam! Animi natus sequi veniam unde obcaecati sint ex eveniet, blanditiis optio? Nesciunt, ipsum iusto! Voluptatibus velit fugiat at voluptatum ipsum deleniti, impedit inventore cum corrupti vero eligendi cumque odit temporibus similique ea nesciunt soluta! Reiciendis, blanditiis officiis. Nihil, sequi delectus totam sapiente ratione architecto vitae non, vel magni tempore modi praesentium similique voluptatibus quis a alias cupiditate ea temporibus voluptate consectetur perferendis! Debitis aspernatur odit incidunt non repudiandae.",
-        date: "2023-02-25T10:32:51.041Z",
-        prize: ["1M", "100k", "50k"],
-        location: "tuticorin",
-        registrations: [],
-        img: event2,
-        rating: 4,
-        userId: "1"
-    },
-
-]
 
 export type TPEvent = {
     _id: number;
@@ -56,6 +28,7 @@ const EventsPage = (props: Props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const isAboveMobile = useMediaQuery("(min-width:426px")
+    const events = useSelector(selectAllEvents)
     //#endregion
 
     //#region : custom-declarations

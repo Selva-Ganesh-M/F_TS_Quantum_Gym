@@ -47,7 +47,7 @@ const EventPreviewCard = ({ item, width }: Props) => {
                 <div className="flex justify-between gap-3 items-center">
                     {/* name & rating */}
                     <div className='flex flex-col gap-2'>
-                        <h2 className=' text-lg font-semibold text-pink-900' >{item.title.length > 30 ? item.title.slice(0, 30) + "..." : item.title}</h2>
+                        <h2 className=' text-lg font-semibold text-pink-900' >{item.title.length > 30 ? item.title.slice(0, 25) + "..." : item.title}</h2>
                         {/* rating */}
                         <div className="flex gap-2 items-center">
                             {

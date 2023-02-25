@@ -30,7 +30,7 @@ const EventCard = ({ item, width }: Props) => {
 
     //jsx rendering
     return (
-        <Link to={"/home/events/view/123"}>
+        <Link to={`/home/events/view/${item._id}`}>
             <div className={`
             flex justify-center flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
             ${width ? width : ""}
@@ -46,7 +46,7 @@ const EventCard = ({ item, width }: Props) => {
                     <div className="flex justify-between gap-3">
                         {/* name & rating */}
                         <div className='flex flex-col gap-2'>
-                            <h2 className=' text-lg font-semibold text-pink-900' >{item.title}</h2>
+                            <h2 className=' text-lg font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
                             {/* rating */}
                             <div className="flex gap-2 items-center">
                                 {

@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store, { persistor } from "./store/store";
 import { PersistGate } from 'redux-persist/integration/react';
+import { getAllEvents } from "./features/events/eventSlice";
+
+store.dispatch(getAllEvents())
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
