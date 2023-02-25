@@ -14,7 +14,7 @@ const events = [
         _id: 1,
         title: "Quantum war",
         desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum suscipit, totam explicabo temporibus debitis in dicta deserunt mollitia consectetur error voluptatem earum facilis veniam maxime culpa, dolorem facere. Eaque architecto eos odit nemo aut sint, tempore sapiente temporibus quae, aspernatur consequuntur neque modi, officia id veritatis placeat vero necessitatibus ex tenetur cum provident! Earum quod deleniti ipsum non atque aut ullam ratione eum temporibus, et possimus tempora hic placeat provident quam similique quasi ex nostrum delectus ipsa dolorum saepe nulla accusamus totam! Animi natus sequi veniam unde obcaecati sint ex eveniet, blanditiis optio? Nesciunt, ipsum iusto! Voluptatibus velit fugiat at voluptatum ipsum deleniti, impedit inventore cum corrupti vero eligendi cumque odit temporibus similique ea nesciunt soluta! Reiciendis, blanditiis officiis. Nihil, sequi delectus totam sapiente ratione architecto vitae non, vel magni tempore modi praesentium similique voluptatibus quis a alias cupiditate ea temporibus voluptate consectetur perferendis! Debitis aspernatur odit incidunt non repudiandae.",
-        date: new Date(),
+        date: "2023-02-25T10:32:51.041Z",
         prize: ["1M", "100k", "50k"],
         location: "tuticorin",
         registrations: [],
@@ -26,7 +26,7 @@ const events = [
         _id: 2,
         title: "Light weight baby",
         desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum suscipit, totam explicabo temporibus debitis in dicta deserunt mollitia consectetur error voluptatem earum facilis veniam maxime culpa, dolorem facere. Eaque architecto eos odit nemo aut sint, tempore sapiente temporibus quae, aspernatur consequuntur neque modi, officia id veritatis placeat vero necessitatibus ex tenetur cum provident! Earum quod deleniti ipsum non atque aut ullam ratione eum temporibus, et possimus tempora hic placeat provident quam similique quasi ex nostrum delectus ipsa dolorum saepe nulla accusamus totam! Animi natus sequi veniam unde obcaecati sint ex eveniet, blanditiis optio? Nesciunt, ipsum iusto! Voluptatibus velit fugiat at voluptatum ipsum deleniti, impedit inventore cum corrupti vero eligendi cumque odit temporibus similique ea nesciunt soluta! Reiciendis, blanditiis officiis. Nihil, sequi delectus totam sapiente ratione architecto vitae non, vel magni tempore modi praesentium similique voluptatibus quis a alias cupiditate ea temporibus voluptate consectetur perferendis! Debitis aspernatur odit incidunt non repudiandae.",
-        date: new Date(),
+        date: "2023-02-25T10:32:51.041Z",
         prize: ["1M", "100k", "50k"],
         location: "tuticorin",
         registrations: [],
@@ -37,23 +37,11 @@ const events = [
 
 ]
 
-export type TEvent = {
-    _id: number;
-    title: string;
-    desc: string;
-    date: Date;
-    location: string;
-    registrations: Array<string>;
-    img: string;
-    rating: number;
-    userId: string;
-};
-
 export type TPEvent = {
     _id: number;
     title: string;
     desc: string;
-    date: Date;
+    date: string;
     location: string;
     registrations: Array<string>;
     img: string;

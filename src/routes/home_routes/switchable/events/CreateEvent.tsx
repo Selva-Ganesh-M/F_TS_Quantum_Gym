@@ -18,6 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '@/features/user/authSlice';
 import EventCard from '@/components/cards/EventCard';
 import EventPreviewCard from '@/components/cards/EventPreviewCard';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import { api, TPayload } from '@/api/api';
+import { TPEvent } from './EventsPage';
+import { ImStarEmpty, ImStarFull } from 'react-icons/im';
 
 
 type Props = {}
@@ -30,6 +34,7 @@ export type TSEvent = {
     img: string;
     rating: number;
     userId: string;
+    registrations: Array<string>
 }
 
 const CreateEvent = (props: Props) => {
@@ -37,6 +42,7 @@ const CreateEvent = (props: Props) => {
     const { dispatch }: any = useDispatch()
     const navigate = useNavigate()
     const user = useSelector(getUser).user
+    const isAboveMedium = useMediaQuery("(min-width:769px")
     //#endregion
 
     //#region : custom-declarations
@@ -52,8 +58,9 @@ const CreateEvent = (props: Props) => {
         date: new Date(),
         location: "Location",
         img: uploadedImageUrl || "",
-        rating: Math.floor(Math.random() * 5) + 1,
-        userId: ""
+        rating: 1,
+        userId: "",
+        registrations: []
     })
 
 
@@ -61,8 +68,9 @@ const CreateEvent = (props: Props) => {
 
     //#region : side-effects
     useEffect(() => {
-        // uploadedImage && uploadFile(uploadedImage)
+        uploadedImage && uploadFile(uploadedImage)
     }, [uploadedImage])
+
     //#endregion
 
     //#region : functions
@@ -96,6 +104,9 @@ const CreateEvent = (props: Props) => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setImageFirebaseUploadSuccess(true)
                     setUploadedImageUrl(downloadURL)
+                    setPreview(prev => {
+                        return { ...prev, img: downloadURL }
+                    })
                 });
             }
         );
@@ -116,8 +127,9 @@ const CreateEvent = (props: Props) => {
         date: new Date(),
         location: "",
         img: "",
-        rating: Math.floor(Math.random() * 5) + 1,
-        userId: ""
+        rating: 1,
+        userId: "",
+        registrations: []
     };
 
     // YUP validation
@@ -150,10 +162,9 @@ const CreateEvent = (props: Props) => {
             return
         }
 
-        console.log("both conditions failed")
         console.log("uploaded image url", uploadedImageUrl)
         values.img = uploadedImageUrl!
-        values.userId = "askljf"
+        values.userId = user._id
 
         if (!Object.values(values).every(Boolean)) {
             console.log(values);
@@ -164,6 +175,11 @@ const CreateEvent = (props: Props) => {
             return;
         }
         console.log(values);
+
+        console.log("sending request");
+        const res = await api.post<TPayload<TPEvent>>("/events/create", values)
+        console.log(res.data.payload);
+
 
         // updating state
         // dispatch(register(values));
@@ -227,7 +243,7 @@ const CreateEvent = (props: Props) => {
     // JSX RENDERING
     return (
         // flexbox
-        <div className='flex gap-10 items-center m-auto w-[70%]'>
+        <div className='flex gap-10 items-center m-auto sm:w-[70%] md:w-[80%]'>
             {/* form */}
             <div
                 id="signup"
@@ -310,7 +326,7 @@ const CreateEvent = (props: Props) => {
                                 </div>
 
                                 {/* organizer */}
-                                <div className="mb-3">
+                                <div className="mb-3 flex-1">
                                     <div>
                                         <label htmlFor="userId" className="block">
                                             Organizer
@@ -339,6 +355,7 @@ const CreateEvent = (props: Props) => {
                                     </div>
                                     <ErrorMessage name={"userId"}>{customError}</ErrorMessage>
                                 </div>
+
 
                                 {/* date and location */}
                                 <div className='flex gap-3'>
@@ -438,6 +455,17 @@ const CreateEvent = (props: Props) => {
                                                 setOverallWarning(false);
                                                 resetForm();
                                                 setUploadedImage(undefined)
+                                                setPreview({
+                                                    title: "Event Title",
+                                                    desc: "",
+                                                    date: new Date(),
+                                                    location: "Location",
+                                                    img: uploadedImageUrl || "",
+                                                    rating: Math.floor(Math.random() * 5) + 1,
+                                                    userId: "",
+                                                    registrations: []
+                                                })
+                                                setUploadedImageUrl("")
                                             }}
                                         >
                                             <OutlineBtn content={"Reset"} />
@@ -455,9 +483,14 @@ const CreateEvent = (props: Props) => {
             </div>
 
             {/* preview */}
-            <div>
-                <EventPreviewCard width='w-[300px]' item={preview} />
-            </div>
+            {
+                isAboveMedium && (
+                    <div>
+                        <EventPreviewCard width='md:w-[250px]  lg:w-[300px]' item={preview} />
+                    </div>
+
+                )
+            }
 
         </div>
 

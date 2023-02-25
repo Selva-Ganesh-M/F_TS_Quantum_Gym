@@ -2,14 +2,14 @@ import React from 'react'
 import FilledBtn from '../shared/FilledBtn'
 import { ImStarFull } from "react-icons/im"
 import { ImStarEmpty } from "react-icons/im"
-import { TEvent } from "../../routes/home_routes/switchable/events/EventsPage"
+import { TPEvent } from "../../routes/home_routes/switchable/events/EventsPage"
 import { MdLocationOn } from "react-icons/md"
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { HiUserGroup } from "react-icons/hi"
 import { SlCalender } from "react-icons/sl"
 import { Link } from 'react-router-dom'
 
-type Props = { item: TEvent, width?: string }
+type Props = { item: TPEvent, width?: string }
 
 const EventCard = ({ item, width }: Props) => {
     //#region : grabbing
@@ -87,7 +87,7 @@ const EventCard = ({ item, width }: Props) => {
                         <div className='flex gap-2 items-center' >
                             <SlCalender />
                             <>
-                                {item.date.toDateString()}
+                                {new Date(item.date).toDateString()}
                             </>
                         </div>
                         {/* location */}

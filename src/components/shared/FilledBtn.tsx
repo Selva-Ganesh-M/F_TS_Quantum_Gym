@@ -9,6 +9,7 @@ export enum EButtonType {
 
 type Props = {
   content: any;
+  disabled?: boolean;
   to?: string;
   type?: EButtonType;
   fz?: string;
@@ -21,7 +22,7 @@ type Props = {
   onClick?: (props: any) => any
 };
 
-const FilledBtn = ({ content, to, h, type, width, px, py, p, rounded, fz, onClick }: Props) => {
+const FilledBtn = ({ content, to, h, type, width, px, py, p, rounded, fz, onClick, disabled = false }: Props) => {
   const navigate = useNavigate();
   const handleClick = (): void => {
     if (!to) {
@@ -31,6 +32,7 @@ const FilledBtn = ({ content, to, h, type, width, px, py, p, rounded, fz, onClic
   };
   return (
     <button
+      type={type ? type : EButtonType.button}
       onClick={onClick ? onClick : handleClick}
       className={`
       ${p ? p : "p-3"}
@@ -40,7 +42,7 @@ const FilledBtn = ({ content, to, h, type, width, px, py, p, rounded, fz, onClic
       ${width ? width : "w-auto"}
       ${h ? h : "h-auto"}
       bg-pink-900  hover:shadow-[0px_0px_10px_3px_rgba(0,0,0,0.2)] hover:border-1 text-white font-bold`}
-      type={type ? type : "button"}
+      disabled={disabled}
     >
       {content}
     </button>
