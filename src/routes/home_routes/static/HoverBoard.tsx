@@ -126,7 +126,7 @@ const HoverBoard = (props: Props) => {
                 className={`
                 ${visibility ? "opacity-0 bottom-10" : "opacity-100 bottom-5"}
                 transition-all
-                w-[50px] h-[50px] absolute rounded-full animate-bounce cursor-pointer right-[40px] z-50 bg-white `}
+                w-[50px] h-[50px] absolute rounded-full animate-bounce cursor-pointer right-[40px] z-[49] bg-white `}
                 onClick={() => {
                     setVisibility(true)
                 }} />

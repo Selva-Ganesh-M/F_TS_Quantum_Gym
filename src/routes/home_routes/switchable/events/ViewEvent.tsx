@@ -54,15 +54,16 @@ const ViewEvent = (props: Props) => {
                 p-6  flex-col gap-y-5
                 md:flex-row md:flex md:gap-5
                 overflow-y-scroll
+                relative
                 ">
 
                     {/* back btn */}
-                    <div className='w-max cursor-pointer md:block hidden'>
+                    <div className='w-max cursor-pointer md:block hidden md:sticky md:top-0'>
                         <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
                     </div>
 
                     {/* left */}
-                    <div id="left" className='flex flex-[1.5] flex-col gap-7'>
+                    <div id="left" className='flex flex-[1.5] flex-col gap-7 md:sticky md:top-0'>
 
                         {/* event card */}
                         <div className='w-auto'>
@@ -72,9 +73,11 @@ const ViewEvent = (props: Props) => {
 
 
                     {/* center + right */}
-                    <div className={`${isLaptop ? "flex gap-5" : "flex flex-col gap-5"} h-full overflow-y-scroll`}>
+                    <div className={`${isLaptop ? "flex gap-5" : "flex flex-col gap-5"} h-full`}>
+
+
                         {/* center */}
-                        <div id="center" className='mt-5 md:mt-0 flex-[4] bg-pink-100 rounded-lg overflow-y-scroll min-h-full h-full relative'>
+                        <div id="center" className='mt-5 md:mt-0 flex-[4] bg-pink-50 rounded-lg overflow-y-scroll min-h-full h-full relative'>
                             {/* header */}
                             <div className='bg-pink-900 font-bold text-2xl p-5 rounded-t-lg sticky top-0 ' >
                                 <h1 className='text-white'>{event.title}</h1>

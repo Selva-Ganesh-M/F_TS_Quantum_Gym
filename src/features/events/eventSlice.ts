@@ -19,7 +19,7 @@ const eventsAdapter = createEntityAdapter<TPEvent>({
 const eventsSlice = createSlice({
   name: "events",
   initialState: eventsAdapter.getInitialState({
-    loading: false,
+    loading: true,
     error: "",
     srcResults: <TPEvent[]>[],
     isSearching: false,
@@ -27,6 +27,9 @@ const eventsSlice = createSlice({
   reducers: {
     resetSrc: (state) => {
       state.srcResults = [];
+    },
+    setLoading: (state) => {
+      state.loading = !state.loading;
     },
   },
   extraReducers: (builder) => {
@@ -122,7 +125,7 @@ export const { selectAll: selectAllEvents, selectById } =
 export const getSrcResults = (state: TRootState) => state.events.srcResults;
 
 // export actions
-export const { resetSrc } = eventsSlice.actions;
+export const { resetSrc, setLoading } = eventsSlice.actions;
 
 // exporting reducer
 export default eventsSlice.reducer;

@@ -46,10 +46,7 @@ const HomeNavbar = (props: Props) => {
                     <GiHamburgerMenu className='h-[40px] w-[40px]' onClick={() => {
                         // opening sidebar
                         dispatch(toggle(ETogglers.homeSidebar))
-                        // closing userbar if its open
-                        if (toggler.userMenu) {
-                            dispatch(toggle(ETogglers.userMenu))
-                        }
+
 
                     }} />
                 )
@@ -86,10 +83,7 @@ const HomeNavbar = (props: Props) => {
                 <img src={user.image} onClick={() => {
                     // open userMenu
                     dispatch(toggle(ETogglers.userMenu))
-                    // close sidebar if its open
-                    if (toggler.homeSidebar) {
-                        dispatch(toggle(ETogglers.homeSidebar))
-                    }
+
                 }
                 } alt="user-image" className='max-w-full max-h-full rounded-full object-cover cursor-pointer' />
 
@@ -99,7 +93,7 @@ const HomeNavbar = (props: Props) => {
                     style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}
                     className={`
                     ${toggler.userMenu ? ` ${isLargeScreen ? `w-[400px] h-[380px]` : `w-60 h-[370px]`}` : "h-0 w-0"}
-                    absolute top-0 right-0 bg-blue-900 text-white transition-all rounded-2xl pb-[2.5em] z-50` }>
+                    absolute top-0 right-0 bg-pink-900 text-white transition-all rounded-2xl pb-[2.5em] z-50` }>
                     {
                         toggler.userMenu ? (<>
                             {/* top-edge */}

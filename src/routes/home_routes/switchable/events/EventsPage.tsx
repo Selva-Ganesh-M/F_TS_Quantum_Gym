@@ -2,15 +2,20 @@ import EventCard from '@/components/cards/EventCard'
 import EventSearchCard from '@/components/cards/EventSearchCard'
 import SrcEventLoader from '@/components/loaders/SrcEventLoader'
 import FilledBtn from '@/components/shared/FilledBtn'
-import { getAllEvents, getSrcResults, resetSrc, searchEvent, selectAllEvents } from '@/features/events/eventSlice'
+import { getAllEvents, getSrcResults, resetSrc, searchEvent, selectAllEvents, setLoading } from '@/features/events/eventSlice'
 import { changeHomeRoute, EHomeRoutes } from '@/features/routes/homeRoutesSlice'
+import { ETogglers, toggle } from '@/features/togglers/togglerSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { TRootState, TStoreDispatch } from '@/store/store'
 import React, { useEffect, useState } from 'react'
+import { AiOutlineCaretDown } from 'react-icons/ai'
 import { BsSearch } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import NoResult from "../../../../assets/noResults.png"
+import { getToggler } from '@/features/togglers/togglerSlice'
+import EventCardLoader from '@/components/loaders/EventCardLoader'
+import { getUser } from '@/features/user/authSlice'
 
 export type TPEvent = {
     _id: string;
@@ -24,10 +29,18 @@ export type TPEvent = {
     userId: string;
 };
 
+export enum EEventFilter {
+    all = "Upcoming",
+    myEvents = "My Events",
+    registeredEVents = "Registered"
+}
+
 type Props = {}
 
 const EventsPage = (props: Props) => {
     //#region : grabbing
+    const toggler = useSelector(getToggler)
+    const user = useSelector(getUser).user
     const dispatch: TStoreDispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -38,21 +51,28 @@ const EventsPage = (props: Props) => {
     const isAboveMobile = useMediaQuery("(min-width:426px")
     const collapseHeader = useMediaQuery("(min-width:860px")
     const shrunkInput = useMediaQuery("(min-width:461px)")
+    const haveTitle = useMediaQuery("(min-width:540px)")
     //#endregion
 
     //#region : custom-declarations
     const [src, setSrc] = useState<string>("")
+    const [eventsFilter, setEventsFilter] = useState<EEventFilter>(EEventFilter.all)
+    const [shouldBeRenderd, setShouldBeRenderd] = useState<TPEvent[]>(events || [])
 
     //#endregion
+
+
     //#region : side-effects
+
+    // handling the routing
     useEffect(() => {
         dispatch(changeHomeRoute(EHomeRoutes.events))
-
         return () => {
             dispatch(changeHomeRoute(EHomeRoutes.other))
         }
     }, [])
 
+    // fires and fetches data when the search keyword is changed.
     useEffect(() => {
         if (src) {
             dispatch(searchEvent(src))
@@ -61,10 +81,22 @@ const EventsPage = (props: Props) => {
         }
     }, [src])
 
-    // loading events
+    // loading events for the first time
     useEffect(() => {
         dispatch(getAllEvents())
     }, [])
+
+    // handled fitering events when the filter value changes
+    useEffect(() => {
+        if (eventsFilter === EEventFilter.all) {
+            setShouldBeRenderd(events)
+        } else if (eventsFilter === EEventFilter.myEvents) {
+            setShouldBeRenderd(events.filter(event => event.userId === user._id))
+        } else if (eventsFilter === EEventFilter.registeredEVents) {
+            setShouldBeRenderd(events.filter(event => event.registrations.includes(user._id)))
+        }
+    }, [eventsFilter, events])
+
     //#endregion
 
     //#region : functions
@@ -77,18 +109,67 @@ const EventsPage = (props: Props) => {
 
 
             {/* main */}
-            <div className='flex-1 h-full overflow-scroll overflow-x-hidden relative'>
+            <div className='flex-1 h-full overflow-scroll overflow-x-hidden relative '>
 
 
                 {/* header */}
-                <div className="flex justify-between items-center py-3 px-4 bg-pink-100 sticky z-40 top-0">
-                    {/* title */}
-                    {
-                        collapseHeader && (
-                            <h2 className='text-lg  md:text-3xl font-bold w-max'>Upcoming Events</h2>
+                <div className="flex justify-between items-center py-3 px-4 bg-pink-200 sticky z-40 top-0">
 
-                        )
-                    }
+                    {/* title */}
+                    <div className={`flex items-center ${collapseHeader ? "gap-3" : "gap-0"}`}>
+                        {/* conditional title rendering and responsiveness */}
+                        <>
+                            {
+                                haveTitle && (
+                                    collapseHeader ? (
+                                        <h2 className='text-xs  md:text-3xl font-bold w-max'>{eventsFilter}</h2>
+                                    ) : (
+                                        <h2 className='text-lg  md:text-3xl font-bold w-max'>{eventsFilter}</h2>
+                                    )
+                                )
+                            }
+                        </>
+                        {/* filter */}
+                        <div className='cursor-pointer relative' >
+                            {/* icons */}
+                            <AiOutlineCaretDown onClick={() => dispatch(toggle(ETogglers.eventFilterbar))} />
+
+                            {/* menu */}{
+                                toggler.eventFilterbar && (
+
+                                    <div className='w-[200px] h-max bg-white shadow-xl rounded-lg overflow-clip  absolute top-[50px]  z-[48]'>
+                                        <div
+                                            onClick={() => {
+                                                dispatch(toggle(ETogglers.eventFilterbar))
+                                                setEventsFilter(EEventFilter.all)
+                                            }}
+                                            className={`p-2 
+                                        ${eventsFilter === EEventFilter.all ? "bg-pink-500 text-white" : "bg-white text-black hover:bg-pink-100"}`}>
+                                            All Events
+                                        </div>
+                                        <div
+                                            onClick={() => {
+                                                dispatch(toggle(ETogglers.eventFilterbar))
+                                                setEventsFilter(EEventFilter.registeredEVents)
+                                            }}
+                                            className={`p-2 
+                                        ${eventsFilter === EEventFilter.registeredEVents ? "bg-pink-500 text-white" : "bg-white text-black hover:bg-pink-100"}`}>
+                                            Registered Events
+                                        </div>
+                                        <div
+                                            onClick={() => {
+                                                dispatch(toggle(ETogglers.eventFilterbar))
+                                                setEventsFilter(EEventFilter.myEvents)
+                                            }}
+                                            className={`p-2 
+                                        ${eventsFilter === EEventFilter.myEvents ? "bg-pink-500 text-white" : "bg-white text-black hover:bg-pink-100"}`}>
+                                            My Events
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
 
                     {/* search */}
                     <div className='flex gap-2 items-center'>
@@ -101,7 +182,7 @@ const EventsPage = (props: Props) => {
                                 value={src}
                                 onChange={((e) => setSrc(e.target.value))}
                                 placeholder='eg. Quantum wars'
-                                className={`px-2 py-2 xs:w-[325px] focus:outline-none`} />
+                                className={`px-2 py-2 ${shrunkInput ? "w-[325px]" : ""} focus:outline-none`} />
 
 
 
@@ -139,7 +220,7 @@ const EventsPage = (props: Props) => {
                                                 ) : (
                                                     srcResults.length > 0 ? (
                                                         srcResults.map(item => (
-                                                            <EventSearchCard item={item} />
+                                                            <EventSearchCard item={item} key={item._id} />
                                                         ))
                                                     ) : (
                                                         <div className='bg-white p-3 flex flex-col justify-center'>
@@ -157,27 +238,62 @@ const EventsPage = (props: Props) => {
                             }
 
                         </div>
-                        <BsSearch size={20} className={"cursor-pointer"} />
                     </div>
 
                     {/* create Button */}
-                    {
-                        collapseHeader ? (
-                            <FilledBtn content={"Create Event"} to="/home/events/create" />
+                    <div className=''>
 
-                        ) : (
 
-                            <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' />
-                        )
-                    }
+                        {/* create buttton */}
+                        {
+                            collapseHeader ? (
+                                <FilledBtn content={"Create Event"} to="/home/events/create" />
+
+                            ) : (
+
+                                <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' />
+                            )
+                        }
+
+                        {/* <div onClick={() => dispatch(setLoading())}>set loading</div> */}
+
+                    </div>
 
                 </div>
 
                 {/* body */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 px-6 pt-6 pb-24 relative">
-                    {events.map(item => (
-                        <EventCard item={item} key={item._id} />
-                    ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 px-6 pt-6 pb-24 relative ">
+                    {
+                        eventsState.loading ? (
+                            [...Array(10).keys()].map((item, index) => (
+                                <EventCardLoader key={index} />
+
+                            ))
+                        ) : (
+
+                            shouldBeRenderd.length > 0 ? (
+                                shouldBeRenderd.map(item => (
+                                    <EventCard item={item} key={item._id} />
+                                ))
+
+                            ) : (
+                                <div className='top-[50%] left-[50%] translate-x-[-50%] m-auto flex flex-col gap-5 absolute'>
+                                    <img src={NoResult} alt="" />
+                                    <span className='text-center'>No results found.</span>
+                                    <span className='text-center'>
+                                        {eventsFilter === EEventFilter.all ?
+                                            (
+                                                <>
+                                                    <span>no events found.</span>
+                                                    <Link to={"/home/events/create"}>Create your first event.</Link>
+                                                </>
+                                            ) : eventsFilter === EEventFilter.myEvents ?
+                                                (<Link to={"/home/events/create"}>Create your first event.</Link>) : (<Link to={"/home/events/"}>Enroll your first event.</Link>)}
+                                    </span>
+                                </div>
+                            )
+                        )
+                    }
 
                     {/* page will be blurred whenever the search bar is open */}
                     {

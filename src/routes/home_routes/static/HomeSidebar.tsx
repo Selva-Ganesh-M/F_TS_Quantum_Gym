@@ -46,7 +46,7 @@ const HomeSidebar = (props: Props) => {
     //jsx rendering
     return (
         <>
-            <div className={`${toggler.homeSidebar && isSmallScreens ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-blue-900 top-0 z-50 text-white`}>
+            <div className={`${toggler.homeSidebar && isSmallScreens ? "left-0" : "left-[-250px]"} transition-all h-full p-[1em] w-[250px] absolute bg-pink-900 top-0 z-50 text-white`}>
                 {/* header */}
                 <div className='bg-white py-1 px-1 rounded-b-lg flex items-center gap-4 font-bold text-gray-600'>
                     <AiFillCloseCircle className='text-white cursor-pointer rounded-full w-[40px] h-[40px]'

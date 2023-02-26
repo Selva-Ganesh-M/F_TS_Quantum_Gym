@@ -28,7 +28,7 @@ const OutlineBtn = ({ content, border, type, onClick, className, p, px, py, fz, 
       ${fz ? fz : ""}
       ${h ? h : ""}
       ${width ? width : "w-auto"}
-      ${border || "border-2 border-pink-200"}
+      ${border || "border-[1px] border-black"}
       hover:bg-black hover:text-white p-3 px-10 text-pink-900 font-bold rounded-lg `}
       type={type ? type : "button"}
       onClick={onClick}

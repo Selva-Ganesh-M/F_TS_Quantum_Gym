@@ -40,7 +40,7 @@ const EventCard = ({ item, width }: Props) => {
 
         <div className={`
             h-full
-            flex justify-center  flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
+            flex justify-center  flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] 
             ${width ? width : ""}
             `}>
             {/* top */}
@@ -53,7 +53,7 @@ const EventCard = ({ item, width }: Props) => {
                     <Link to={`/home/events/view/${item._id}`}>
                         {/* name & rating */}
                         <div className='flex flex-col gap-2'>
-                            <h2 className=' text-md font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                            <h2 className=' text-md font-semibold text-black' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
                             {/* rating */}
                             <div className="flex gap-2 items-center">
                                 {
