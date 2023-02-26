@@ -36,6 +36,8 @@ const EventsPage = (props: Props) => {
     const srcResults = useSelector(getSrcResults)
 
     const isAboveMobile = useMediaQuery("(min-width:426px")
+    const collapseHeader = useMediaQuery("(min-width:860px")
+    const shrunkInput = useMediaQuery("(min-width:461px)")
     //#endregion
 
     //#region : custom-declarations
@@ -81,7 +83,12 @@ const EventsPage = (props: Props) => {
                 {/* header */}
                 <div className="flex justify-between items-center py-3 px-4 bg-pink-100 sticky z-40 top-0">
                     {/* title */}
-                    <h2 className='text-lg  md:text-3xl font-bold'>Upcoming Events</h2>
+                    {
+                        collapseHeader && (
+                            <h2 className='text-lg  md:text-3xl font-bold w-max'>Upcoming Events</h2>
+
+                        )
+                    }
 
                     {/* search */}
                     <div className='flex gap-2 items-center'>
@@ -93,7 +100,8 @@ const EventsPage = (props: Props) => {
                                 type="text"
                                 value={src}
                                 onChange={((e) => setSrc(e.target.value))}
-                                placeholder='eg. Quantum wars' className='px-2 py-1 w-[325px] focus:outline-none' />
+                                placeholder='eg. Quantum wars'
+                                className={`px-2 py-2 xs:w-[325px] focus:outline-none`} />
 
 
 
@@ -152,9 +160,9 @@ const EventsPage = (props: Props) => {
                         <BsSearch size={20} className={"cursor-pointer"} />
                     </div>
 
-                    {/* create event */}
+                    {/* create Button */}
                     {
-                        isAboveMobile ? (
+                        collapseHeader ? (
                             <FilledBtn content={"Create Event"} to="/home/events/create" />
 
                         ) : (

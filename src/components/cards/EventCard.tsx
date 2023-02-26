@@ -82,7 +82,7 @@ const EventCard = ({ item, width }: Props) => {
                     {/* button */}
                     {
                         item.registrations.includes(user._id) ? (
-                            <OutlineBtn content={"Withdraw"} px={isAboveMobile ? "px-[15px]" : "px-0"} width={"w-max"} h="h-max" border='border-2 border-pink-300' onClick={() => dispatch(withdrawEvent(item._id))} />
+                            <OutlineBtn content={"Withdraw"} px={isAboveMobile ? "px-[15px]" : "px-[10px]"} width={"w-max"} h="h-max" border='border-2 border-pink-300' onClick={() => dispatch(withdrawEvent(item._id))} />
                         ) : (
                             <FilledBtn content={"Enroll"} px={isAboveMobile ? "px-5" : "px-3"} h="h-max" onClick={() => dispatch(enrollEvent(item._id))} />
                         )
