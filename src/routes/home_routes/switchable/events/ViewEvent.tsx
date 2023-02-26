@@ -72,11 +72,11 @@ const ViewEvent = (props: Props) => {
 
 
                     {/* center + right */}
-                    <div className={`${isLaptop ? "flex gap-5" : ""} h-full overflow-hidden `}>
+                    <div className={`${isLaptop ? "flex gap-5" : "flex flex-col gap-5"} h-full overflow-y-scroll`}>
                         {/* center */}
-                        <div id="center" className='mt-5 md:mt-0 flex-[4] bg-pink-100 rounded-lg overflow-y-scroll h-full relative lg:mb-5'>
+                        <div id="center" className='mt-5 md:mt-0 flex-[4] bg-pink-100 rounded-lg overflow-y-scroll min-h-full h-full relative'>
                             {/* header */}
-                            <div className='bg-pink-900 font-bold text-2xl p-5 rounded-t-lg sticky top-0' >
+                            <div className='bg-pink-900 font-bold text-2xl p-5 rounded-t-lg sticky top-0 ' >
                                 <h1 className='text-white'>{event.title}</h1>
                             </div>
 
@@ -88,10 +88,10 @@ const ViewEvent = (props: Props) => {
 
 
                         {/* right */}
-                        <div id="right" className={`mt-5 md:mt-0 flex-[1.5] flex flex-col md:m-auto justify-center md:flex-col gap-6 sm:flex-row"} mb-5`}>
+                        <div id="right" className={`mt-5 md:mt-0 flex-[1.5] flex flex-col md:w-full md:m-auto justify-center md:flex-col gap-6 sm:flex-row"} mb-5`}>
 
                             {/* Competitors */}
-                            <div className='max-h-[310px] bg-pink-100 overflow-scroll relative shadow-md rounded-lg flex-[1.5]'>
+                            <div className='max-h-[310px] bg-pink-100 overflow-scroll relative shadow-md rounded-lg '>
 
                                 {/* header */}
                                 <div className='p-3 bg-pink-900 text-lg font-extrabold flex items-center gap-4 sticky top-0'>
@@ -129,7 +129,7 @@ const ViewEvent = (props: Props) => {
                             </div>
 
                             {/* event organizer */}
-                            <div className='shadow-md overflow-clip rounded-lg h-max flex-1'>
+                            <div className='shadow-lg bg-pink-100 overflow-clip rounded-lg h-max flex-1'>
 
                                 {/* header */}
                                 <div className='bg-pink-900 font-bold text-white text-lg p-3'>Event Organizer</div>
