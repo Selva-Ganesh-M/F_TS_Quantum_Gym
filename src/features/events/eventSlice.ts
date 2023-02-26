@@ -21,8 +21,14 @@ const eventsSlice = createSlice({
   initialState: eventsAdapter.getInitialState({
     loading: false,
     error: "",
+    srcResults: <TPEvent[]>[],
+    isSearching: false,
   }),
-  reducers: {},
+  reducers: {
+    resetSrc: (state) => {
+      state.srcResults = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -90,6 +96,22 @@ const eventsSlice = createSlice({
       });
 
     // #endregion
+
+    // #region : search events
+    builder
+      .addCase(searchEvent.pending, (state) => {
+        state.isSearching = true;
+      })
+      .addCase(searchEvent.rejected, (state, action) => {
+        state.isSearching = false;
+        state.error = action.error as string;
+      })
+      .addCase(searchEvent.fulfilled, (state, action) => {
+        state.isSearching = false;
+        state.srcResults = action.payload;
+      });
+
+    // #endregion
   },
 });
 
@@ -97,8 +119,10 @@ const eventsSlice = createSlice({
 export const { selectAll: selectAllEvents, selectById } =
   eventsAdapter.getSelectors((state: TRootState) => state.events);
 
+export const getSrcResults = (state: TRootState) => state.events.srcResults;
+
 // export actions
-export const {} = eventsSlice.actions;
+export const { resetSrc } = eventsSlice.actions;
 
 // exporting reducer
 export default eventsSlice.reducer;
@@ -152,6 +176,18 @@ export const withdrawEvent = createAsyncThunk(
     const res = await api.patch<TPayload<TPEvent>>(
       `/events/withdraw/${eventId}`
     );
+    if (res.data.statusText === "failure") {
+      return thunkApi.rejectWithValue(res.data.message);
+    }
+    return thunkApi.fulfillWithValue(res.data.payload);
+  }
+);
+
+// search
+export const searchEvent = createAsyncThunk(
+  "events/searchEvent",
+  async (src: string, thunkApi) => {
+    const res = await api.get<TPayload<TPEvent[]>>(`/events/search?src=${src}`);
     if (res.data.statusText === "failure") {
       return thunkApi.rejectWithValue(res.data.message);
     }
