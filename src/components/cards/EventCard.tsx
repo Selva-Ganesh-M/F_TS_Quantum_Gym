@@ -53,7 +53,7 @@ const EventCard = ({ item, width }: Props) => {
                     <Link to={`/home/events/view/${item._id}`}>
                         {/* name & rating */}
                         <div className='flex flex-col gap-2'>
-                            <h2 className=' text-md font-semibold text-black' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                            <h2 className=' text-md font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
                             {/* rating */}
                             <div className="flex gap-2 items-center">
                                 {

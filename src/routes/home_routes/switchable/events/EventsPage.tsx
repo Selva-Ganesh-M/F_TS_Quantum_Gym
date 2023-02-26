@@ -288,7 +288,7 @@ const EventsPage = (props: Props) => {
                                                     <Link to={"/home/events/create"}>Create your first event.</Link>
                                                 </>
                                             ) : eventsFilter === EEventFilter.myEvents ?
-                                                (<Link to={"/home/events/create"}>Create your first event.</Link>) : (<Link to={"/home/events/"}>Enroll your first event.</Link>)}
+                                                (<Link to={"/home/events/create"}>Create your first event.</Link>) : (<Link to={"/home/events/"} onClick={() => setEventsFilter(EEventFilter.all)}>Enroll your first event.</Link>)}
                                     </span>
                                 </div>
                             )

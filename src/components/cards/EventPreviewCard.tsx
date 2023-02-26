@@ -33,7 +33,7 @@ const EventPreviewCard = ({ item, width }: Props) => {
     return (
 
         <div className={`
-            flex justify-center flex-col rounded-[10px] overflow-hidden bg-blue-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
+            flex justify-center flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
             ${width ? width : ""}
             `}>
             {/* top */}
