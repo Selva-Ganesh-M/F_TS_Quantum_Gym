@@ -8,11 +8,18 @@ import useMediaQuery from '@/hooks/useMediaQuery'
 import { HiUserGroup } from "react-icons/hi"
 import { SlCalender } from "react-icons/sl"
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from '@/features/user/authSlice'
+import OutlineBtn from '../shared/OutlineBtn'
+import { enrollEvent, withdrawEvent } from '@/features/events/eventSlice'
+import { TStoreDispatch } from '@/store/store'
 
 type Props = { item: TPEvent, width?: string }
 
 const EventCard = ({ item, width }: Props) => {
     //#region : grabbing
+    const dispatch: TStoreDispatch = useDispatch()
+    const user = useSelector(getUser).user
     const isAboveMobile = useMediaQuery("(min-width:426px")
     //#endregion
 
@@ -30,23 +37,23 @@ const EventCard = ({ item, width }: Props) => {
 
     //jsx rendering
     return (
-        <Link to={`/home/events/view/${item._id}`}>
-            <div className={`
-            flex justify-center flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
+
+        <div className={`
+            h-full
+            flex justify-center  flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] shadow-md
             ${width ? width : ""}
             `}>
-                {/* top */}
-                <div className='flex-1 w-full h-auto rounded-md overflow-clip'>
+            {/* top */}
+            <div className='flex-1 w-full h-auto rounded-md overflow-clip'>
+                <Link to={`/home/events/view/${item._id}`}>
                     <img src={item.img} alt="" className='object-cover h-[300px] w-full' />
-                </div>
-
-                {/* bottom */}
-                <div className='p-5' >
-                    {/* header */}
-                    <div className="flex justify-between gap-3">
+                </Link>
+                {/* header */}
+                <div className="flex justify-between gap-3 p-5">
+                    <Link to={`/home/events/view/${item._id}`}>
                         {/* name & rating */}
                         <div className='flex flex-col gap-2'>
-                            <h2 className=' text-lg font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                            <h2 className=' text-md font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
                             {/* rating */}
                             <div className="flex gap-2 items-center">
                                 {
@@ -70,37 +77,47 @@ const EventCard = ({ item, width }: Props) => {
                             </div>
                         </div>
 
-                        {/* button */}
-                        <FilledBtn content={"Enroll"} px={isAboveMobile ? "px-5" : "px-3"} h="h-max" />
-                    </div>
+                    </Link>
 
-                    <hr className='my-5 h-0 border-t-2 border-white' />
-
-                    {/* details */}
-                    <div className='flex flex-col mt-5 gap-3 text-sm'>
-                        {/* location */}
-                        <div className='flex gap-2 items-center' >
-                            <MdLocationOn />
-                            {item.location}
-                        </div>
-                        {/* location */}
-                        <div className='flex gap-2 items-center' >
-                            <SlCalender />
-                            <>
-                                {new Date(item.date).toDateString()}
-                            </>
-                        </div>
-                        {/* location */}
-                        <div className='flex gap-2 items-center' >
-                            <HiUserGroup />
-                            {item.registrations.length} registrations
-                        </div>
-                    </div>
-
-
+                    {/* button */}
+                    {
+                        item.registrations.includes(user._id) ? (
+                            <OutlineBtn content={"Withdraw"} px={isAboveMobile ? "px-2" : "px-2"} h="h-max" border='border-2 border-pink-300' onClick={() => dispatch(withdrawEvent(item._id))} />
+                        ) : (
+                            <FilledBtn content={"Enroll"} px={isAboveMobile ? "px-5" : "px-3"} h="h-max" onClick={() => dispatch(enrollEvent(item._id))} />
+                        )
+                    }
                 </div>
             </div>
-        </Link>
+
+            {/* bottom */}
+            <div className='p-5 pt-0' >
+                <hr className=' h-0 border-t-2 border-white' />
+
+                {/* details */}
+                <div className='flex flex-col mt-5 gap-3 text-sm'>
+                    {/* location */}
+                    <div className='flex gap-2 items-center' >
+                        <MdLocationOn />
+                        {item.location}
+                    </div>
+                    {/* location */}
+                    <div className='flex gap-2 items-center' >
+                        <SlCalender />
+                        <>
+                            {new Date(item.date).toDateString()}
+                        </>
+                    </div>
+                    {/* location */}
+                    <div className='flex gap-2 items-center' >
+                        <HiUserGroup />
+                        {item.registrations.length} registrations
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
     )
 }
 

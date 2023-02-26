@@ -58,6 +58,38 @@ const eventsSlice = createSlice({
       });
 
     // #endregion
+
+    // #region : enroll event
+    builder
+      .addCase(enrollEvent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(enrollEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(enrollEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        eventsAdapter.setOne(state, action.payload);
+      });
+
+    // #endregion
+
+    // #region : withdraw event
+    builder
+      .addCase(withdrawEvent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(withdrawEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(withdrawEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        eventsAdapter.setOne(state, action.payload);
+      });
+
+    // #endregion
   },
 });
 
@@ -98,6 +130,32 @@ export const getAllEvents = createAsyncThunk(
       return thunkApi.fulfillWithValue(res.data.payload);
     }
     return thunkApi.rejectWithValue(res.data.message);
+  }
+);
+
+// enroll event
+export const enrollEvent = createAsyncThunk(
+  "events/enrollEvent",
+  async (eventId: string, thunkApi) => {
+    const res = await api.patch<TPayload<TPEvent>>(`/events/enroll/${eventId}`);
+    if (res.data.statusText === "failure") {
+      return thunkApi.rejectWithValue(res.data.message);
+    }
+    return thunkApi.fulfillWithValue(res.data.payload);
+  }
+);
+
+// withdraw event
+export const withdrawEvent = createAsyncThunk(
+  "events/withdrawEvent",
+  async (eventId: string, thunkApi) => {
+    const res = await api.patch<TPayload<TPEvent>>(
+      `/events/withdraw/${eventId}`
+    );
+    if (res.data.statusText === "failure") {
+      return thunkApi.rejectWithValue(res.data.message);
+    }
+    return thunkApi.fulfillWithValue(res.data.payload);
   }
 );
 

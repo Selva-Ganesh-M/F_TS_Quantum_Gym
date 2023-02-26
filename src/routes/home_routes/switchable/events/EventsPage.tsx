@@ -11,7 +11,7 @@ import event1 from "../../../../assets/event1.jpg"
 import event2 from "../../../../assets/event2.png"
 
 export type TPEvent = {
-    _id: number;
+    _id: string;
     title: string;
     desc: string;
     date: string;

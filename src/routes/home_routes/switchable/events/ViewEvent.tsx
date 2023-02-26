@@ -99,76 +99,26 @@ const ViewEvent = (props: Props) => {
 
                             {/* competitors */}
                             <div className=' flex flex-col gap-1 text-sm'>
-                                {/* item */}
-                                <div className='px-3 py-2 flex gap-3 items-center'>
-                                    {/* image */}
-                                    <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                        <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                    </div>
+                                {
+                                    event.registrations.length > 0 ? (event.registrations.map(event => (
+                                        <div className='px-3 py-2 flex gap-3 items-center'>
+                                            {/* image */}
+                                            <div className='h-8 w-8 rounded-full overflow-hidden'>
+                                                <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
+                                            </div>
 
-                                    {/* username */}
-                                    <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
+                                            {/* username */}
+                                            <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
 
-                                    {/* age */}
-                                    <h3 className='text-gray-600'>23</h3>
+                                            {/* age */}
+                                            <h3 className='text-gray-600'>23</h3>
 
-                                </div>
-                                {/* item */}
-                                <div className='px-3 py-2 flex gap-3 items-center'>
-                                    {/* image */}
-                                    <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                        <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                    </div>
+                                        </div>
+                                    ))) : (
+                                        <div className='p-3'>Be the first to register for this event.</div>
+                                    )
+                                }
 
-                                    {/* username */}
-                                    <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
-
-                                    {/* age */}
-                                    <h3 className='text-gray-600'>23</h3>
-
-                                </div>
-                                {/* item */}
-                                <div className='px-3 py-2 flex gap-3 items-center'>
-                                    {/* image */}
-                                    <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                        <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                    </div>
-
-                                    {/* username */}
-                                    <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
-
-                                    {/* age */}
-                                    <h3 className='text-gray-600'>23</h3>
-
-                                </div>
-                                {/* item */}
-                                <div className='px-3 py-2 flex gap-3 items-center'>
-                                    {/* image */}
-                                    <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                        <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                    </div>
-
-                                    {/* username */}
-                                    <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
-
-                                    {/* age */}
-                                    <h3 className='text-gray-600'>23</h3>
-
-                                </div>
-                                {/* item */}
-                                <div className='px-3 py-2 flex gap-3 items-center'>
-                                    {/* image */}
-                                    <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                        <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                    </div>
-
-                                    {/* username */}
-                                    <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
-
-                                    {/* age */}
-                                    <h3 className='text-gray-600'>23</h3>
-
-                                </div>
 
 
                             </div>
@@ -186,16 +136,16 @@ const ViewEvent = (props: Props) => {
                                 <div className='flex gap-3 items-center '>
                                     {/* left */}
                                     <div className='flex-[1] bg-gray-600 rounded-full w-[40px]'>
-                                        <img src={user.image} alt="" className='object-cover rounded-full' />
+                                        <img src={user.image} alt="" className='bg-gray-600 object-cover rounded-full' />
                                     </div>
 
                                     {/* right */}
                                     <div>
 
-                                        <h2>Selva Ganesh M</h2>
+                                        <h2>{user.username}</h2>
                                         <div className='flex gap-1 items-center '>
                                             <MdEmail />
-                                            <p className='text-sm text-gray-600'> selvadev2k@gmail.com</p>
+                                            <p className='text-sm text-gray-600'> {user.email}</p>
                                         </div>
                                     </div>
 
