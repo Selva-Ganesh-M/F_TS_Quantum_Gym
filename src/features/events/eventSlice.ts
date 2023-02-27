@@ -23,6 +23,7 @@ const eventsSlice = createSlice({
     error: "",
     srcResults: <TPEvent[]>[],
     isSearching: false,
+    isDeleting: false,
   }),
   reducers: {
     resetSrc: (state) => {
@@ -115,8 +116,27 @@ const eventsSlice = createSlice({
       });
 
     // #endregion
+
+    // #region : delete event
+    builder
+      .addCase(deleteEvent.pending, (state) => {
+        state.isDeleting = true;
+      })
+      .addCase(deleteEvent.rejected, (state, action) => {
+        state.isDeleting = false;
+        state.error = action.error as string;
+      })
+      .addCase(deleteEvent.fulfilled, (state, action) => {
+        state.isDeleting = false;
+        state.error = "";
+        eventsAdapter.removeOne(state, action.payload._id);
+      });
+
+    // #endregion
   },
 });
+
+// #region : packing
 
 // pull selectors
 export const { selectAll: selectAllEvents, selectById } =
@@ -129,6 +149,8 @@ export const { resetSrc, setLoading } = eventsSlice.actions;
 
 // exporting reducer
 export default eventsSlice.reducer;
+
+// #endregion
 
 // #region : extra-reducers
 
@@ -195,6 +217,17 @@ export const searchEvent = createAsyncThunk(
       return thunkApi.rejectWithValue(res.data.message);
     }
     return thunkApi.fulfillWithValue(res.data.payload);
+  }
+);
+
+export const deleteEvent = createAsyncThunk(
+  "events/deleteEvent",
+  async (id: string, thunkApi) => {
+    const res = await api.delete<TPayload<TPEvent>>(`/events/delete/${id}`);
+    if (res.data.statusText === "success") {
+      return thunkApi.fulfillWithValue(res.data.payload);
+    }
+    return thunkApi.rejectWithValue(res.data.message);
   }
 );
 

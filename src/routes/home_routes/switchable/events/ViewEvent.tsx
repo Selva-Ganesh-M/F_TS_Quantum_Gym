@@ -6,11 +6,12 @@ import { MdEmail } from "react-icons/md"
 import OutlineBtn from '@/components/shared/OutlineBtn'
 import FilledBtn from '@/components/shared/FilledBtn'
 import { AiOutlineArrowLeft } from "react-icons/ai"
+import { BiTrash } from "react-icons/bi"
 import { BsFillArrowLeftCircleFill } from "react-icons/bs"
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectById } from '@/features/events/eventSlice'
-import { TRootState } from '@/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteEvent, selectById } from '@/features/events/eventSlice'
+import { TRootState, TStoreDispatch } from '@/store/store'
 import { getUser } from '@/features/user/authSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
 
@@ -20,9 +21,11 @@ const ViewEvent = (props: Props) => {
     //#region : grabbing
     const navigate = useNavigate()
     const { id } = useParams()
+    const dispatch: TStoreDispatch = useDispatch()
 
     const event = useSelector((state: TRootState) => selectById(state, id!))!
     const user = useSelector(getUser).user
+    const isDeleting = useSelector((state: TRootState) => state.events.isDeleting)
     const isLaptop = useMediaQuery("(min-width:1024px)")
     //#endregion
 
@@ -58,12 +61,18 @@ const ViewEvent = (props: Props) => {
                 ">
 
                     {/* back btn */}
-                    <div className='w-max cursor-pointer md:block hidden md:sticky md:top-0'>
+                    <div className='w-max cursor-pointer hidden md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
                         <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
+                        <BiTrash
+                            color='white'
+                            size={50}
+                            className={`${isDeleting ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                            onClick={() => { dispatch(deleteEvent(event._id)) }}
+                        />
                     </div>
 
                     {/* left */}
-                    <div id="left" className='flex flex-[1.5] flex-col gap-7 md:sticky md:top-0'>
+                    <div id="left" className='flex flex-col md:max-w-[300px] gap-7 md:sticky md:top-0'>
 
                         {/* event card */}
                         <div className='w-auto'>
@@ -73,7 +82,7 @@ const ViewEvent = (props: Props) => {
 
 
                     {/* center + right */}
-                    <div className={`${isLaptop ? "flex gap-5" : "flex flex-col gap-5"} h-full`}>
+                    <div className={`${isLaptop ? "flex gap-5" : "flex flex-col gap-5"} h-full flex-1`}>
 
 
                         {/* center */}

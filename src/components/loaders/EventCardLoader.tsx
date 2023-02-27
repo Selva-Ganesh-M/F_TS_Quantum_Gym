@@ -4,7 +4,7 @@ type Props = {}
 
 const EventCardLoader = (props: Props) => {
     return (
-        <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
+        <div className=" shadow rounded-md p-4 max-w-sm w-full mx-auto">
             {/* container */}
             <div className="animate-pulse flex flex-col space-x-4">
                 {/* image */}
