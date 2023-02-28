@@ -17,6 +17,8 @@ import { getToggler } from '@/features/togglers/togglerSlice'
 import EventCardLoader from '@/components/loaders/EventCardLoader'
 import { getUser } from '@/features/user/authSlice'
 
+export const notFound = NoResult
+
 export type TPEvent = {
     _id: string;
     title: string;

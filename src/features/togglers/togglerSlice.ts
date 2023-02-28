@@ -5,6 +5,8 @@ export enum ETogglers {
   userMenu = "userMenu",
   homeSidebar = "homeSidebar",
   eventFilterbar = "eventFilterbar",
+  workoutFocusFilter = "workoutFocusFilter",
+  workoutCatFilter = "workoutCatFilter",
 }
 
 const togglerSlice = createSlice({
@@ -13,6 +15,8 @@ const togglerSlice = createSlice({
     userMenu: false,
     homeSidebar: false,
     eventFilterbar: false,
+    workoutFocusFilter: false,
+    workoutCatFilter: false,
   },
   reducers: {
     toggle: (state, action: { type: string; payload: ETogglers }) => {
@@ -24,9 +28,6 @@ const togglerSlice = createSlice({
         }
       });
       state[action.payload] = !state[action.payload];
-      console.log("ef", state.eventFilterbar);
-      console.log("user", state.userMenu);
-      console.log("side", state.homeSidebar);
     },
   },
   extraReducers: (builder) => {},

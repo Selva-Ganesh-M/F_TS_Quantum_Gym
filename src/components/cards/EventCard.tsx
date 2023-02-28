@@ -14,9 +14,13 @@ import OutlineBtn from '../shared/OutlineBtn'
 import { enrollEvent, withdrawEvent } from '@/features/events/eventSlice'
 import { TStoreDispatch } from '@/store/store'
 
-type Props = { item: TPEvent, width?: string }
+type Props = {
+    item: TPEvent,
+    width?: string,
+    bg?: string
+}
 
-const EventCard = ({ item, width }: Props) => {
+const EventCard = ({ item, width, bg }: Props) => {
     //#region : grabbing
     const dispatch: TStoreDispatch = useDispatch()
     const user = useSelector(getUser).user
@@ -39,8 +43,9 @@ const EventCard = ({ item, width }: Props) => {
     return (
 
         <div className={`
+            ${bg || `bg-pink-100`}
             h-full
-            flex justify-center  flex-col rounded-[10px] overflow-hidden bg-pink-100 hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] 
+            flex justify-center  flex-col rounded-[10px] overflow-hidden  hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] 
             ${width ? width : ""}
             `}>
             {/* top */}

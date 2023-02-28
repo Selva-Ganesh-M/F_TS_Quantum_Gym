@@ -14,6 +14,7 @@ import { deleteEvent, selectById } from '@/features/events/eventSlice'
 import { TRootState, TStoreDispatch } from '@/store/store'
 import { getUser } from '@/features/user/authSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import { deleteImg } from '@/utils/deleteFromFirebase'
 
 type Props = {}
 
@@ -67,7 +68,10 @@ const ViewEvent = (props: Props) => {
                             color='white'
                             size={50}
                             className={`${isDeleting ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
-                            onClick={() => { dispatch(deleteEvent(event._id)) }}
+                            onClick={async () => {
+                                await deleteImg(event.img)
+                                await dispatch(deleteEvent(event._id))
+                            }}
                         />
                     </div>
 
