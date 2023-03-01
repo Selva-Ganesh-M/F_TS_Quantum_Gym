@@ -7,6 +7,8 @@ export enum ETogglers {
   eventFilterbar = "eventFilterbar",
   workoutFocusFilter = "workoutFocusFilter",
   workoutCatFilter = "workoutCatFilter",
+  isSearchOpen = "isSearchOpen",
+  isFilterOpen = "isFilterOpen",
 }
 
 const togglerSlice = createSlice({
@@ -17,17 +19,18 @@ const togglerSlice = createSlice({
     eventFilterbar: false,
     workoutFocusFilter: false,
     workoutCatFilter: false,
+    isSearchOpen: false,
+    isFilterOpen: false,
   },
   reducers: {
     toggle: (state, action: { type: string; payload: ETogglers }) => {
-      Object.keys(state).forEach((item: string) => {
-        if (item === action.payload) {
-          return state[item];
-        } else {
-          return (state[item as ETogglers] = false);
-        }
-      });
       state[action.payload] = !state[action.payload];
+    },
+    toggleSetTrue: (state, action: { type: string; payload: ETogglers }) => {
+      state[action.payload] = true;
+    },
+    toggleSetFalse: (state, action: { type: string; payload: ETogglers }) => {
+      state[action.payload] = false;
     },
   },
   extraReducers: (builder) => {},
@@ -37,7 +40,7 @@ const togglerSlice = createSlice({
 export const getToggler = (state: TRootState) => state.toggler;
 
 // export actions
-export const { toggle } = togglerSlice.actions;
+export const { toggle, toggleSetTrue, toggleSetFalse } = togglerSlice.actions;
 
 // exporting reducer
 export default togglerSlice.reducer;

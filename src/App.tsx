@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { getUser } from "./features/user/authSlice";
 import GlobalPage from "./routes/home_routes/switchable/GlobalPage";
 import EventsPage from "./routes/home_routes/switchable/events/EventsPage";
-import MyWorkoutsPage from "./routes/home_routes/switchable/MyWorkoutsPage";
+import MyWorkoutsPage from "./routes/home_routes/switchable/myWorkouts/MyWorkoutsPage";
 import "./app.css"
 import EventsLayout from "./routes/home_routes/EventsLayout";
 import ViewEvent from "./routes/home_routes/switchable/events/ViewEvent";
