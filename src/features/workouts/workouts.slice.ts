@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { string } from "yup";
 import { api, TPayload } from "@/api/api";
+import { TRootState } from "@/store/store";
 
 export interface TSWorkout {
   title: string;
@@ -87,6 +88,9 @@ const Slice = createSlice({
 });
 
 // pull selectors
+export const { selectAll: selectAllWorkouts } = workoutAdapter.getSelectors(
+  (state: TRootState) => state.workout
+);
 
 // export actions
 export const {} = Slice.actions;

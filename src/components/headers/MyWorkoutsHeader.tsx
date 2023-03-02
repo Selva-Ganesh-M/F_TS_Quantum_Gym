@@ -141,14 +141,13 @@ const MyWorkoutsHeader = (props: Props) => {
             (async () => {
                 dispatch(search({ src, mine: true }))
             })()
+        } else {
+            selectedCategory === "All Categories" && selectedFocuses.length === 0 && (
+                dispatch(filter({ selectedCategory, selectedFocuses, mine: true }))
+            )
         }
 
 
-
-    }, [src])
-
-    useEffect(() => {
-        console.log("src");
 
     }, [src])
 
@@ -194,7 +193,7 @@ const MyWorkoutsHeader = (props: Props) => {
     return (
         <>
             {/* header bar */}
-            <div className={`${flexCol ? "items-start" : "items-center"} ${ifMobile && "flex-col gap-5"} w-full flex  justify-between bg-pink-200 padding py-3 px-4 h-auto transition-all`}>
+            <div className={`${flexCol ? "items-start" : "items-center"} ${ifMobile && "flex-col gap-5"} w-full flex  justify-between bg-pink-200 padding py-3 px-4 h-auto transition-all sticky top-0 left-0 z-[49]`}>
 
                 {/* title & search */}
                 <div className={`flex gap-5 ${flexCol ? "flex-col justify-start" : "items-center"}`}>
