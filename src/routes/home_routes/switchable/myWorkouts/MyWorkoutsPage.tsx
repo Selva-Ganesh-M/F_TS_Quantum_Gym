@@ -1,5 +1,5 @@
 import MyWorkoutsHeader from '@/components/headers/MyWorkoutsHeader'
-import { likeWorkout, selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
+import { dislikeWorkout, likeWorkout, selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
 import { FaComments, FaSuperpowers } from 'react-icons/fa'
@@ -59,6 +59,14 @@ const MyWorkoutsPage = (props: Props) => {
         }
     }
 
+    const dislikeWorkoutHandler = async (id: string) => {
+        const res = await api.patch<TPayload<TPWorkout>>(`/workouts/dislike/${id}`)
+
+        if (res.data.statusText === "success") {
+            dispatch(dislikeWorkout(res.data.payload))
+        }
+    }
+
     //#endregion
 
     //jsx rendering
@@ -99,7 +107,7 @@ const MyWorkoutsPage = (props: Props) => {
                                                 <div className='flex gap-3 items-center'>
                                                     {
                                                         item.likes.includes(user._id) ? (
-                                                            <AiFillHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
+                                                            <AiFillHeart size={18} onClick={() => dislikeWorkoutHandler(item._id)} />
                                                         ) : (
                                                             <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
                                                         )

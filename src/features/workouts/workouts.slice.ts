@@ -50,6 +50,9 @@ const Slice = createSlice({
     likeWorkout: (state, action: { type: string; payload: TPWorkout }) => {
       workoutAdapter.setOne(state, action.payload);
     },
+    dislikeWorkout: (state, action: { type: string; payload: TPWorkout }) => {
+      workoutAdapter.setOne(state, action.payload);
+    },
   },
   extraReducers: (builder) => {
     // #region : search
@@ -95,7 +98,7 @@ export const { selectAll: selectAllWorkouts } = workoutAdapter.getSelectors(
   (state: TRootState) => state.workout
 );
 
-export const { likeWorkout } = Slice.actions;
+export const { likeWorkout, dislikeWorkout } = Slice.actions;
 
 // export actions
 export const {} = Slice.actions;
