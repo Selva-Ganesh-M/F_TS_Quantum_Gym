@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/Gi"
 import { useDispatch, useSelector } from 'react-redux'
 import transperant from "@/assets/transperant.png";
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { ETogglers, getToggler, toggle } from '@/features/togglers/togglerSlice';
+import { ETogglers, getToggler, toggle, toggleSetFalse } from '@/features/togglers/togglerSlice';
 import { MdAccountBox } from "react-icons/md"
 import { MdManageAccounts } from "react-icons/md"
 import { GoSignOut } from "react-icons/go"
@@ -47,6 +47,9 @@ const HomeNavbar = (props: Props) => {
                         // opening sidebar
                         dispatch(toggle(ETogglers.homeSidebar))
 
+                        // closing the user menu if open
+                        toggler.userMenu && dispatch(toggleSetFalse(ETogglers.userMenu))
+
 
                     }} />
                 )
@@ -84,8 +87,12 @@ const HomeNavbar = (props: Props) => {
                     // open userMenu
                     dispatch(toggle(ETogglers.userMenu))
 
+                    // close sidebar
+                    toggler.homeSidebar && dispatch(toggleSetFalse(ETogglers.homeSidebar))
+
                 }
-                } alt="user-image" className='max-w-full max-h-full rounded-full object-cover cursor-pointer' />
+                } alt="user-image"
+                    className='w-full h-full rounded-full object-cover cursor-pointer' />
 
 
                 {/* user-menu */}
@@ -94,13 +101,20 @@ const HomeNavbar = (props: Props) => {
                     className={`
                     ${toggler.userMenu ? ` ${isLargeScreen ? `w-[400px] h-[380px]` : `w-60 h-[370px]`}` : "h-0 w-0"}
                     absolute top-0 right-0 bg-pink-900 text-white transition-all rounded-2xl pb-[2.5em] z-50` }>
+
+
                     {
                         toggler.userMenu ? (<>
+
+
                             {/* top-edge */}
                             <div className='flex justify-end'>
                                 {/* user-image */}
                                 <div className='w-[40px] h-[40px] rounded-full relative bg-slate-400'>
-                                    <img onClick={() => dispatch(toggle(ETogglers.userMenu))} src={user.image} alt="user-image" className='cursor-pointer max-w-full max-h-full rounded-full object-cover' />
+                                    <img
+                                        onClick={() => dispatch(toggle(ETogglers.userMenu))}
+                                        src={user.image} alt="user-image"
+                                        className='cursor-pointer w-full h-full rounded-full object-cover' />
                                 </div>
                             </div>
 
@@ -109,7 +123,7 @@ const HomeNavbar = (props: Props) => {
                                 isLargeScreen ? (<>
                                     <div className='flex w-[85%] m-auto bg-white mt-3'>
                                         <div className=''>
-                                            <img src={user.image} alt="user-image" className='max-w-full max-h-full object-cover' />
+                                            <img src={user.image} alt="user-image" className='w-full max-h-[100px] object-cover' />
                                         </div>
                                         <div className='p-3'>
                                             <div className='font-bold '>
@@ -123,7 +137,7 @@ const HomeNavbar = (props: Props) => {
                                 </>) : (<>
                                     <div className='p-2 text-sm bg-white justify-center items-center text-center rounded-t-xl w-[85%] m-auto mt-3 flex flex-col gap-3'>
                                         <div className='w-[40px] h-[40px] rounded-full  relative bg-slate-400'>
-                                            <img onClick={() => dispatch(toggle(ETogglers.userMenu))} src={user.image} alt="user-image" className='max-w-full max-h-full rounded-full object-cover' />
+                                            <img onClick={() => dispatch(toggle(ETogglers.userMenu))} src={user.image} alt="user-image" className='w-full h-full rounded-full object-cover' />
                                         </div>
                                         <div>
                                             <div className='font-bold '>

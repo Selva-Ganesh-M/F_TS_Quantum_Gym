@@ -14,6 +14,7 @@ import {
 import homeRoutesSlice from "@/features/routes/homeRoutesSlice";
 import togglerSlice from "@/features/togglers/togglerSlice";
 import eventSlice from "@/features/events/eventSlice";
+import workoutsSlice from "@/features/workouts/workouts.slice";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   homeRoute: homeRoutesSlice,
   toggler: togglerSlice,
   events: eventSlice,
+  workout: workoutsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

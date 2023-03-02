@@ -12,6 +12,9 @@ import { BsFilterRight, BsSearch } from 'react-icons/bs'
 import { HiTemplate } from 'react-icons/hi'
 import { MdOutlineFilterAlt } from 'react-icons/md'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import { api } from '@/api/api'
+import { filter, search } from '@/features/workouts/workouts.slice'
+import { TStoreDispatch } from '@/store/store'
 
 type Props = {}
 
@@ -26,6 +29,7 @@ export enum EFocuses {
     Forearms = "Forearms",
     Trapezius = "Trapezius",
     Abs = "Abs",
+    Wings = "Wings",
 }
 
 export enum ECategories {
@@ -38,7 +42,7 @@ export enum ECategories {
 
 const MyWorkoutsHeader = (props: Props) => {
     //#region : grabbing
-    const dispatch = useDispatch()
+    const dispatch: TStoreDispatch = useDispatch()
 
     const wrapSrcFil = useMediaQuery("(max-width:1171px)")
     const flexCol = useMediaQuery("(max-width:970px)")
@@ -57,7 +61,10 @@ const MyWorkoutsHeader = (props: Props) => {
     //#endregion
 
     //#region : custom-declarations
+
+    // #region : functionality
     const [focuses, setFocuses] = useState<Array<EFocuses>>([
+        EFocuses.Wings,
         EFocuses.Hamstrings,
         EFocuses.Calves,
         EFocuses.Chest,
@@ -69,10 +76,7 @@ const MyWorkoutsHeader = (props: Props) => {
         EFocuses.Trapezius,
         EFocuses.Abs,
     ])
-    const [selectedFocuses, setSelectedFocuses] = useState<Array<EFocuses>>([
-        EFocuses.Abs,
-        EFocuses.Calves,
-    ])
+    const [selectedFocuses, setSelectedFocuses] = useState<Array<EFocuses>>([])
 
     const [categories, setCategories] = useState<ECategories[]>([
         ECategories.All,
@@ -83,7 +87,17 @@ const MyWorkoutsHeader = (props: Props) => {
 
     const [selectedCategory, setSelectedCategory] = useState<ECategories>(ECategories.All)
 
+    // #endregion
     //#endregion
+
+    // #region : custom
+    const [src, setSrc] = useState<string>("")
+
+    // #endregion
+
+
+
+
 
     //#region : side-effects
 
@@ -108,7 +122,49 @@ const MyWorkoutsHeader = (props: Props) => {
         }
     }, [wrapSrcFil])
 
+    // handle search input
+    useEffect(() => {
+        // reset the filter's once the user touches the search
+        console.log(
+            "src effect"
+        );
+
+
+        // don't execute if the search is set as empty
+        if (src) {
+            selectedFocuses.length && setSelectedFocuses([])
+            selectedCategory !== "All Categories" && setSelectedCategory(ECategories.All)
+            toggler.workoutCatFilter && dispatch(toggleSetFalse(ETogglers.workoutFocusFilter))
+            toggler.workoutFocusFilter && dispatch(toggleSetFalse(ETogglers.workoutCatFilter));
+
+            // fetch data
+            (async () => {
+                dispatch(search({ src, mine: true }))
+            })()
+        }
+
+
+
+    }, [src])
+
+    useEffect(() => {
+        console.log("src");
+
+    }, [src])
+
+    // handle filters
+    useEffect(() => {
+        src && setSrc("");
+        (async () => {
+            dispatch(filter({ selectedCategory, selectedFocuses, mine: true }))
+        })()
+    }, [selectedCategory, selectedFocuses])
+
     //#endregion
+
+
+
+
 
     //#region : functions
 
@@ -151,7 +207,14 @@ const MyWorkoutsHeader = (props: Props) => {
                     {
                         toggler.isSearchOpen && (
                             <div className={`${ifMobile && "hidden"}`}>
-                                <input type="text" placeholder='eg. Bench Press' className={`p-1 h-10 px-2 w-[300px] rounded-sm`} />
+                                <input
+                                    type="text"
+                                    placeholder='eg. Bench Press'
+                                    className={`p-1 h-10 px-2 w-[300px] rounded-sm`}
+                                    value={src}
+                                    onChange={(e) => {
+                                        setSrc(e.target.value)
+                                    }} />
                             </div>
                         )
                     }
@@ -313,14 +376,19 @@ ${flexCol ?
 
 
                     {/* create and toggler */}
-                    <div className='flex items-center gap-4'>
+                    <div className={`flex ${flexCol ? ifMobile ? "items-center" : "items-start" : "items-center"} gap-4`}>
 
-                        {/* search filter toggler */}
+                        {/* search & filter toggler */}
                         <div className={`items-center bg-white p-1 gap-4 rounded-md ${wrapSrcFil ? "flex" : "hidden"}`}>
                             {/* search */}
                             <BsSearch size={25} onClick={() => {
+                                // shows search
                                 dispatch(toggle(ETogglers.isSearchOpen))
+
+                                // hides filter and closes all the dropdowns
                                 dispatch(toggleSetFalse(ETogglers.isFilterOpen))
+                                dispatch(toggleSetFalse(ETogglers.workoutCatFilter))
+                                dispatch(toggleSetFalse(ETogglers.workoutFocusFilter))
                             }} className={`cursor-pointer`} />
 
                             {/* hr */}
@@ -342,7 +410,14 @@ ${flexCol ?
                     {
                         ifMobile && toggler.isSearchOpen && (
                             <div className={``}>
-                                <input type="text" placeholder='eg. Bench Press' className={`p-1 h-10 px-2 w-[280px] rounded-sm`} />
+                                <input
+                                    type="text"
+                                    placeholder='eg. Bench Press'
+                                    className={`p-1 h-10 px-2 w-[300px] rounded-sm`}
+                                    value={src}
+                                    onChange={(e) => {
+                                        setSrc(e.target.value)
+                                    }} />
                             </div>
                         )
                     }
