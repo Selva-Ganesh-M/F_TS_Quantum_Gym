@@ -1,6 +1,6 @@
 import MyWorkoutsHeader from '@/components/headers/MyWorkoutsHeader'
-import { selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
-import { useSelector } from 'react-redux'
+import { likeWorkout, selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
+import { useDispatch, useSelector } from 'react-redux'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
 import { FaComments, FaSuperpowers } from 'react-icons/fa'
 import { MdOutlineFormatListNumbered, MdOutlineModeComment } from 'react-icons/md'
@@ -13,15 +13,18 @@ import OutlineBtn from '@/components/shared/OutlineBtn'
 import { Link } from 'react-router-dom'
 
 import { useState } from "react"
+import { api, TPayload } from '@/api/api'
+import { TStoreDispatch } from '@/store/store'
+import { getUser } from '@/features/user/authSlice'
 
 type Props = {}
 
 
 const MyWorkoutsPage = (props: Props) => {
+
     //#region : grabbing
-
-
     const workouts = useSelector(selectAllWorkouts)
+    const dispatch: TStoreDispatch = useDispatch()
     //#endregion
 
     //#region : selectors
@@ -29,9 +32,10 @@ const MyWorkoutsPage = (props: Props) => {
     //#endregion
 
     //#region : custom-declarations
+    const user = useSelector(getUser).user
 
     // #region : togglers
-    const [showDetails, setShowDetails] = useState<Boolean>(false)
+    const [showDetails, setShowDetails] = useState<Boolean>(true)
 
     // #endregion
 
@@ -45,6 +49,14 @@ const MyWorkoutsPage = (props: Props) => {
     const displayFocus = (item: TPWorkout) => {
         const data = item.focuses.slice(0, 2).join(", ").substring(0, 15)
         return ` ${item.focuses.join(", ").length > 15 ? data + "..." : data}`
+    }
+
+    const likeWorkoutHandler = async (id: string) => {
+        const res = await api.patch<TPayload<TPWorkout>>(`/workouts/like/${id}`)
+
+        if (res.data.statusText === "success") {
+            dispatch(likeWorkout(res.data.payload))
+        }
     }
 
     //#endregion
@@ -85,9 +97,14 @@ const MyWorkoutsPage = (props: Props) => {
                                             <div className='flex gap-3 items-center'>
                                                 {/* likes */}
                                                 <div className='flex gap-3 items-center'>
-                                                    <AiOutlineHeart size={18} />
+                                                    {
+                                                        item.likes.includes(user._id) ? (
+                                                            <AiFillHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
+                                                        ) : (
+                                                            <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
+                                                        )
+                                                    }
                                                     <span className='text-xs'>{item.likes.length}</span>
-                                                    {/* <AiFillHeart/> */}
                                                 </div>
                                                 {/* comments */}
                                                 <div className='flex gap-3 items-center'>
