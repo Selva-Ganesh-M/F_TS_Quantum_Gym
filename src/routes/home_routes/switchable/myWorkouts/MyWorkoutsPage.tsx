@@ -1,16 +1,17 @@
 import MyWorkoutsHeader from '@/components/headers/MyWorkoutsHeader'
-import FilledBtn from '@/components/shared/FilledBtn'
-import OutlineBtn from '@/components/shared/OutlineBtn'
 import { selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
-import { AiFillHeart, AiOutlineComment, AiOutlineHeart } from 'react-icons/ai'
+import { useSelector } from 'react-redux'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
 import { FaComments, FaSuperpowers } from 'react-icons/fa'
 import { MdOutlineFormatListNumbered, MdOutlineModeComment } from 'react-icons/md'
 import { RiFocus2Line, RiNumbersLine } from 'react-icons/ri'
-import { TfiAlarmClock } from 'react-icons/tfi'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as timeago from "timeago.js"
+import { TfiAlarmClock } from 'react-icons/tfi'
+import { AiFillHeart, AiOutlineComment, AiOutlineHeart } from 'react-icons/ai'
+import FilledBtn from '@/components/shared/FilledBtn'
+import OutlineBtn from '@/components/shared/OutlineBtn'
+import { Link } from 'react-router-dom'
+
 import { useState } from "react"
 
 type Props = {}
@@ -61,7 +62,9 @@ const MyWorkoutsPage = (props: Props) => {
                     h-full
                     flex justify-center  flex-col rounded-[10px] overflow-hidden  hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] 
                     relative
-                    `}>
+                    `}
+                        key={item._id}
+                    >
                         {/* top */}
                         <div className='flex-1 w-full h-auto rounded-md overflow-clip'>
                             <Link to={``}>
