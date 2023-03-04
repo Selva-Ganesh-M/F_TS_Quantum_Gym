@@ -87,7 +87,7 @@ const MyWorkoutsPage = (props: Props) => {
                     >
                         {/* top */}
                         <div className='flex-1 w-full h-auto rounded-md overflow-clip'>
-                            <Link to={``}>
+                            <Link to={`/home/my_workouts/${item._id}`}>
                                 <img src={item.imgUrl} alt="" className='object-cover h-[300px] w-full' />
                             </Link>
                             {/* header */}
@@ -99,7 +99,9 @@ const MyWorkoutsPage = (props: Props) => {
                                         <div className='flex flex-col gap-2'>
 
                                             {/* name */}
-                                            <h2 className=' text-xl capitalize font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                                            <Link to={`/home/my_workouts/${item._id}`}>
+                                                <h2 className=' text-xl capitalize font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                                            </Link>
 
                                             {/* likes and comments */}
                                             <div className='flex gap-3 items-center'>
@@ -125,7 +127,9 @@ const MyWorkoutsPage = (props: Props) => {
                                     </Link>
 
                                     {/* button */}
-                                    <FilledBtn content={"Train"} px={"px-5"} h="h-max" />
+                                    <Link to={`/home/my_workouts/${item._id}`}>
+                                        <FilledBtn content={"Train"} px={"px-5"} h="h-max" />
+                                    </Link>
                                 </div>
                                 {/* time */}
                                 <div className='px-5 mb-4 flex justify-between'>

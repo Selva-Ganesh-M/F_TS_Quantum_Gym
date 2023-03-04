@@ -15,6 +15,7 @@ import "./app.css"
 import EventsLayout from "./routes/home_routes/EventsLayout";
 import ViewEvent from "./routes/home_routes/switchable/events/ViewEvent";
 import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
+import ViewWorkout from "./routes/home_routes/switchable/myWorkouts/ViewWorkout";
 
 type Props = {};
 
@@ -28,6 +29,7 @@ const App = (props: Props) => {
     <div className="relative w-[100vw] h-[100vh]">
       <Routes>
 
+        {/* home routes */}
         {
           user.isUser && (
             <Route path="/home/" element={<HomeLayout />}>
@@ -40,12 +42,16 @@ const App = (props: Props) => {
                 <Route path="view/:id" element={<ViewEvent />} />
                 <Route path="create" element={<CreateEvent />} />
               </Route>
-              <Route path="my_workouts" element={<MyWorkoutsPage />} />
+
+              {/* workout routes */}
+              <Route path="my_workouts">
+                <Route index element={<MyWorkoutsPage />} />
+                <Route path={":id"} element={<ViewWorkout />} />
+              </Route>
             </Route>
 
           )
         }
-        {/* home routes */}
 
         {/* root routes */}
         <Route path="/" element={!user.isUser ? <BaseLayout /> : <Navigate to={"/home/global"} />}>

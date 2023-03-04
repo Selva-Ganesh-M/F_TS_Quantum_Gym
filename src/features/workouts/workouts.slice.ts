@@ -98,6 +98,10 @@ export const { selectAll: selectAllWorkouts } = workoutAdapter.getSelectors(
   (state: TRootState) => state.workout
 );
 
+export const { selectById: selectOneWorkout } = workoutAdapter.getSelectors(
+  (state: TRootState) => state.workout
+);
+
 export const { likeWorkout, dislikeWorkout } = Slice.actions;
 
 // export actions
