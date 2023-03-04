@@ -1,5 +1,5 @@
 import { getUser, signout } from '@/features/user/authSlice'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GiHamburgerMenu } from "react-icons/Gi"
 import { useDispatch, useSelector } from 'react-redux'
 import transperant from "@/assets/transperant.png";
@@ -23,10 +23,31 @@ const HomeNavbar = (props: Props) => {
     //#endregion
 
     //#region : custom-declarations
+    const [isTopOfThePage, setIsTopOfThePage] = useState<Boolean>(true);
 
     //#endregion
 
     //#region : side-effects
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY === 0) {
+                setIsTopOfThePage(true);
+            }
+            if (window.scrollY !== 0) {
+                setIsTopOfThePage(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log("isTop", isTopOfThePage);
+
+    }, [isTopOfThePage])
 
     //#endregion
 
@@ -36,7 +57,10 @@ const HomeNavbar = (props: Props) => {
 
     //jsx rendering
     return (
-        <section id="homeNavbar" className='sticky top-0 left-0 w-full flex justify-between p-[1em] shadow-md bg-white z-50 items-center'>
+        <section
+            id="homeNavbar"
+            className={`sticky top-0 left-0 w-full flex justify-between p-[1em] z-50 items-center shadow-md`}
+        >
             {/* left */}
             {/* logo hamburger switch */}
             {
