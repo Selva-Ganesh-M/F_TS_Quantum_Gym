@@ -5,6 +5,7 @@ import BlueGirl from "@/assets/blue_girl.jpg"
 import BlueRunningGirl from "@/assets/blue_running_girl.jpg"
 import Typewriter from 'typewriter-effect';
 import Typed from "react-typed"
+import IntroBox from '@/components/global/IntroBox'
 
 type Props = {}
 
@@ -35,7 +36,7 @@ const GlobalPage = (props: Props) => {
     return (
         <section className='w-full h-[calc(100vh-72px)] overflow-scroll'>
             {/* main banner */}
-            <div className='h-[calc(100vh-72px)] w-full text-center mt-12
+            <div className='md:h-[calc(100vh-72px)] w-full text-center mt-12
             sm:mt-16
             md:flex md:flex-row md:justify-center md:items-center md:mt-0
             '>
@@ -65,6 +66,7 @@ const GlobalPage = (props: Props) => {
             </div>
 
             {/* second banner */}
+            <IntroBox />
         </section>
     )
 }
