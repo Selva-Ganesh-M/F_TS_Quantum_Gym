@@ -115,7 +115,7 @@ export default Slice.reducer;
 // search
 export const search = createAsyncThunk(
   "workout/search",
-  async (data: { src: string; mine: Boolean }, thunkApi) => {
+  async (data: { src: string; mine: Boolean | string }, thunkApi) => {
     const { src, mine } = data;
 
     // mind decides whether to fetch all workouts or my workouts
@@ -137,7 +137,7 @@ export const filter = createAsyncThunk(
     data: {
       selectedCategory: string;
       selectedFocuses: string[];
-      mine: Boolean;
+      mine: Boolean | string;
     },
     thunkApi
   ) => {

@@ -9,7 +9,7 @@ import { BiCaretDown, BiCaretUp } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { ETogglers, getToggler, toggle, toggleSetFalse, toggleSetTrue } from '@/features/togglers/togglerSlice'
 import { BsFilterRight, BsSearch } from 'react-icons/bs'
-import { HiTemplate } from 'react-icons/hi'
+import { HiOutlineSwitchVertical, HiTemplate } from 'react-icons/hi'
 import { MdOutlineFilterAlt } from 'react-icons/md'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { api } from '@/api/api'
@@ -39,6 +39,10 @@ export enum ECategories {
     Legs = "Legs"
 }
 
+export enum EWorkouts {
+    mine = "My Workouts",
+    global = "Workouts"
+}
 
 const MyWorkoutsHeader = (props: Props) => {
     //#region : grabbing
@@ -86,6 +90,8 @@ const MyWorkoutsHeader = (props: Props) => {
     ])
 
     const [selectedCategory, setSelectedCategory] = useState<ECategories>(ECategories.All)
+
+    const [whichWorkouts, setWhichWorkouts] = useState(EWorkouts.global)
 
     // #endregion
     //#endregion
@@ -139,25 +145,25 @@ const MyWorkoutsHeader = (props: Props) => {
 
             // fetch data
             (async () => {
-                dispatch(search({ src, mine: true }))
+                dispatch(search({ src, mine: whichWorkouts === EWorkouts.global ? "" : true }))
             })()
         } else {
             selectedCategory === "All Categories" && selectedFocuses.length === 0 && (
-                dispatch(filter({ selectedCategory, selectedFocuses, mine: true }))
+                dispatch(filter({ selectedCategory, selectedFocuses, mine: whichWorkouts === EWorkouts.global ? "" : true }))
             )
         }
 
 
 
-    }, [src])
+    }, [src, whichWorkouts])
 
     // handle filters
     useEffect(() => {
         src && setSrc("");
         (async () => {
-            dispatch(filter({ selectedCategory, selectedFocuses, mine: true }))
+            dispatch(filter({ selectedCategory, selectedFocuses, mine: whichWorkouts === EWorkouts.global ? "" : true }))
         })()
-    }, [selectedCategory, selectedFocuses])
+    }, [selectedCategory, selectedFocuses, whichWorkouts])
 
     //#endregion
 
@@ -198,8 +204,31 @@ const MyWorkoutsHeader = (props: Props) => {
                 {/* title & search */}
                 <div className={`flex gap-5 ${flexCol ? "flex-col justify-start" : "items-center"}`}>
                     {/* title */}
-                    <div>
-                        <h1 className={`${ifMobile ? "text-2xl" : "text-2xl"} font-extrabold`}>MY WORKOUTS</h1>
+                    <div className='flex gap-2 items-center justify-start'>
+                        <h1
+                            className={`${ifMobile ? "text-2xl" : "text-2xl"} font-extrabold`}>{whichWorkouts === EWorkouts.global ? "All Workouts" : "MY WORKOUTS"}</h1>
+                        <HiOutlineSwitchVertical
+                            size={26}
+                            className={"bg-white rounded-full p-[3px] cursor-pointer"}
+                            onClick={() => {
+
+                                // switching overall to my workouts
+                                setWhichWorkouts(prev => {
+                                    if (prev === EWorkouts.global) {
+                                        return EWorkouts.mine
+                                    } else {
+                                        return EWorkouts.global
+                                    }
+                                })
+
+                                // clearing the src and filter
+                                setSrc("")
+                                setSelectedCategory(ECategories.All)
+                                setSelectedFocuses([])
+
+
+                            }}
+                        />
                     </div>
 
                     {/* search */}

@@ -11,14 +11,14 @@ const testimonials = [
         _id: 1,
         username: "selva",
         content: "This apps helped me a lot along my fitness journey.",
-        image: faker.image.people(),
+        image: faker.image.animals(),
         designition: "CEO, AIT InfoTech."
     },
     {
         _id: 2,
         username: "ganesh",
         content: "During my metamorphosis, Quantum Gym is my personel trainer.",
-        image: faker.image.people(),
+        image: faker.image.city(),
         designition: "Senior Engineer, VPI Solutions."
     },
     {
@@ -32,7 +32,7 @@ const testimonials = [
         _id: 4,
         username: "livi",
         content: "Quantum Gym rocks.",
-        image: faker.image.people(),
+        image: faker.image.fashion(),
         designition: "VAO, Tuticorin."
     },
     // {

@@ -5,7 +5,7 @@ import { dislikeWorkout, likeWorkout, selectAllWorkouts, selectOneWorkout, TPWor
 import store, { TRootState, TStoreDispatch } from '@/store/store'
 import React, { useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineComment, AiOutlineHeart } from 'react-icons/ai'
-import { BiCaretDown, BiCategory } from 'react-icons/bi'
+import { BiCaretDown, BiCategory, BiTrash } from 'react-icons/bi'
 import { FaBookReader, FaSuperpowers } from 'react-icons/fa'
 import { MdOutlineFormatListNumbered } from 'react-icons/md'
 import { RiFocus2Line, RiNumbersLine } from 'react-icons/ri'
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import { getUser } from '@/features/user/authSlice'
 import { createComment, fetchAllComments, selectAllComments } from '@/features/comments/comment.slice'
 import Comment from '@/components/comment/Comment'
+import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 
 type Props = {}
 
@@ -89,6 +90,19 @@ const ViewWorkout = (props: Props) => {
                     (
                         <section className='w-full h-[calc(100vh-72px)] bg-white flex p-5 gap-5'>
 
+                            {/* back btn */}
+                            <div className='w-max cursor-pointer hidden md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
+                                <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
+                                <BiTrash
+                                    color='white'
+                                    size={50}
+                                    className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                                    onClick={async () => {
+                                        // await deleteImg(event.img)
+                                        // await dispatch(deleteEvent(event._id))
+                                    }}
+                                />
+                            </div>
 
                             {/* video, description, comments */}
                             <div className='flex-[5]  h-full overflow-scroll flex flex-col gap-6 relative '>

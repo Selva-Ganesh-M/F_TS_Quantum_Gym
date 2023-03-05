@@ -181,7 +181,7 @@ const SignUp = (props: Props) => {
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setImagePer(progress)
+                setImagePer(Math.floor(progress))
                 switch (snapshot.state) {
                     case 'paused':
                         console.log('Upload is paused');

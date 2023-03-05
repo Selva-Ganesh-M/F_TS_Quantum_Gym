@@ -4,7 +4,7 @@ import Login from "./routes/base_routes/switchable/Login";
 import SignUp from "./routes/base_routes/switchable/SignUp";
 import Welcome from "./routes/base_routes/switchable/Welcome";
 import "./app.css"
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import HomeLayout from "./routes/home_routes/HomeLayout";
 import { useSelector } from "react-redux";
 import { getUser } from "./features/user/authSlice";
@@ -15,9 +15,21 @@ import "./app.css"
 import EventsLayout from "./routes/home_routes/EventsLayout";
 import ViewEvent from "./routes/home_routes/switchable/events/ViewEvent";
 import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
-import ViewWorkout from "./routes/home_routes/switchable/myWorkouts/ViewWorkout";
+import ViewWorkoutLoadingPage from "./components/loaders/pages/ViewWorkoutLoadingPage";
 
 type Props = {};
+
+const ViewWorkoutLoadable = (Component: React.FC) => (props: any) => {
+  return (
+    <Suspense fallback={<ViewWorkoutLoadingPage />}>
+      <Component {...props} />
+    </Suspense>
+  );
+}
+
+const ViewWorkout = ViewWorkoutLoadable(
+  lazy(() => import("./routes/home_routes/switchable/myWorkouts/ViewWorkout"))
+)
 
 const App = (props: Props) => {
   // declaration
