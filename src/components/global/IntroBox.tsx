@@ -9,7 +9,7 @@ type Props = {}
 
 const IntroBox = (props: Props) => {
     return (
-        <div className='w-full flex flex-col mt-10 md:mt-0 '>
+        <div className='w-full flex flex-col mt-10 md:mt-0 gap-10'>
 
 
             {/* first flex box */}

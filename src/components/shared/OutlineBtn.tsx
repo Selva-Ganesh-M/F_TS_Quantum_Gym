@@ -15,9 +15,10 @@ type Props = {
   width?: string;
   h?: string;
   border?: string;
+  sx?: string
 };
 
-const OutlineBtn = ({ content, border, type, onClick, className, p, px, py, fz, rounded, width, h }: Props) => {
+const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, fz, rounded, width, h }: Props) => {
   return (
     <button
       className={`
@@ -29,7 +30,9 @@ const OutlineBtn = ({ content, border, type, onClick, className, p, px, py, fz, 
       ${h ? h : ""}
       ${width ? width : "w-auto"}
       ${border || "border-[1px] border-black"}
-      hover:bg-black hover:text-white p-3 px-10 text-pink-900 font-bold rounded-lg `}
+      hover:bg-black hover:text-white p-3 px-10 text-pink-900 font-bold rounded-lg 
+      ${sx && sx}
+      `}
       type={type ? type : "button"}
       onClick={onClick}
     >

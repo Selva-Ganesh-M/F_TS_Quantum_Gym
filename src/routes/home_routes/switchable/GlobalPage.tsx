@@ -8,6 +8,7 @@ import Typewriter from 'typewriter-effect';
 import Typed from "react-typed"
 import IntroBox from '@/components/global/IntroBox'
 import Testimonials from '@/components/global/Testimonials'
+import Contact from '@/components/global/Contact'
 
 type Props = {}
 
@@ -52,9 +53,12 @@ const GlobalPage = (props: Props) => {
                         <Typed
                             className={"lg:text-4xl md:text-2xl sm:text-xl xs:text-lg text-pink-900"}
                             strings={[
-                                "workouts...",
-                                "events..."
+                                "Workouts...",
+                                "Events..."
                             ]}
+                            style={{
+                                color: "blue !important",
+                            }}
                             typeSpeed={150}
                             backSpeed={100}
                             loop
@@ -77,6 +81,9 @@ const GlobalPage = (props: Props) => {
 
             {/* testimonials carousel */}
             <Testimonials />
+
+            {/* contact us */}
+            <Contact />
         </section>
     )
 }

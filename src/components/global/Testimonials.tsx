@@ -48,7 +48,7 @@ const Testimonials = (props: Props) => {
     return (
         <>
             <div className='bg-blue-50 py-16'>
-                <div className='w-[80%] m-auto mb-5'>
+                <div className=' xs:w-[90%] sm:w-[80%] m-auto mb-5'>
                     <h1 className='text-center font-extrabold text-4xl mb-8'>TESTIMONIALS</h1>
                     <Carousel
                         className='w-full'
@@ -63,7 +63,7 @@ const Testimonials = (props: Props) => {
                             },
                             medium: {
                                 breakpoint: { max: 1440, min: 1024 },
-                                items: 3,
+                                items: 2,
                             },
                             small: {
                                 breakpoint: { max: 1024, min: 768 },

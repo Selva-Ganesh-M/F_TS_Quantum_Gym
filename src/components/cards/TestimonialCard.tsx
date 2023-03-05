@@ -13,7 +13,7 @@ const TestimonialCard = ({ item }: Props) => {
             {/* content */}
             <div className='flex flex-col gap-3 justify-between flex-1 h-full'>
                 <div>{item.content}</div>
-                <div className='flex items-end flex-col'>
+                <div className='flex items-end flex-col text-end'>
                     {/* username */}
                     <div className='font-bold text-base capitalize inline'>
                         <span className='font-normal'>-{" "}</span>  {item.username}</div>
