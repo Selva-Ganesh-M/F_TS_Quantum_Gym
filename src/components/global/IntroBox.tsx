@@ -1,6 +1,9 @@
 import React from 'react'
 import HealthyGirl from "@/assets/healthy_girl.jpg"
 import LiftingMan from "@/assets/lifting_man.jpg"
+import FilledBtn from '../shared/FilledBtn'
+import { AiOutlineArrowRight } from 'react-icons/ai'
+import { BsArrowRightCircleFill } from 'react-icons/bs'
 
 type Props = {}
 
@@ -22,14 +25,20 @@ const IntroBox = (props: Props) => {
                     <h1 className='
                     font-bold mb-2 text-lg text-pink-900
                     md:text-2xl
-                    xl:text-4xl
+                    xl:text-3xl
                     2xl:text-7xl
                      '>Feel Great. <br />
-                        Body and Mind.</h1>
+                        Let the world know.</h1>
                     <p className='
+                    mb-4
                     lg:text-xl
-                    xl:text-3xl
-                    '>Choose from hundreds of workouts, ongoing events worldwide, fitness expert articles, for a whole body and mind approach to feeling great.</p>
+                    xl:text-2xl
+                    '>Choose from hundreds of events, happening all across the world. It's the perfect timing to see the man shining.</p>
+
+                    {/* events button */}
+                    <FilledBtn content={
+                        "Events"
+                    } to="/home/events" />
                 </div>
                 {/* bottom, right */}
                 <div className='
@@ -63,14 +72,20 @@ const IntroBox = (props: Props) => {
                     <h1 className='
                         font-bold mb-2 text-lg text-pink-900
                         md:text-2xl
-                        xl:text-4xl
+                        xl:text-3xl
                         2xl:text-7xl
                          '>Lift Heavy. <br />
                         Respect the Grind.</h1>
                     <p className='
                         lg:text-xl
-                        xl:text-3xl
+                        xl:text-2xl
+                        mb-5
                         '>Choose from hundreds of workouts, healthy recipes, relaxing meditations, and expert articles, for a whole body and mind approach to feeling great.</p>
+
+                    {/* my_workouts button */}
+                    <FilledBtn content={
+                        "Workouts"
+                    } to="/home/my_workouts" />
                 </div>
             </div>
         </div>

@@ -2,10 +2,12 @@ import { changeHomeRoute, EHomeRoutes } from '@/features/routes/homeRoutesSlice'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import BlueGirl from "@/assets/blue_girl.jpg"
+import List from "@/assets/list.jpg"
 import BlueRunningGirl from "@/assets/blue_running_girl.jpg"
 import Typewriter from 'typewriter-effect';
 import Typed from "react-typed"
 import IntroBox from '@/components/global/IntroBox'
+import Testimonials from '@/components/global/Testimonials'
 
 type Props = {}
 
@@ -65,8 +67,16 @@ const GlobalPage = (props: Props) => {
                 </div>
             </div>
 
-            {/* second banner */}
+            {/* second grid */}
             <IntroBox />
+
+            {/* third banner */}
+            <div className='m-auto w-max lg:block hidden'>
+                <img src={List} alt="" className='h-[60vh]' />
+            </div>
+
+            {/* testimonials carousel */}
+            <Testimonials />
         </section>
     )
 }
