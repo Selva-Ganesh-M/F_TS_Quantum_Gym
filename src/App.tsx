@@ -13,11 +13,15 @@ import EventsPage from "./routes/home_routes/switchable/events/EventsPage";
 import MyWorkoutsPage from "./routes/home_routes/switchable/myWorkouts/MyWorkoutsPage";
 import "./app.css"
 import EventsLayout from "./routes/home_routes/EventsLayout";
-import ViewEvent from "./routes/home_routes/switchable/events/ViewEvent";
 import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
 import ViewWorkoutLoadingPage from "./components/loaders/pages/ViewWorkoutLoadingPage";
+import ViewEventLoadingPage from "./components/loaders/pages/ViewEventLoadingPage";
 
 type Props = {};
+
+// #region : loadable pages
+
+// #region : view workout
 
 const ViewWorkoutLoadable = (Component: React.FC) => (props: any) => {
   return (
@@ -30,7 +34,26 @@ const ViewWorkoutLoadable = (Component: React.FC) => (props: any) => {
 const ViewWorkout = ViewWorkoutLoadable(
   lazy(() => import("./routes/home_routes/switchable/myWorkouts/ViewWorkout"))
 )
+// #endregion
 
+// #region : view events loader
+
+const viewEventLoadable = (Component: React.FC) => (props: any) => {
+  return <Suspense fallback={<ViewEventLoadingPage />}>
+    <Component {...props} />
+  </Suspense>
+}
+
+const ViewEvent = viewEventLoadable(
+  lazy(() => import("./routes/home_routes/switchable/events/ViewEvent"))
+)
+
+// #endregion
+
+
+
+
+// #region : lazy loaders
 const App = (props: Props) => {
   // declaration
   const user = useSelector(getUser)

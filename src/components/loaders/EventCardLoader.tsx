@@ -1,10 +1,12 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+    sx?: string
+}
 
-const EventCardLoader = (props: Props) => {
+const EventCardLoader = ({ sx }: Props) => {
     return (
-        <div className=" shadow rounded-md p-4 max-w-sm w-full mx-auto">
+        <div className={`shadow rounded-md p-4 max-w-sm w-full mx-auto ${sx && sx}`}>
             {/* container */}
             <div className="animate-pulse flex flex-col space-x-4">
                 {/* image */}
@@ -13,7 +15,7 @@ const EventCardLoader = (props: Props) => {
                 {/* content */}
                 <div className="flex-1 space-y-6 py-1">
                     {/* header */}
-                    <div className='flex mt-5 justify-between'>
+                    <div className='flex mt-5 justify-between gap-2'>
                         {/* name and rating */}
 
                         <div className='flex flex-col gap-5'>

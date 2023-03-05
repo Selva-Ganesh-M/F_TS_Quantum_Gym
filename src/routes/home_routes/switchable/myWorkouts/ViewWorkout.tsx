@@ -93,15 +93,19 @@ const ViewWorkout = (props: Props) => {
                             {/* back btn */}
                             <div className='w-max cursor-pointer hidden md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
                                 <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
-                                <BiTrash
-                                    color='white'
-                                    size={50}
-                                    className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
-                                    onClick={async () => {
-                                        // await deleteImg(event.img)
-                                        // await dispatch(deleteEvent(event._id))
-                                    }}
-                                />
+                                {
+                                    item.userId === user._id && (
+                                        <BiTrash
+                                            color='white'
+                                            size={50}
+                                            className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                                            onClick={async () => {
+                                                // await deleteImg(event.img)
+                                                // await dispatch(deleteEvent(event._id))
+                                            }}
+                                        />
+                                    )
+                                }
                             </div>
 
                             {/* video, description, comments */}

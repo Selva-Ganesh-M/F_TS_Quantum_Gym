@@ -62,17 +62,21 @@ const ViewEvent = (props: Props) => {
                 ">
 
                     {/* back btn */}
-                    <div className='w-max cursor-pointer hidden md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
+                    <div className='w-max cursor-pointer flex mb-3 gap-3 md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
                         <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
-                        <BiTrash
-                            color='white'
-                            size={50}
-                            className={`${isDeleting ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
-                            onClick={async () => {
-                                await deleteImg(event.img)
-                                await dispatch(deleteEvent(event._id))
-                            }}
-                        />
+                        {
+                            event.userId === user._id && (
+                                <BiTrash
+                                    color='white'
+                                    size={50}
+                                    className={`${isDeleting ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                                    onClick={async () => {
+                                        await deleteImg(event.img)
+                                        await dispatch(deleteEvent(event._id))
+                                    }}
+                                />
+                            )
+                        }
                     </div>
 
                     {/* left */}
