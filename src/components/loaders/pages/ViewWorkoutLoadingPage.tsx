@@ -21,7 +21,7 @@ const ViewWorkoutLoadingPage = (props: Props) => {
                 {/* video and title */}
                 <div>
                     {/* video */}
-                    <div className="h-[90vh] bg-slate-700 animate-pulse "></div>
+                    <div className="h-[75vh] bg-slate-700 animate-pulse "></div>
                     {/* title and likes comnts*/}
                     <div className='flex justify-between items-center mt-5'>
                         {/* title */}
@@ -57,6 +57,56 @@ const ViewWorkoutLoadingPage = (props: Props) => {
                     <div className='h-8 bg-slate-700 animate-pulse w-[80%] mt-4'></div>
                     {/* button */}
                     <div className='h-8 bg-slate-700 animate-pulse w-[15%] mt-4'></div>
+                </div>
+
+                {/* list of comments */}
+                <div className='flex flex-col gap-3'>
+                    {
+                        [...Array(10).keys()].map((item, index) => (
+                            <>
+                                <div className='flex gap-3 mt-7 shadow-md  p-3'>
+
+                                    {/* image */}
+                                    <div>
+                                        <div className='h-[40px] w-[40px] rounded-full bg-slate-400'></div>
+                                    </div>
+
+                                    {/* user info and actions + comment text*/}
+                                    <div className='flex flex-col items-start flex-1'>
+
+                                        {/* user info and actions  */}
+                                        <div className='flex justify-between items-start w-full'>
+
+                                            {/* name and timing */}
+                                            <div className='flex flex-col sm:flex-row gap-2 flex-1'>
+                                                {/* name */}
+                                                <div className='h-2 bg-slate-700 animate-pulse w-[30%]'></div>
+
+                                                {/* time */}
+                                                <div className='h-2 bg-slate-700 animate-pulse w-[20%]'></div>
+                                            </div>
+
+                                            {/* actions */}
+                                            <div className='flex gap-3 items-center justify-end mr-3'>
+                                                <div className='h-[40px] w-[40px] rounded-full bg-slate-400'></div>
+                                                <div className='h-[40px] w-[40px] rounded-full bg-slate-400'></div>
+                                            </div>
+                                        </div>
+
+                                        {/* comment msg */}
+                                        <div className='w-full flex flex-col gap-3'>
+                                            <div className='h-2 bg-slate-700 animate-pulse w-[75%]'></div>
+                                            <div className='h-2 bg-slate-700 animate-pulse w-[75%]'></div>
+                                            <div className='h-2 bg-slate-700 animate-pulse w-[35%]'></div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </>
+
+                        ))
+                    }
                 </div>
 
             </div>

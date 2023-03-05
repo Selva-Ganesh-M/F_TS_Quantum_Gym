@@ -131,13 +131,8 @@ const ViewWorkout = (props: Props) => {
 
                                     {/* likes and cmnts */}
                                     <div className='flex gap-3 items-center'>
-                                        {/* desc
-                                        <div className='flex gap-3 items-center'>
-                                            <a href="#description">
-                                                <FaBookReader />
-                                            </a>
-                                            <span className='text-lg'>description</span>
-                                        </div> */}
+
+
                                         {/* likes icon */}
                                         <div className='flex gap-3 items-center'>
                                             {
@@ -149,10 +144,12 @@ const ViewWorkout = (props: Props) => {
                                             }
                                             <span className='text-lg'>{item.likes.length}</span>
                                         </div>
+
+
                                         {/* comments icon */}
                                         <div className='flex gap-3 items-center'>
                                             <AiOutlineComment size={24} />
-                                            <span className='text-lg' >{item.comments.length}</span>
+                                            <span className='text-lg' >{comments.length}</span>
                                         </div>
                                     </div>
 
@@ -179,6 +176,7 @@ const ViewWorkout = (props: Props) => {
                                         <div>
                                             {/* create new comment*/}
                                             <div className='flex w-full gap-3'>
+
                                                 {/* input */}
                                                 <div className='flex-1 shadown-lg'>
                                                     <input
@@ -188,6 +186,7 @@ const ViewWorkout = (props: Props) => {
                                                         className=' px-2 outline-1 outline-gray-200 border-2 border-gray-200 shadow-sm h-full w-full'
                                                         placeholder='eg. this is awesome' />
                                                 </div>
+
                                                 {/* create button */}
                                                 {
                                                     <FilledBtn content={
