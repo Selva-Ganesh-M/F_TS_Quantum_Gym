@@ -430,7 +430,7 @@ ${flexCol ?
                         </div>
 
                         {/* create */}
-                        <FilledBtn content={"Create"} />
+                        <FilledBtn content={"Create"} to={"/home/my_workouts/create"} />
 
                     </div>
 

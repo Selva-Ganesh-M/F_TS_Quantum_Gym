@@ -1,7 +1,7 @@
 import { api, TPayload } from '@/api/api'
 import { format } from "timeago.js"
 import FilledBtn from '@/components/shared/FilledBtn'
-import { dislikeWorkout, likeWorkout, selectAllWorkouts, selectOneWorkout, TPWorkout } from '@/features/workouts/workouts.slice'
+import { deleteWorkout, dislikeWorkout, likeWorkout, selectAllWorkouts, selectOneWorkout, TPWorkout } from '@/features/workouts/workouts.slice'
 import store, { TRootState, TStoreDispatch } from '@/store/store'
 import React, { useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineComment, AiOutlineHeart } from 'react-icons/ai'
@@ -31,6 +31,7 @@ const ViewWorkout = (props: Props) => {
 
     //#region : selectors
     const item = useSelector((state: TRootState) => selectOneWorkout(state, id!))
+    const { isDeleting } = useSelector((state: TRootState) => state.workout)
     //#endregion
 
     //#region : custom-declarations
@@ -95,15 +96,32 @@ const ViewWorkout = (props: Props) => {
                                 <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
                                 {
                                     item.userId === user._id && (
-                                        <BiTrash
-                                            color='white'
-                                            size={50}
-                                            className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
-                                            onClick={async () => {
-                                                // await deleteImg(event.img)
-                                                // await dispatch(deleteEvent(event._id))
-                                            }}
-                                        />
+                                        <>
+                                            {
+                                                isDeleting ? (
+                                                    <>
+                                                        <div
+                                                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                            role="status">
+                                                            <span
+                                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                                                Loading...</span>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <BiTrash
+                                                        color='white'
+                                                        size={50}
+                                                        className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                                                        onClick={async () => {
+                                                            await dispatch(deleteWorkout(item._id))
+                                                            navigate("/home/my_workouts")
+                                                        }}
+                                                    />
+
+                                                )
+                                            }
+                                        </>
                                     )
                                 }
                             </div>

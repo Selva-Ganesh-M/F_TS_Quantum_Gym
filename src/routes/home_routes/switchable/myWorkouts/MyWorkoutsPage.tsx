@@ -230,7 +230,7 @@ const MyWorkoutsPage = (props: Props) => {
                                     <img src={notFound} alt="" />
                                     <span className='text-center'>No results found.</span>
                                     <span className='text-center'>
-                                        <Link to={"/home/events/create"}>Create your first event.</Link>
+                                        <Link to={"/home/my_workouts/create"}>Create your first workout.</Link>
                                     </span>
                                 </div>
                             )

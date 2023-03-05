@@ -6,11 +6,12 @@ import {
 import { string } from "yup";
 import { api, TPayload } from "@/api/api";
 import { TRootState } from "@/store/store";
+import { ECategories } from "@/components/headers/MyWorkoutsHeader";
 
 export interface TSWorkout {
   title: string;
   desc: string;
-  category: "push" | "pull" | "legs";
+  category: ECategories;
   focuses: Array<string>;
   sets: number;
   reps: number;
@@ -38,6 +39,7 @@ const workoutAdapter = createEntityAdapter({
 const initialState = workoutAdapter.getInitialState({
   error: "",
   isWorkoutsLoading: false,
+  isDeleting: false,
 });
 
 const Slice = createSlice({
@@ -87,6 +89,20 @@ const Slice = createSlice({
         state.isWorkoutsLoading = false;
         state.error = "";
         workoutAdapter.setAll(state, action.payload);
+      });
+
+    // #endregion
+    // #region : delete
+    builder
+      .addCase(deleteWorkout.pending, (state, action) => {
+        state.isDeleting = true;
+      })
+      .addCase(deleteWorkout.fulfilled, (state, action) => {
+        state.isDeleting = false;
+        workoutAdapter.removeOne(state, action.payload._id);
+      })
+      .addCase(deleteWorkout.rejected, (state, action) => {
+        state.isDeleting = false;
       });
 
     // #endregion
@@ -157,6 +173,18 @@ export const filter = createAsyncThunk(
       return thunkApi.rejectWithValue(res.data.message);
     }
     return thunkApi.fulfillWithValue(res.data.payload);
+  }
+);
+
+// delete
+export const deleteWorkout = createAsyncThunk(
+  "workout/deleteWorkout",
+  async (id: string, thunkApi) => {
+    const res = await api.delete<TPayload<TPWorkout>>(`/workouts/delete/${id}`);
+    if (res.data.statusText === "success") {
+      return thunkApi.fulfillWithValue(res.data.payload);
+    }
+    return thunkApi.rejectWithValue(res.data.message);
   }
 );
 

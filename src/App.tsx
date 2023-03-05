@@ -16,6 +16,7 @@ import EventsLayout from "./routes/home_routes/EventsLayout";
 import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
 import ViewWorkoutLoadingPage from "./components/loaders/pages/ViewWorkoutLoadingPage";
 import ViewEventLoadingPage from "./components/loaders/pages/ViewEventLoadingPage";
+import CreateWorkout from "./routes/home_routes/switchable/myWorkouts/CreateWorkout";
 
 type Props = {};
 
@@ -82,6 +83,7 @@ const App = (props: Props) => {
               <Route path="my_workouts">
                 <Route index element={<MyWorkoutsPage />} />
                 <Route path={":id"} element={<ViewWorkout />} />
+                <Route path="create" element={<CreateWorkout />} />
               </Route>
             </Route>
 
