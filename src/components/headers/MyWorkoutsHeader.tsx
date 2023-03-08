@@ -168,9 +168,6 @@ const MyWorkoutsHeader = (props: Props) => {
     //#endregion
 
 
-
-
-
     //#region : functions
 
     // remove selected items from focus filter

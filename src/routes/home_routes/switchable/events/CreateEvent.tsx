@@ -357,7 +357,6 @@ const CreateEvent = (props: Props) => {
                                     <ErrorMessage name={"userId"}>{customError}</ErrorMessage>
                                 </div>
 
-
                                 {/* date and location */}
                                 <div className='flex gap-3'>
                                     {/* date */}
@@ -404,7 +403,6 @@ const CreateEvent = (props: Props) => {
                                         <ErrorMessage name={"location"}>{customError}</ErrorMessage>
                                     </div>
                                 </div>
-
 
                                 {/* dropzone */}
                                 <div className={`border-2 mb-3 p-5 cursor-pointer ${uploadedImageUrl && "border-green-600"}`}>

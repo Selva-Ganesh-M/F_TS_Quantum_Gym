@@ -9,6 +9,7 @@ import { TfiAlarmClock } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 import FilledBtn from '../shared/FilledBtn'
 import eventPreviewPlaceholder from "../../assets/eventPreviewPlaceholder.png"
+import { ECategories } from '../headers/MyWorkoutsHeader'
 
 type Props = { item: TSWorkout, sx: string }
 
@@ -118,7 +119,7 @@ const WorkoutPreviewCard = ({ item, sx }: Props) => {
             {/* bottom */}
             {
                 <div
-                    className={`px-5 pt-0 ${showDetails ? "h-[190px]" : "h-0"} transition-all duration-200`}
+                    className={`px-5 pt-0 ${showDetails ? item.superSetWith.length > 0 ? "h-[190px]" : "h-[160px]" : "h-0"} transition-all duration-200`}
                 >
                     {
                         showDetails && (
@@ -153,9 +154,10 @@ const WorkoutPreviewCard = ({ item, sx }: Props) => {
                             <BiCategory size={18} />
                             <span>
                                 <span className='font-semibold'>Category</span>
-                                {" "}{item.category}
+                                {" "}{item.category === ECategories.All ? "Combo" : item.category}
                             </span>
                         </div>
+
                         {/* focuses */}
                         <div className='flex gap-2 items-center' >
                             <RiFocus2Line size={18} />
@@ -167,12 +169,17 @@ const WorkoutPreviewCard = ({ item, sx }: Props) => {
 
 
                         {/* superset */}
-                        <div className='flex gap-2 items-center' >
-                            <FaSuperpowers size={18} />
-                            <span>
-                                superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
-                            </span>
-                        </div>
+                        {
+                            item.superSetWith.length > 0 && (
+                                <div className='flex gap-2 items-center' >
+                                    <FaSuperpowers size={18} />
+                                    <span>
+                                        superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
+                                    </span>
+                                </div>
+                            )
+                        }
+
                         {/* dropset */}
                         <div className='flex gap-2 items-center' >
                             <RiNumbersLine size={18} />

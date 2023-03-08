@@ -3,7 +3,6 @@ import {
   createEntityAdapter,
   createSlice,
 } from "@reduxjs/toolkit";
-import { string } from "yup";
 import { api, TPayload } from "@/api/api";
 import { TRootState } from "@/store/store";
 import { ECategories } from "@/components/headers/MyWorkoutsHeader";
@@ -40,6 +39,7 @@ const initialState = workoutAdapter.getInitialState({
   error: "",
   isWorkoutsLoading: false,
   isDeleting: false,
+  isCreating: false,
 });
 
 const Slice = createSlice({
@@ -105,6 +105,20 @@ const Slice = createSlice({
         state.isDeleting = false;
       });
 
+    // #endregion
+    // #region : create
+    builder
+      .addCase(create.pending, (state, action) => {
+        state.isCreating = true;
+      })
+      .addCase(create.fulfilled, (state, action) => {
+        state.isCreating = false;
+        workoutAdapter.addOne(state, action.payload);
+      })
+      .addCase(create.rejected, (state, action) => {
+        state.isCreating = false;
+        state.error = action.payload as string;
+      });
     // #endregion
   },
 });
@@ -181,6 +195,18 @@ export const deleteWorkout = createAsyncThunk(
   "workout/deleteWorkout",
   async (id: string, thunkApi) => {
     const res = await api.delete<TPayload<TPWorkout>>(`/workouts/delete/${id}`);
+    if (res.data.statusText === "success") {
+      return thunkApi.fulfillWithValue(res.data.payload);
+    }
+    return thunkApi.rejectWithValue(res.data.message);
+  }
+);
+
+// create
+export const create = createAsyncThunk(
+  "workout/create",
+  async (data: TSWorkout, thunkApi) => {
+    const res = await api.post<TPayload<TPWorkout>>("/workouts/create", data);
     if (res.data.statusText === "success") {
       return thunkApi.fulfillWithValue(res.data.payload);
     }

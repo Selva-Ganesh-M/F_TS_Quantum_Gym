@@ -59,7 +59,7 @@ const HomeNavbar = (props: Props) => {
     return (
         <section
             id="homeNavbar"
-            className={`sticky top-0 left-0 w-full flex justify-between p-[1em] z-50 items-center shadow-md`}
+            className={`sticky top-0 left-0 w-full flex justify-between p-[1em] z-[999] items-center shadow-md`}
         >
             {/* left */}
             {/* logo hamburger switch */}

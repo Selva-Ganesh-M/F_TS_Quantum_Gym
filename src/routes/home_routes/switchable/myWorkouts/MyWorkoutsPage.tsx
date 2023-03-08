@@ -1,4 +1,4 @@
-import MyWorkoutsHeader from '@/components/headers/MyWorkoutsHeader'
+import MyWorkoutsHeader, { ECategories } from '@/components/headers/MyWorkoutsHeader'
 import { dislikeWorkout, likeWorkout, selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
@@ -90,7 +90,7 @@ const MyWorkoutsPage = (props: Props) => {
                         {
                             workouts.length > 0 ? (
                                 workouts.map(item => (
-                                    <div className={`bg-pink-100
+                                    <div className={`${item.category === ECategories.Pull ? "bg-blue-100" : "bg-pink-100"}
                                 h-full
                                 flex justify-center  flex-col rounded-[10px] overflow-hidden  hover:shadow-md transition ease-in duration-300 hover:translate-y-[-2px] 
                                 relative
@@ -156,7 +156,8 @@ const MyWorkoutsPage = (props: Props) => {
                                         {/* bottom */}
                                         {
                                             <div
-                                                className={`px-5 pt-0 ${showDetails ? "h-[190px]" : "h-0"} transition-all duration-200`}
+                                                className={`px-5 pt-0 ${showDetails ? "h-[190px]" : "h-0"}
+                                                    transition-all duration-200`}
                                             >
                                                 {
                                                     showDetails && (
@@ -194,6 +195,7 @@ const MyWorkoutsPage = (props: Props) => {
                                                             {" "}{item.category}
                                                         </span>
                                                     </div>
+
                                                     {/* focuses */}
                                                     <div className='flex gap-2 items-center' >
                                                         <RiFocus2Line size={18} />
@@ -205,12 +207,17 @@ const MyWorkoutsPage = (props: Props) => {
 
 
                                                     {/* superset */}
-                                                    <div className='flex gap-2 items-center' >
-                                                        <FaSuperpowers size={18} />
-                                                        <span>
-                                                            superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
-                                                        </span>
-                                                    </div>
+                                                    {
+                                                        item.superSetWith.length > 0 && (
+                                                            <div className='flex gap-2 items-center' >
+                                                                <FaSuperpowers size={18} />
+                                                                <span>
+                                                                    superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
+                                                                </span>
+                                                            </div>
+                                                        )
+                                                    }
+
                                                     {/* dropset */}
                                                     <div className='flex gap-2 items-center' >
                                                         <RiNumbersLine size={18} />
