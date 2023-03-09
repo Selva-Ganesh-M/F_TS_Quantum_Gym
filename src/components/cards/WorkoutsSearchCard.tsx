@@ -1,13 +1,7 @@
 import { TPWorkout } from '@/features/workouts/workouts.slice'
-import { TPEvent } from '@/routes/home_routes/switchable/events/EventsPage'
 import React, { useEffect } from 'react'
 import { BiCategory } from 'react-icons/bi'
-import { HiUserGroup } from 'react-icons/hi'
-import { ImStarEmpty, ImStarFull } from 'react-icons/im'
-import { MdLocationOn } from 'react-icons/md'
 import { RiFocus2Line } from 'react-icons/ri'
-import { SlCalender } from 'react-icons/sl'
-import { Link } from 'react-router-dom'
 
 type Props = {
     item: TPWorkout,

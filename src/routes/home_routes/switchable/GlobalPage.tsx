@@ -9,6 +9,7 @@ import Typed from "react-typed"
 import IntroBox from '@/components/global/IntroBox'
 import Testimonials from '@/components/global/Testimonials'
 import Contact from '@/components/global/Contact'
+import Footer from '@/components/global/Footer'
 
 type Props = {}
 
@@ -84,6 +85,9 @@ const GlobalPage = (props: Props) => {
 
             {/* contact us */}
             <Contact />
+
+            {/* footer */}
+            <Footer />
         </section>
     )
 }
