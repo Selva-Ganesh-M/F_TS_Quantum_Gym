@@ -1,6 +1,6 @@
 import React from 'react'
 import { AiFillCloseCircle } from "react-icons/ai"
-import { GiHamburgerMenu } from 'react-icons/Gi'
+import { GiHamburgerMenu } from 'react-icons/gi'
 import { GoGlobe } from "react-icons/go"
 import { MdOutlineEmojiEvents } from "react-icons/md"
 import { MdOutlineFitnessCenter } from "react-icons/md"

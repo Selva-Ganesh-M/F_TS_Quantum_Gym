@@ -1,6 +1,6 @@
 import { getUser, signout } from '@/features/user/authSlice'
 import React, { useEffect, useState } from 'react'
-import { GiHamburgerMenu } from "react-icons/Gi"
+import { GiHamburgerMenu } from "react-icons/gi"
 import { useDispatch, useSelector } from 'react-redux'
 import transperant from "@/assets/transperant.png";
 import useMediaQuery from '@/hooks/useMediaQuery';
