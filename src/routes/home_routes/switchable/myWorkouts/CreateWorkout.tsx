@@ -220,7 +220,7 @@ const CreateWorkout = (props: Props) => {
         setIsSubmittin(true)
 
         // assigning values from form in other forms
-        values.focuses = selectedFocuses
+        values.focuses = selectedFocuses.map(item => item.toLowerCase())
         values.dropset = isDropset
         values.superSetWith = [selectedSupersetWorkout.id]
         // values.
@@ -257,16 +257,16 @@ const CreateWorkout = (props: Props) => {
         values.videoUrl = uploadedVideoUrl!
         values.userId = user._id
 
-        if (!Object.values(values).every(Boolean)) {
-            console.log(values);
-            // showing common error on form for 500ms
-            setOverallWarning(true);
-            // hiding the error
-            setTimeout(() => setOverallWarning(false), 3000);
-            setIsSubmittin(false)
-            return;
-        }
-        console.log(values);
+        // if (!Object.values(values).every(Boolean)) {
+        //     console.log(values);
+        //     // showing common error on form for 500ms
+        //     setOverallWarning(true);
+        //     // hiding the error
+        //     setTimeout(() => setOverallWarning(false), 3000);
+        //     setIsSubmittin(false)
+        //     return;
+        // }
+        // console.log(values);
 
 
         // updating state
@@ -323,12 +323,8 @@ const CreateWorkout = (props: Props) => {
     const validationSchema = Yup.object().shape({
         title: Yup.string().required("title is a required field"),
         desc: Yup.string().required("description is a required field"),
-        focuses: Yup.mixed<EFocuses>().oneOf(Object.values(EFocuses)),
-        category: Yup.mixed<ECategories>().oneOf(Object.values(ECategories)),
-        dropset: Yup.boolean().required("dropset is a required field."),
         sets: Yup.number().integer().required("sets is a required field.").min(1, "minimum value is 1.").max(8, "max value is 8"),
         reps: Yup.number().integer().required("reps is a required field.").min(1, "minimum value is 1.").max(30, "max value is 30"),
-        superSetWith: Yup.array().of(Yup.string()),
     });
 
     // #endregion
@@ -892,7 +888,7 @@ const CreateWorkout = (props: Props) => {
                                                         {uploadedVideo && (
                                                             <>
                                                                 <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                                                                    {`${uploadedVideo.name.substring(0, 30)}...`}{"  "}{imagePer > 0 ? imagePer : null}%
+                                                                    {`${uploadedVideo.name.substring(0, 30)}...`}{"  "}{videoPer > 0 ? videoPer : null}%
                                                                 </p>
                                                             </>
                                                         )}
@@ -940,9 +936,15 @@ const CreateWorkout = (props: Props) => {
                                                 <a
                                                     onClick={() => {
                                                         setOverallWarning(false);
-                                                        resetForm();
+                                                        resetForm()
                                                         setUploadedImage(undefined)
                                                         setUploadedVideo(undefined)
+                                                        setSelectedFocuses([])
+                                                        setSelectedSupersetWorkout({
+                                                            name: "-- select --",
+                                                            id: ""
+                                                        })
+                                                        setSelectedCategory(ECategories.All)
                                                         setPreview({
                                                             title: "",
                                                             userId: user._id,

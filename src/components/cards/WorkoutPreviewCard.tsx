@@ -1,4 +1,4 @@
-import { TSWorkout } from '@/features/workouts/workouts.slice'
+import { selectOneWorkout, TSWorkout } from '@/features/workouts/workouts.slice'
 import React, { useState } from 'react'
 import { AiOutlineComment, AiOutlineHeart } from 'react-icons/ai'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom'
 import FilledBtn from '../shared/FilledBtn'
 import eventPreviewPlaceholder from "../../assets/eventPreviewPlaceholder.png"
 import { ECategories } from '../headers/MyWorkoutsHeader'
+import { useSelector } from 'react-redux'
+import { TRootState } from '@/store/store'
 
 type Props = { item: TSWorkout, sx: string }
 
@@ -31,7 +33,7 @@ const WorkoutPreviewCard = ({ item, sx }: Props) => {
     //#endregion
 
     //#region : selectors
-
+    const supersetWorkout = useSelector((state: TRootState) => selectOneWorkout(state, item.superSetWith[0]))
     //#endregion
 
     //#region : custom-declarations
@@ -174,7 +176,9 @@ const WorkoutPreviewCard = ({ item, sx }: Props) => {
                                 <div className='flex gap-2 items-center' >
                                     <FaSuperpowers size={18} />
                                     <span>
-                                        superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
+                                        <>
+                                            superset with{" "}{supersetWorkout}
+                                        </>
                                     </span>
                                 </div>
                             )

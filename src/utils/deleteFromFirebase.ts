@@ -7,3 +7,9 @@ export const deleteImg = async (refUrl: string) => {
   await deleteObject(imageRef);
   console.log("file deleted");
 };
+
+export const deleteVideo = async (refUrl: string) => {
+  const videoRef = ref(storage, refUrl);
+  await deleteObject(videoRef);
+  console.log("file deleted");
+};

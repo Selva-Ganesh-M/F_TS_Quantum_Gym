@@ -17,6 +17,7 @@ import { getUser } from '@/features/user/authSlice'
 import { createComment, fetchAllComments, selectAllComments } from '@/features/comments/comment.slice'
 import Comment from '@/components/comment/Comment'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
+import { deleteVideo } from '@/utils/deleteFromFirebase'
 
 type Props = {}
 
@@ -32,6 +33,7 @@ const ViewWorkout = (props: Props) => {
     //#region : selectors
     const item = useSelector((state: TRootState) => selectOneWorkout(state, id!))
     const { isDeleting } = useSelector((state: TRootState) => state.workout)
+    const supersetWorkout = useSelector((state: TRootState) => selectOneWorkout(state, item!.superSetWith[0]))
     //#endregion
 
     //#region : custom-declarations
@@ -53,9 +55,6 @@ const ViewWorkout = (props: Props) => {
         }
     }, [id])
 
-    useEffect(() => {
-        dispatch(fetchAllComments(id!))
-    }, [id])
     //#endregion
 
     //#region : functions
@@ -114,6 +113,7 @@ const ViewWorkout = (props: Props) => {
                                                         size={50}
                                                         className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
                                                         onClick={async () => {
+                                                            await deleteVideo(item.videoUrl)
                                                             await dispatch(deleteWorkout(item._id))
                                                             navigate("/home/my_workouts")
                                                         }}
@@ -136,7 +136,7 @@ const ViewWorkout = (props: Props) => {
                                         className='basis-full'
                                         width="100%"
                                         height="550px"
-                                        src={"https://www.youtube.com/embed/p2OPUi4xGrM"}
+                                        src={item.videoUrl}
                                         title="YouTube video player"
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -170,7 +170,9 @@ const ViewWorkout = (props: Props) => {
 
                                         {/* comments icon */}
                                         <div className='flex gap-3 items-center'>
-                                            <AiOutlineComment size={24} />
+                                            <a href="#comments">
+                                                <AiOutlineComment size={24} className={"cursor-pointer"} />
+                                            </a>
                                             <span className='text-lg' >{comments.length}</span>
                                         </div>
                                     </div>
@@ -195,7 +197,7 @@ const ViewWorkout = (props: Props) => {
                                     isComments ? (
 
                                         // comments
-                                        <div>
+                                        <div id='comments'>
                                             {/* create new comment*/}
                                             <div className='flex w-full gap-3'>
 
@@ -376,7 +378,7 @@ const ViewWorkout = (props: Props) => {
                                                 <div className='flex gap-2 items-center' >
                                                     <FaSuperpowers size={18} />
                                                     <span>
-                                                        superset with{" "}{item.superSetWith.join(", ").substring(0, 15)}
+                                                        superset with{" "}{supersetWorkout && supersetWorkout.title.substring(0, 15)}
                                                     </span>
                                                 </div>
                                                 {/* dropset */}

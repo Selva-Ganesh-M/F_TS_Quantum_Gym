@@ -1,5 +1,5 @@
 import MyWorkoutsHeader, { ECategories } from '@/components/headers/MyWorkoutsHeader'
-import { dislikeWorkout, likeWorkout, selectAllWorkouts, TPWorkout } from '@/features/workouts/workouts.slice'
+import { dislikeWorkout, likeWorkout, selectAllWorkouts, selectOneWorkout, TPWorkout } from '@/features/workouts/workouts.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiCaretDown, BiCategory } from 'react-icons/bi'
 import { FaComments, FaSuperpowers } from 'react-icons/fa'
@@ -31,7 +31,6 @@ const MyWorkoutsPage = (props: Props) => {
     //#endregion
 
     //#region : selectors
-
     //#endregion
 
     //#region : custom-declarations
