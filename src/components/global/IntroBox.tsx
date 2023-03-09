@@ -14,7 +14,7 @@ const IntroBox = (props: Props) => {
 
             {/* first flex box */}
             <div className='
-            flex flex-col justify-center items-center
+            flex flex-col justify-center items-center gap-5
             md:flex-row md:gap-5 md:items-center md:justify-center md:w-[80%] md:m-auto
             '>
                 {/* top, left */}
