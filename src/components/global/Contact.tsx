@@ -55,7 +55,9 @@ const Contact = (props: Props) => {
 
     //jsx rendering
     return (
-        <div className='h-[calc(100vh-72px)] overflow-clip relative'>
+        <div
+            id="contact"
+            className='h-[calc(100vh-72px)] overflow-clip relative'>
             {/* background-img */}
             <div className='w-full lg:h-full'>
                 <img src={BlueGirl} alt="" className='lg:block hidden w-full h-full object-cover' />

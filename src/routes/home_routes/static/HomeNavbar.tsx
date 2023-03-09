@@ -85,9 +85,6 @@ const HomeNavbar = (props: Props) => {
                 isLargeScreen && (
                     <div className='flex gap-6 cursor-pointer'>
                         <div onClick={() => {
-                            navigate("/home")
-                        }} className="cursor-pointer">Home</div>
-                        <div onClick={() => {
                             navigate("/home/global")
                         }} className="cursor-pointer">Global</div>
                         <div onClick={() => {
@@ -96,9 +93,6 @@ const HomeNavbar = (props: Props) => {
                         <div onClick={() => {
                             navigate("/home/my_workouts")
                         }} className="cursor-pointer">Workouts</div>
-                        <div onClick={() => {
-                            navigate("/home/contact")
-                        }} className="cursor-pointer">Contact</div>
                     </div>
                 )
             }

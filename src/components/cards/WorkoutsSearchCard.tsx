@@ -1,9 +1,11 @@
 import { TPWorkout } from '@/features/workouts/workouts.slice'
 import { TPEvent } from '@/routes/home_routes/switchable/events/EventsPage'
 import React, { useEffect } from 'react'
+import { BiCategory } from 'react-icons/bi'
 import { HiUserGroup } from 'react-icons/hi'
 import { ImStarEmpty, ImStarFull } from 'react-icons/im'
 import { MdLocationOn } from 'react-icons/md'
+import { RiFocus2Line } from 'react-icons/ri'
 import { SlCalender } from 'react-icons/sl'
 import { Link } from 'react-router-dom'
 
@@ -13,45 +15,54 @@ type Props = {
 }
 
 const WorkoutsSearchCard = ({ item, onClick }: Props) => {
+    const displayFocus = (item: TPWorkout) => {
+        const data = item.focuses.slice(0, 2).join(", ").substring(0, 10)
+        return ` ${item.focuses.join(", ").length > 10 ? data + "..." : data}`
+    }
     useEffect(() => {
         console.log("child");
     }, [])
     console.log("workout search card re-renderd.");
     return (
         <div
-            className="flex flex-col z-40 bg-white rounded-lg shadow-md cursor-pointer hover:translate-y-[-2px] transition-all duration-[300ms]"
+            className="flex flex-col z-40 bg-white rounded-xl shadow-md cursor-pointer hover:translate-y-[-2px] transition-all duration-[300ms]"
             onClick={onClick}
         >
-            <div className='border-2 p-3 rounded-lg'>
-                {/* name & rating */}
-                <div className='flex flex-col gap-2'>
-                    <h2 className=' text-md font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+            <div className='border-2 p-3 rounded-xl  flex flex-col'>
+                {/* img and title/desc */}
+                <div className='flex gap-3'>
+                    {/* image */}
+                    <img src={item.imgUrl} alt="" className='w-[120px] object-cover' />
+
+                    {/* title/desc */}
+                    <div className='flex flex-col justify-start'>
+                        <h1 className='capitalize font-bold'>{item.title.substring(0, 14)}{item.title.length > 14 && "..."}</h1>
+                        <p className='text-sm'>{item.desc.substring(0, 20)}{item.desc.length > 20 && "..."}</p>
+                        <div className='flex gap-2 items-center' >
+                            <BiCategory size={12} />
+                            <span>
+                                <span className='font-semibold text-xs'>Category</span>
+                                {" "}
+                                <span className='text-xs'>
+                                    {item.category}
+                                </span>
+                            </span>
+                        </div>
+
+                        {/* focuses */}
+                        <div className='flex gap-2 items-center' >
+                            <RiFocus2Line size={12} />
+                            <span>
+                                <span className='font-semibold text-xs'>
+                                    Focuses
+                                </span>
+                                <span className='text-xs'>
+                                    {displayFocus(item)}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-
-                <hr className=' h-0 border-t-2 border-pink-50 my-5' />
-
-                {/* details */}
-                <div className='flex flex-col mt-5 gap-3 text-sm'>
-                    {/* location */}
-                    <div className='flex gap-2 items-center' >
-                        <MdLocationOn />
-                        {/* {item.location} */}
-                    </div>
-                    {/* location */}
-                    <div className='flex gap-2 items-center' >
-                        <SlCalender />
-                        <>
-                            {/* {new Date(item.date).toDateString()} */}
-                        </>
-                    </div>
-                    {/* location */}
-                    <div className='flex gap-2 items-center' >
-                        <HiUserGroup />
-                        {/* {item.registrations.length} registrations */}
-                    </div>
-                </div>
-
-
             </div>
         </div>
     )
