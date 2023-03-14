@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { EButtonType } from "./FilledBtn";
 
 type Props = {
@@ -18,7 +19,14 @@ type Props = {
   sx?: string
 };
 
-const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, fz, rounded, width, h }: Props) => {
+const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, fz, rounded, width, h, to }: Props) => {
+  const navigate = useNavigate();
+  const handleClick = (): void => {
+    if (!to) {
+      return;
+    }
+    return navigate(`${to}`);
+  };
   return (
     <button
       className={`
@@ -34,7 +42,7 @@ const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, 
       ${sx && sx}
       `}
       type={type ? type : "button"}
-      onClick={onClick}
+      onClick={onClick ? onClick : handleClick}
     >
       {content}
     </button >

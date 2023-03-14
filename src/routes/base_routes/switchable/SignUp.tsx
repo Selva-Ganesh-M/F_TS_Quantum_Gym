@@ -218,7 +218,7 @@ const SignUp = (props: Props) => {
       md: py-10 md:px-5 lg:px-10
       "
         >
-            <h1 className="text-[34px] mb-2 text-center font-bold ">Sign Up</h1>
+            <h1 className="text-[34px] mb-5 text-center font-bold ">Sign Up</h1>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

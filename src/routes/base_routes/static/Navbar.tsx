@@ -8,6 +8,9 @@ import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import { useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { MdOutlineHelpOutline } from "react-icons/md";
+import { MdGroups } from "react-icons/md"
+import OutlineBtn from "@/components/shared/OutlineBtn";
 
 type Props = {};
 
@@ -95,47 +98,47 @@ const Navbar = (props: Props) => {
                   className='bg-white my-5 rounded-t-xl hover:rounded-t-xl'>
                   <div
                     className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
+                    <MdGroups size={20} />
                     About Us
                   </div>
                   <div
                     className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'>
+                    <MdOutlineHelpOutline size={20} />
                     Help
                   </div>
                 </div>
-                {/* <XMarkIcon
-                  onClick={() => setIsMenuToggled(false)}
-                  width={"40px"}
-                  height={"40px"}
-                  className={"mb-5"}
-                />
-                <ul className="font-bold text-lg flex flex-col gap-3">
-                  <li className="">About Us</li>
-                  <li>Help</li>
-                  {state?.rootCurrentPage === "login" ? (
-                    <li
-                      onClick={() =>
-                        dispatch({
-                          action: ERootPageAction.change,
-                          payload: ERootPages.login,
-                        })
-                      }
-                    >
-                      <FilledBtn to="/signup" content="signup" />
-                    </li>
-                  ) : null}
-                  {state?.rootCurrentPage === "signup" ? (
-                    <li
-                      onClick={() =>
-                        dispatch({
-                          action: ERootPageAction.change,
-                          payload: ERootPages.signup,
-                        })
-                      }
-                    >
-                      <FilledBtn to="/login" content="login" />
-                    </li>
-                  ) : null}
-                </ul> */}
+
+                {/* actions */}
+                {state?.rootCurrentPage === "login" ? (
+                  <div
+                    onClick={() => {
+                      dispatch({
+                        action: ERootPageAction.change,
+                        payload: ERootPages.login,
+                      })
+                      setIsMenuToggled(false)
+                    }
+                    }
+                  >
+                    <OutlineBtn to="/signup" content="signup" className="text-white border-gray-100" />
+                  </div>
+                ) : null}
+                {state?.rootCurrentPage === "signup" ? (
+                  <div
+                    onClick={() => {
+                      dispatch({
+                        action: ERootPageAction.change,
+                        payload: ERootPages.signup,
+                      })
+                      setIsMenuToggled(false)
+                    }
+
+                    }
+                  >
+                    <OutlineBtn to="/login" content="login" className="text-white border-gray-100" />
+                  </div>
+                ) : null}
+
               </motion.nav>
             ) : (
               // if menu not toggled
