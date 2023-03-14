@@ -393,23 +393,23 @@ const SignUp = (props: Props) => {
                             >
                                 <div {...getInputProps()} className="h-full w-full " />
                                 {isDragAccept && (
-                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[30]">
                                         All files will be accepted
                                     </p>
                                 )}
                                 {isDragReject && (
-                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[30]">
                                         Some files will be rejected
                                     </p>
                                 )}
                                 {!uploadedImage && !isDragActive && (
-                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                    <p className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[30]">
                                         Drop your image here ...
                                     </p>
                                 )}
                                 {uploadedImage && (
                                     <>
-                                        <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                                        <p className="absolute text-center w-[90%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[30]">
                                             {`${uploadedImage.name.substring(0, 30)}...`}{"  "}{imagePer > 0 ? imagePer : null}%
                                         </p>
                                     </>
@@ -426,7 +426,8 @@ const SignUp = (props: Props) => {
 
                         {/* actions */}
                         <div>
-                            <div className="flex justify-center md:justify-start">
+
+                            <div className="flex justify-center md:gap-3">
                                 <a className="mr-2">
                                     <FilledBtn content={"Submit"} type={EButtonType.submit} />
                                 </a>

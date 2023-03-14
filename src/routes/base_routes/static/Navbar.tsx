@@ -7,6 +7,7 @@ import FilledBtn from "@/components/shared/FilledBtn";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import { useNavigate } from "react-router-dom";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const Navbar = (props: Props) => {
       className="sticky top-0 w-[100vw] shadow-md bg-white px-3 py-3 flex justify-between items-center
     sm:px-10
     md:px-20
+    z-[999]
      "
     >
       {/* RIGHT */}
@@ -78,9 +80,29 @@ const Navbar = (props: Props) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.25 }}
-                className="menu absolute top-0 left-0 h-[100vh] py-5 px-4  w-[200px] xs:w-[300px] xs:pl-20 xs:p-5 sm:w-[350px] bg-rose-300"
+                className="menu absolute top-0 left-0 h-[100vh] py-5 px-4  w-[250px] xs:p-5 bg-pink-900 z-[999]"
               >
-                <XMarkIcon
+
+                <div className='bg-white py-1 px-1 rounded-b-lg flex items-center gap-4 font-bold text-gray-600'>
+                  <AiFillCloseCircle className='text-white cursor-pointer rounded-full w-[40px] h-[40px]'
+                    onClick={() => setIsMenuToggled(false)} />
+                  Quantum Gym
+                  {/* <GiHamburgerMenu className='h-[40px] w-[40px] ' color='#fff' onClick={() => setSidebarOpen(true)} /> */}
+                </div>
+
+                {/* section-1 */}
+                <div
+                  className='bg-white my-5 rounded-t-xl hover:rounded-t-xl'>
+                  <div
+                    className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md rounded-t-xl'>
+                    About Us
+                  </div>
+                  <div
+                    className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md'>
+                    Help
+                  </div>
+                </div>
+                {/* <XMarkIcon
                   onClick={() => setIsMenuToggled(false)}
                   width={"40px"}
                   height={"40px"}
@@ -113,7 +135,7 @@ const Navbar = (props: Props) => {
                       <FilledBtn to="/login" content="login" />
                     </li>
                   ) : null}
-                </ul>
+                </ul> */}
               </motion.nav>
             ) : (
               // if menu not toggled

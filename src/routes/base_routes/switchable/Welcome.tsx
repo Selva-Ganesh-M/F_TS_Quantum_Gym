@@ -48,18 +48,19 @@ const Welcome = (props: Props) => {
        basis-1/2 flex flex-col p-5"
       >
         <div className=" flex flex-col items-start">
+
           {/* content */}
           <div>
 
-            <h1 className="text-[36px] text-bold text-slate-900 mb-3">
+            <h1 className="text-center text-[36px] text-bold text-slate-900 mb-3">
               Quantum Gym
             </h1>
-            <p>One stop for all workout collections and events.</p>
+            <p className="text-center">One stop for all workout collections and events.</p>
           </div>
 
 
           {/* actions */}
-          <div className={`actions flex justify-center gap-5 mt-10 ${isGButtonFull && "flex-col"}`}>
+          <div className={`actions flex justify-center gap-5 mt-10 ${isGButtonFull && "flex-col"} m-auto`}>
 
             <div className="flex gap-2 sm:gap-5 sm:flex-row"  >
               {/* login */}
@@ -92,7 +93,7 @@ const Welcome = (props: Props) => {
 
 
             {/* google */}
-            <div className=" hover:text-white ">
+            <div className=" hover:text-white m-auto">
               {
                 // ifGButtonFull{
                 isGButtonFull ? (

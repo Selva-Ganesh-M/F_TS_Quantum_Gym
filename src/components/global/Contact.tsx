@@ -57,7 +57,7 @@ const Contact = (props: Props) => {
     return (
         <div
             id="contact"
-            className='h-[calc(100vh-72px)] overflow-clip relative'>
+            className='min-h-[calc(100vh-72px)] overflow-clip relative'>
             {/* background-img */}
             <div className='w-full lg:h-full'>
                 <img src={BlueGirl} alt="" className='lg:block hidden w-full h-full object-cover' />
@@ -115,9 +115,9 @@ const Contact = (props: Props) => {
                             className='outline-none rounded-lg resize-none w-full p-2 mb-3 border-2 border-gray-200'></textarea>
 
                         {/* submit reset */}
-                        <div className='flex gap-1 xs:gap-3'>
-                            <FilledBtn type={EButtonType.submit} content={"Submit"} />
+                        <div className='flex gap-1 xs:gap-3 flex-col sm:flex-row'>
                             <OutlineBtn type={EButtonType.reset} border={"border-2 lg:border-white"} sx={"lg:text-white"} content={"reset"} />
+                            <FilledBtn type={EButtonType.submit} content={"Submit"} />
                         </div>
                     </form>
                 </div>
