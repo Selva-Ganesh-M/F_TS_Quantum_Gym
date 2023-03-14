@@ -98,12 +98,14 @@ const SignUp = (props: Props) => {
         isDragActive,
         isDragAccept,
         isDragReject,
+        open
     } = useDropzone({
         onDrop,
         accept: {
             "image/*": [".jpeg", ".png"],
         },
         multiple: false,
+        noClick: true,
     });
 
     //#endregion
@@ -387,6 +389,7 @@ const SignUp = (props: Props) => {
                             <div
                                 {...getRootProps()}
                                 className="h-14 relative border-dashed border-2"
+                                onClick={open}
                             >
                                 <div {...getInputProps()} className="h-full w-full " />
                                 {isDragAccept && (
