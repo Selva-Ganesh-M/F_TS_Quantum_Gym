@@ -17,10 +17,12 @@ import { api, TPayload } from '@/api/api'
 import { getUser } from '@/features/user/authSlice'
 
 type Props = {
-    item: TPWorkout
+    item: TPWorkout,
+    showDetails: Boolean,
+    setShowDetails: React.Dispatch<React.SetStateAction<Boolean>>
 }
 
-const WorkoutCard = ({ item }: Props) => {
+const WorkoutCard = ({ item, showDetails, setShowDetails }: Props) => {
     //#region : grabbing
     const workouts = useSelector(selectAllWorkouts)
     const { isWorkoutsLoading } = useSelector((state: TRootState) => state.workout)
@@ -47,7 +49,6 @@ const WorkoutCard = ({ item }: Props) => {
     const user = useSelector(getUser).user
 
     // #region : togglers
-    const [showDetails, setShowDetails] = useState<Boolean>(true)
 
     // #endregion
 
@@ -148,7 +149,7 @@ const WorkoutCard = ({ item }: Props) => {
                     </div>
                     {/* time */}
                     <div className='px-5 mb-4 flex justify-between'>
-                        <span className='text-sm font-semibold text-gray-600'>{timeago.format(item.createdAt)}</span>
+                        <span className='text-sm text-gray-500'>{timeago.format(item.createdAt)}</span>
 
                         {/* show details */}
                         <BiCaretDown size={18} className={`cursor-pointer ${showDetails ? `rotate-180` : ``}`} onClick={() => setShowDetails(prev => !prev)} />

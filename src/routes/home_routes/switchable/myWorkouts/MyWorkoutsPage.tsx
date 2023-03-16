@@ -60,7 +60,7 @@ const MyWorkoutsPage = (props: Props) => {
                         {
                             workouts.length > 0 ? (
                                 workouts.map(item => (
-                                    <WorkoutCard item={item} />
+                                    <WorkoutCard item={item} showDetails={showDetails} setShowDetails={setShowDetails} />
                                 ))
                             ) : (
                                 <div className='top-[50%] left-[50%] translate-x-[-50%] m-auto flex flex-col gap-5 absolute'>
