@@ -31,6 +31,7 @@ const togglerSlice = createSlice({
     },
     toggleSetFalse: (state, action: { type: string; payload: ETogglers }) => {
       state[action.payload] = false;
+      console.log(action.payload, state[action.payload]);
     },
   },
   extraReducers: (builder) => {},

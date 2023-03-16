@@ -6,8 +6,11 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./store/store";
 import { PersistGate } from 'redux-persist/integration/react';
 import { getAllEvents } from "./features/events/eventSlice";
+import { ETogglers, toggleSetFalse } from "./features/togglers/togglerSlice";
 
 // store.dispatch(getAllEvents())
+store.dispatch(toggleSetFalse(ETogglers.userMenu))
+store.dispatch(toggleSetFalse(ETogglers.homeSidebar))
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>

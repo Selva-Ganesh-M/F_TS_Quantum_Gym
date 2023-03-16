@@ -66,7 +66,7 @@ const Comment = ({ item }: Props) => {
         <div className="w-full flex gap-3 items-start px-3 pt-5 py-3 border-2 border-gray-200 " key={item._id}>
 
             {/* image */}
-            <div className='rounded-full w-[40px] h-[40px] sticky top-[60px]'>
+            <div className='rounded-full w-[40px] h-[40px] sticky top-[60px] bg-gray-400'>
                 <img src={currentUser.image} alt="" className='h-full w-full rounded-full object-cover' />
             </div>
 
