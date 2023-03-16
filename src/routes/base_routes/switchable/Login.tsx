@@ -1,6 +1,6 @@
 import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import useRootPageContext from "@/hooks/useRootPageContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import FilledBtn, { EButtonType } from "@/components/shared/FilledBtn";
@@ -24,6 +24,8 @@ const Login = (props: Props) => {
   // STATES DECLARATIONS
   const { state, dispatch: rootDispatch } = useRootPageContext({});
   const dispatch = useDispatch<TStoreDispatch>()
+  const [isLoggingIn, setIsLoggingIn] = useState<Boolean>(false)
+  const [isGoogleLoggingIn, setIsGoogleLoggingIn] = useState<Boolean>(false)
 
   // FUNCTIONS DECLARATIONS
   const customError = (msg: string) => {
@@ -31,11 +33,15 @@ const Login = (props: Props) => {
   };
 
   // SIDE EFFECTS
+
+  // immediate docking
   useEffect(() => {
     rootDispatch({
       action: ERootPageAction.change,
       payload: ERootPages.login,
     });
+    setIsLoggingIn(false)
+    setIsGoogleLoggingIn(false)
   }, []);
 
   // FORMIK SPECIFICS
@@ -60,9 +66,10 @@ const Login = (props: Props) => {
     values: TLogin,
     { setSubmitting, resetForm }: any
   ) => {
-    console.log(values);
+    setIsLoggingIn(true)
     await dispatch(login(values))
     resetForm();
+    setIsLoggingIn(false)
     return;
   };
 
@@ -137,11 +144,44 @@ const Login = (props: Props) => {
 
               {/* actions */}
               <div className="flex gap-4 justify-center">
-                <FilledBtn type={EButtonType.submit} content="Login" />
+                <FilledBtn type={EButtonType.submit} sx={isLoggingIn && "bg-transparent hover:shadow-none cursor-progress"} content={
+                  isLoggingIn ? <>
+                    <div
+                      className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                      role="status">
+                      <span
+                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                      >Loading...</span>
+                    </div>
+                  </>
+                    :
+                    "Login"
+                }
+                />
                 <OutlineBtn content="Reset" />
               </div>
               <div className="mt-5 flex justify-center hover:text-white ">
-                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+                <OutlineBtn
+                  className="hover:text-white"
+                  sx={`${isGoogleLoggingIn && "hover:bg-transparent border-none shadow-none cursor-progress"}`}
+                  content={
+                    isGoogleLoggingIn ? (
+                      <>
+                        <div
+                          className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status">
+                          <span
+                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                          >Loading...</span>
+                        </div>
+                      </>
+                    )
+                      :
+                      <GoogleButton />} onClick={() => {
+                        setIsGoogleLoggingIn(true)
+                        handleSignInWithGoogle({ dispatch, isGoogleLoggingIn, setIsGoogleLoggingIn })
+                      }
+                      } />
               </div>
             </Form>
           )}

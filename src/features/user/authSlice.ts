@@ -88,7 +88,6 @@ export const login = createAsyncThunk(
       if (res.data.statusText === "failure") {
         return thunkApi.rejectWithValue(res.data.message);
       }
-      console.log("thunk", res.data);
       return thunkApi.fulfillWithValue(res.data.payload);
     } catch (err: any) {
       console.log(err.message);
@@ -106,7 +105,6 @@ export const googleAuth = createAsyncThunk(
         console.log(res.data.message);
         return thunkApi.rejectWithValue(res.data.message);
       }
-      console.log(res.data.message);
       return thunkApi.fulfillWithValue(res.data.payload);
     } catch (error: any) {
       console.log(error.message);
@@ -124,7 +122,6 @@ const authSlice = createSlice({
   // reducers
   reducers: {
     signout: (state) => {
-      console.log("user is removed");
       return initialState;
     },
   },

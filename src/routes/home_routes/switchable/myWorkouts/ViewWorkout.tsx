@@ -159,9 +159,9 @@ const ViewWorkout = (props: Props) => {
                                         <div className='flex gap-3 items-center'>
                                             {
                                                 item.likes.includes(user._id) ? (
-                                                    <AiFillHeart size={24} onClick={() => dislikeWorkoutHandler(item._id)} />
+                                                    <AiFillHeart size={24} onClick={() => dislikeWorkoutHandler(item._id)} className={"cursor-pointer"} />
                                                 ) : (
-                                                    <AiOutlineHeart size={24} onClick={() => likeWorkoutHandler(item._id)} />
+                                                    <AiOutlineHeart size={24} onClick={() => likeWorkoutHandler(item._id)} className={"cursor-pointer"} />
                                                 )
                                             }
                                             <span className='text-lg'>{item.likes.length}</span>
@@ -297,9 +297,9 @@ const ViewWorkout = (props: Props) => {
                                                         <div className='flex gap-3 items-center'>
                                                             {
                                                                 item.likes.includes(user._id) ? (
-                                                                    <AiFillHeart size={18} onClick={() => dislikeWorkoutHandler(item._id)} />
+                                                                    <AiFillHeart size={18} onClick={() => dislikeWorkoutHandler(item._id)} className={"cursor-pointer"} />
                                                                 ) : (
-                                                                    <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
+                                                                    <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} className={"cursor-pointer"} />
                                                                 )
                                                             }
                                                             <span className='text-xs'>{item.likes.length}</span>
@@ -307,7 +307,7 @@ const ViewWorkout = (props: Props) => {
                                                         {/* comments */}
                                                         <div className='flex gap-3 items-center'>
                                                             <AiOutlineComment size={18} />
-                                                            <span className='text-xs' >{item.comments.length}</span>
+                                                            <span className='text-xs' >{comments.length}</span>
                                                         </div>
                                                     </div>
                                                 </div>

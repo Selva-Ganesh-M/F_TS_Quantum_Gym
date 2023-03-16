@@ -4,7 +4,7 @@ import { ERootPageAction, ERootPages } from "@/context/RootPageContext";
 import useRootPageContext from "@/hooks/useRootPageContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import GoogleButton from "@/components/GoogleButton";
 import { handleSignInWithGoogle } from "@/googleAuth/googleAuth";
 import { useDispatch } from "react-redux";
@@ -21,6 +21,7 @@ const Welcome = (props: Props) => {
 
   //#region : custom-declarations
   const isGButtonFull = useMediaQuery("(max-width:950px)")
+  const [isGoogleLoggingIn, setIsGoogleLoggingIn] = useState<Boolean>(false)
   //#endregion
 
   //#region : side-effects
@@ -62,6 +63,7 @@ const Welcome = (props: Props) => {
           {/* actions */}
           <div className={`actions flex justify-center gap-5 mt-10 ${isGButtonFull && "flex-col"} m-auto`}>
 
+            {/* custom auths */}
             <div className="flex gap-2 sm:gap-5 sm:flex-row"  >
               {/* login */}
               <Link
@@ -94,15 +96,31 @@ const Welcome = (props: Props) => {
 
             {/* google */}
             <div className=" hover:text-white m-auto">
-              {
-                // ifGButtonFull{
-                isGButtonFull ? (
-                  <OutlineBtn className="hover:text-white" px="px-[14px]" rounded="rounded-lg" width="w-max" content={<GoogleButton variant="" />} onClick={() => handleSignInWithGoogle({ dispatch })} />
-                ) : (
-
-                  <OutlineBtn className="hover:text-white" px="px-[14px]" rounded="rounded-full" width="w-max" content={<GoogleButton variant="sm" />} onClick={() => handleSignInWithGoogle({ dispatch })} />
-                )
-              }
+              <OutlineBtn
+                className="hover:text-white"
+                px="px-[14px]"
+                rounded={isGButtonFull ? "rounded-lg" : "rounded-full"}
+                width="w-max"
+                sx={`${isGoogleLoggingIn && "hover:bg-transparent border-none shadow-none cursor-progress"}`}
+                content={
+                  isGoogleLoggingIn ? (
+                    <>
+                      <div
+                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status">
+                        <span
+                          className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                        >Loading...</span>
+                      </div>
+                    </>
+                  )
+                    :
+                    <GoogleButton variant={!isGButtonFull ? "sm" : ""} />
+                }
+                onClick={() => {
+                  setIsGoogleLoggingIn(true)
+                  handleSignInWithGoogle({ dispatch, setIsGoogleLoggingIn, isGoogleLoggingIn })
+                }} />
             </div>
 
 

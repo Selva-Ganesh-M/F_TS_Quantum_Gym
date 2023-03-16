@@ -6,7 +6,9 @@ type Props = {
 
 const TestimonialCard = ({ item }: Props) => {
     return (
-        <div className='flex gap-3 items-start justify-start shadow-lg h-full border-2 mx-4 py-4 px-3 rounded-lg bg-white'>
+        <div
+            key={item._id}
+            className='flex gap-3 items-start justify-start shadow-lg h-full border-2 mx-4 py-4 px-3 rounded-lg bg-white'>
             {/* image */}
             <img src={item.image} alt="" className='rounded-full w-[40px] h-[40px]' />
 

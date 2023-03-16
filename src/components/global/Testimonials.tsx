@@ -76,7 +76,7 @@ const Testimonials = (props: Props) => {
                         }}
                     >
                         {testimonials.map((item) => (
-                            <TestimonialCard item={item} />
+                            <TestimonialCard item={item} key={item._id} />
                         ))}
                     </Carousel>
 

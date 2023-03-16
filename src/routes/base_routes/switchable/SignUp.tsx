@@ -44,6 +44,8 @@ const SignUp = (props: Props) => {
     const [imageFirebaseUploadSuccess, setImageFirebaseUploadSuccess] = useState<Boolean>(false)
     const [uploadedImageUrl, setUploadedImageUrl] = useState<string>()
     const [customWarning, setCustomWarning] = useState<string>("")
+    const [isSigningUp, setIsSigningUp] = useState<Boolean>(false)
+    const [isGoogleLoggingIn, setIsGoogleLoggingIn] = useState<Boolean>(false)
 
 
     // #region - YUP validation
@@ -111,11 +113,13 @@ const SignUp = (props: Props) => {
     //#endregion
 
     // #region : side-effects
+    // immediate docking procedure
     useEffect(() => {
         rootDispatch({
             action: ERootPageAction.change,
             payload: ERootPages.signup,
         });
+        setIsSigningUp(false)
     }, []);
 
     useEffect(() => {
@@ -136,30 +140,27 @@ const SignUp = (props: Props) => {
         values: TSignup,
         { setSubmitting, resetForm }: any
     ) => {
-        console.log("form submit func");
-        console.log(values)
 
+        setIsSigningUp(true)
         if (!uploadedImageUrl) {
             setCustomWarning("Please upload the image.")
+            setIsSigningUp(false)
             return
         }
 
-        console.log("both conditions failed")
-        console.log("uploaded image url", uploadedImageUrl)
         values.image = uploadedImageUrl!
 
         if (!Object.values(values).every(Boolean)) {
-            console.log(values);
             // showing common error on form for 500ms
             setOverallWarning(true);
             // hiding the error
             setTimeout(() => setOverallWarning(false), 3000);
+            setIsSigningUp(false)
             return;
         }
-        console.log(values);
 
         // updating state
-        dispatch(register(values));
+        await dispatch(register(values));
 
         // clean up
         // resetForm();
@@ -169,6 +170,7 @@ const SignUp = (props: Props) => {
         setImageFirebaseUploadSuccess(false)
         setUploadedImageUrl("")
         setCustomWarning("")
+        setIsSigningUp(false)
         navigate("/login")
     };
 
@@ -219,6 +221,7 @@ const SignUp = (props: Props) => {
       "
         >
             <h1 className="text-[34px] mb-5 text-center font-bold ">Sign Up</h1>
+
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
@@ -429,7 +432,24 @@ const SignUp = (props: Props) => {
 
                             <div className="flex justify-center md:gap-3">
                                 <a className="mr-2">
-                                    <FilledBtn content={"Submit"} type={EButtonType.submit} />
+                                    <FilledBtn
+                                        type={EButtonType.submit}
+                                        sx={isSigningUp && "bg-transparent hover:shadow-none cursor-progress"}
+                                        content={
+                                            isSigningUp ? (
+                                                <>
+                                                    <div
+                                                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                        role="status">
+                                                        <span
+                                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                        >Loading...</span>
+                                                    </div>
+                                                </>
+                                            )
+                                                : "Submit"
+                                        }
+                                    />
                                 </a>
                                 <a
                                     onClick={() => {
@@ -443,7 +463,27 @@ const SignUp = (props: Props) => {
                             </div>
 
                             <div className="mt-5 flex justify-center hover:text-white ">
-                                <OutlineBtn className="hover:text-white" content={<GoogleButton />} onClick={() => handleSignInWithGoogle({ dispatch })} />
+                                <OutlineBtn
+                                    className="hover:text-white"
+                                    sx={`${isGoogleLoggingIn && "hover:bg-transparent border-none shadow-none cursor-progress"}`}
+                                    content={
+                                        isGoogleLoggingIn ? (
+                                            <>
+                                                <div
+                                                    className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                    role="status">
+                                                    <span
+                                                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                    >Loading...</span>
+                                                </div>
+                                            </>
+                                        )
+                                            :
+                                            <GoogleButton />} onClick={() => {
+                                                setIsGoogleLoggingIn(true)
+                                                handleSignInWithGoogle({ dispatch, isGoogleLoggingIn, setIsGoogleLoggingIn })
+                                            }
+                                            } />
                             </div>
 
                         </div>

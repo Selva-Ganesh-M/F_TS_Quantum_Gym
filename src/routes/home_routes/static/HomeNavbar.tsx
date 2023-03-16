@@ -44,11 +44,6 @@ const HomeNavbar = (props: Props) => {
         };
     }, []);
 
-    useEffect(() => {
-        console.log("isTop", isTopOfThePage);
-
-    }, [isTopOfThePage])
-
     //#endregion
 
     //#region : functions
