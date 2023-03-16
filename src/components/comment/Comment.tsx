@@ -9,6 +9,7 @@ import { MdUpload } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { RxCross1 } from "react-icons/rx"
 import { format } from "timeago.js"
+import { getUser } from '@/features/user/authSlice'
 
 type Props = {
     item: TPComment
@@ -17,8 +18,7 @@ type Props = {
 const Comment = ({ item }: Props) => {
     //#region : grabbing
     const dispatch = useDispatch<TStoreDispatch>()
-
-
+    const user = useSelector(getUser).user
     const commentState = useSelector((state: TRootState) => state.comment)
 
 
@@ -85,72 +85,78 @@ const Comment = ({ item }: Props) => {
                     </div>
 
                     {/* actions */}
-                    <div className='flex gap-3 items-center sticky top-[60px]'>
-                        {/* edit */}
 
-                        {
-                            isCommentOpen ? (
-                                <div className='flex items-center gap-3'>
-                                    <RxCross1 size={26} style={{ color: "red" }} className={`cursor-pointer`} onClick={() => {
-                                        setIsCommentOpen(false)
-                                        setNewValue(item.content)
-                                    }} />
+                    {
+                        item.userId === user._id && (
+                            <div className='flex gap-3 items-center sticky top-[60px]'>
+                                {/* edit */}
 
-                                    {
-                                        commentState.isUpdating ? (
-                                            <div
-                                                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                                role="status">
-                                                <span
-                                                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                                >Loading...</span
-                                                >
-                                            </div>
-                                        ) : (
-                                            <MdUpload size={30} style={{ color: "red" }} className={`cursor-pointer`} onClick={
-                                                async () => {
-                                                    setIsUpdating(true)
-                                                    await dispatch(
-                                                        updateComment(
-                                                            {
-                                                                id: item._id,
-                                                                content: newValue
-                                                            }
-                                                        )
-                                                    )
-                                                    setIsUpdating(false)
-                                                    setIsCommentOpen(false)
-                                                }
-                                            } />
-                                        )
-                                    }
-                                </div>
-                            ) : (
-                                <>
-                                    <BiEditAlt size={30} style={{ color: "red" }} className={`cursor-pointer`} onClick={() => setIsCommentOpen(true)} />
-                                </>
-                            )
-                        }
-                        {/* delete */}
-                        {
-                            isDeleting ? (
-                                <div
-                                    className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                    role="status">
-                                    <span
-                                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                    >Loading...</span
-                                    >
-                                </div>
-                            ) : (
-                                <BiTrashAlt size={26} className={`cursor-pointer`} onClick={async () => {
-                                    setIsDeleting(true)
-                                    await dispatch(deleteComment(item._id))
-                                    setIsDeleting(false)
-                                }} />
-                            )
-                        }
-                    </div>
+                                {
+                                    isCommentOpen ? (
+                                        <div className='flex items-center gap-3'>
+                                            <RxCross1 size={26} style={{ color: "red" }} className={`cursor-pointer`} onClick={() => {
+                                                setIsCommentOpen(false)
+                                                setNewValue(item.content)
+                                            }} />
+
+                                            {
+                                                commentState.isUpdating ? (
+                                                    <div
+                                                        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                        role="status">
+                                                        <span
+                                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                        >Loading...</span>
+                                                    </div>
+                                                ) : (
+                                                    <MdUpload size={30} style={{ color: "red" }} className={`cursor-pointer`} onClick={
+                                                        async () => {
+                                                            setIsUpdating(true)
+                                                            await dispatch(
+                                                                updateComment(
+                                                                    {
+                                                                        id: item._id,
+                                                                        content: newValue
+                                                                    }
+                                                                )
+                                                            )
+                                                            setIsUpdating(false)
+                                                            setIsCommentOpen(false)
+                                                        }
+                                                    } />
+                                                )
+                                            }
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <BiEditAlt size={30} style={{ color: "red" }} className={`cursor-pointer`} onClick={() => setIsCommentOpen(true)} />
+                                        </>
+                                    )
+                                }
+                                {/* delete */}
+                                {
+                                    isDeleting ? (
+                                        <div
+                                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                            role="status">
+                                            <span
+                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                            >Loading...</span>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <BiTrashAlt size={26} className={`cursor-pointer`} onClick={async () => {
+                                                setIsDeleting(true)
+                                                await dispatch(deleteComment(item._id))
+                                                setIsDeleting(false)
+                                            }} />
+                                        </>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
+
 
                 </div>
 
