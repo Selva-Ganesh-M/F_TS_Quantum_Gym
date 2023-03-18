@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from 'tailwind-merge'
 
 export enum EButtonType {
   submit = "submit",
@@ -35,15 +36,16 @@ const FilledBtn = ({ content, to, h, type, width, px, py, p, rounded, fz, onClic
     <button
       type={type ? type : EButtonType.button}
       onClick={onClick ? onClick : handleClick}
-      className={`
+      className={twMerge(`
       ${p ? p : "p-3"}
       ${px ? px : "px-10"}
       ${rounded ? rounded : "rounded-lg"}
       ${fz ? fz : ""}
       ${width ? width : "w-auto"}
       ${h ? h : "h-auto"}
+      bg-pink-900  hover:shadow-[0px_0px_10px_3px_rgba(0,0,0,0.2)] hover:border-1 text-white font-bold
       ${sx && sx}
-      bg-pink-900  hover:shadow-[0px_0px_10px_3px_rgba(0,0,0,0.2)] hover:border-1 text-white font-bold`}
+      `)}
       disabled={disabled}
     >
       {content}
