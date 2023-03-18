@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useState } from 'react'
 import FilledBtn from '../shared/FilledBtn'
 import { ImStarFull } from "react-icons/im"
 import { ImStarEmpty } from "react-icons/im"
@@ -28,7 +28,7 @@ const EventCard = ({ item, width, bg }: Props) => {
     //#endregion
 
     //#region : custom-declarations
-
+    const [isEnrollOrUnEnroll, setIsEnrollOrUnEnroll] = useState<Boolean>(false)
     //#endregion
 
     //#region : side-effects
@@ -87,9 +87,47 @@ const EventCard = ({ item, width, bg }: Props) => {
                     {/* button */}
                     {
                         item.registrations.includes(user._id) ? (
-                            <OutlineBtn content={"Withdraw"} px={isAboveMobile ? "px-[15px]" : "px-[10px]"} width={"w-max"} h="h-max" border='border-2 border-pink-300' onClick={() => dispatch(withdrawEvent(item._id))} />
+                            <OutlineBtn
+                                sx={`${isEnrollOrUnEnroll && "hover:bg-transparent border-none shadow-none cursor-progress"}`}
+                                content={isEnrollOrUnEnroll ? <>
+                                    <div
+                                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                        role="status">
+                                        <span
+                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                        >Loading...</span>
+                                    </div>
+                                </> : "Withdraw"}
+                                px={isAboveMobile ? "px-[15px]" : "px-[10px]"}
+                                width={"w-max"}
+                                h="h-max"
+                                border='border-2 border-pink-300'
+                                onClick={async () => {
+                                    setIsEnrollOrUnEnroll(true)
+                                    await dispatch(withdrawEvent(item._id))
+                                    setIsEnrollOrUnEnroll(false)
+                                }}
+                            />
                         ) : (
-                            <FilledBtn content={"Enroll"} px={isAboveMobile ? "px-5" : "px-3"} h="h-max" onClick={() => dispatch(enrollEvent(item._id))} />
+                            <FilledBtn
+                                content={isEnrollOrUnEnroll ? <>
+                                    <div
+                                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                        role="status">
+                                        <span
+                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                        >Loading...</span>
+                                    </div>
+                                </> : "Enroll"}
+                                px={isAboveMobile ? "px-5" : "px-3"}
+                                h="h-max"
+                                onClick={async () => {
+                                    setIsEnrollOrUnEnroll(true)
+                                    await dispatch(enrollEvent(item._id))
+                                    setIsEnrollOrUnEnroll(false)
+                                }}
+                                sx={`${isEnrollOrUnEnroll && "bg-transparent bg-transperent border-none hover:shadow-none cursor-progress"}`}
+                            />
                         )
                     }
                 </div>
@@ -126,4 +164,4 @@ const EventCard = ({ item, width, bg }: Props) => {
     )
 }
 
-export default EventCard
+export default memo(EventCard)

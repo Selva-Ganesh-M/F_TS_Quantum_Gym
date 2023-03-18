@@ -62,7 +62,7 @@ const HomeNavbar = (props: Props) => {
                 isLargeScreen ? (
                     <img onClick={() => navigate("/home/global")} src={transperant} alt="logo" className='h-[40px] w-[40px] cursor-pointer' />
                 ) : (
-                    <GiHamburgerMenu className='h-[40px] w-[40px]' onClick={() => {
+                    <GiHamburgerMenu className='h-[40px] w-[40px] cursor-pointer' onClick={() => {
                         // opening sidebar
                         dispatch(toggle(ETogglers.homeSidebar))
 

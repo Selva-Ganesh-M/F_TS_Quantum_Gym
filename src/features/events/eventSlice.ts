@@ -20,6 +20,7 @@ const eventsSlice = createSlice({
   name: "events",
   initialState: eventsAdapter.getInitialState({
     loading: true,
+    isEnrollingOrWithdrawing: false,
     error: "",
     srcResults: <TPEvent[]>[],
     isSearching: false,
@@ -71,15 +72,10 @@ const eventsSlice = createSlice({
 
     // #region : enroll event
     builder
-      .addCase(enrollEvent.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(enrollEvent.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload as string;
       })
       .addCase(enrollEvent.fulfilled, (state, action) => {
-        state.loading = false;
         eventsAdapter.setOne(state, action.payload);
       });
 
@@ -87,15 +83,10 @@ const eventsSlice = createSlice({
 
     // #region : withdraw event
     builder
-      .addCase(withdrawEvent.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(withdrawEvent.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload as string;
       })
       .addCase(withdrawEvent.fulfilled, (state, action) => {
-        state.loading = false;
         eventsAdapter.setOne(state, action.payload);
       });
 
