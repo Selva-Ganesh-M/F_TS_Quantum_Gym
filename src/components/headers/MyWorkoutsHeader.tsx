@@ -131,9 +131,6 @@ const MyWorkoutsHeader = (props: Props) => {
     // handle search input
     useEffect(() => {
         // reset the filter's once the user touches the search
-        console.log(
-            "src effect"
-        );
 
 
         // don't execute if the search is set as empty

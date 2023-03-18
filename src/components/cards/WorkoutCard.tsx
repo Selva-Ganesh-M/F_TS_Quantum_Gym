@@ -110,37 +110,34 @@ const WorkoutCard = ({ item, showDetails, setShowDetails }: Props) => {
                 <div className="">
                     {/* top part */}
                     <div className='flex justify-between gap-3 p-5'>
-                        <Link to={``}>
-                            {/* name & like,comments */}
-                            <div className='flex flex-col gap-2'>
+                        {/* name & like,comments */}
+                        <div className='flex flex-col gap-2'>
 
-                                {/* name */}
-                                <Link to={`/home/my_workouts/${item._id}`}>
-                                    <h2 className=' text-xl capitalize font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
-                                </Link>
+                            {/* name */}
+                            <Link to={`/home/my_workouts/${item._id}`}>
+                                <h2 className=' text-xl capitalize font-semibold text-pink-900' >{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</h2>
+                            </Link>
 
-                                {/* likes and comments */}
+                            {/* likes and comments */}
+                            <div className='flex gap-3 items-center'>
+                                {/* likes */}
                                 <div className='flex gap-3 items-center'>
-                                    {/* likes */}
-                                    <div className='flex gap-3 items-center'>
-                                        {
-                                            item.likes.includes(user._id) ? (
-                                                <AiFillHeart size={18} onClick={() => dislikeWorkoutHandler(item._id)} />
-                                            ) : (
-                                                <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
-                                            )
-                                        }
-                                        <span className='text-xs'>{item.likes.length}</span>
-                                    </div>
-                                    {/* comments */}
-                                    <div className='flex gap-3 items-center'>
-                                        <AiOutlineComment size={18} />
-                                        <span className='text-xs' >{item.comments.length}</span>
-                                    </div>
+                                    {
+                                        item.likes.includes(user._id) ? (
+                                            <AiFillHeart size={18} onClick={() => dislikeWorkoutHandler(item._id)} />
+                                        ) : (
+                                            <AiOutlineHeart size={18} onClick={() => likeWorkoutHandler(item._id)} />
+                                        )
+                                    }
+                                    <span className='text-xs'>{item.likes.length}</span>
+                                </div>
+                                {/* comments */}
+                                <div className='flex gap-3 items-center'>
+                                    <AiOutlineComment size={18} />
+                                    <span className='text-xs' >{item.comments.length}</span>
                                 </div>
                             </div>
-
-                        </Link>
+                        </div>
 
                         {/* button */}
                         <Link to={`/home/my_workouts/${item._id}`}>

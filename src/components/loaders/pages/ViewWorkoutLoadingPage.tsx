@@ -63,8 +63,8 @@ const ViewWorkoutLoadingPage = (props: Props) => {
                 <div className='flex flex-col gap-3'>
                     {
                         [...Array(10).keys()].map((item, index) => (
-                            <>
-                                <div className='flex gap-3 mt-7 shadow-md  p-3'>
+                            <React.Fragment key={index}>
+                                <div className='flex gap-3 mt-7 shadow-md  p-3' >
 
                                     {/* image */}
                                     <div>
@@ -103,7 +103,7 @@ const ViewWorkoutLoadingPage = (props: Props) => {
 
 
                                 </div>
-                            </>
+                            </React.Fragment>
 
                         ))
                     }

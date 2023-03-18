@@ -83,9 +83,6 @@ const Slice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(filter.fulfilled, (state, action) => {
-        console.log("payload", action.payload);
-
-        console.log("here");
         state.isWorkoutsLoading = false;
         state.error = "";
         workoutAdapter.setAll(state, action.payload);

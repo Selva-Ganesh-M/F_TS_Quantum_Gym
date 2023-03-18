@@ -30,7 +30,7 @@ const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, 
   };
   return (
     <button
-      className={twMerge(`
+      className={`
       ${className} 
       ${p ? p : "p-3"}
       ${px ? px : "px-10"}
@@ -41,7 +41,7 @@ const OutlineBtn = ({ sx, content, border, type, onClick, className, p, px, py, 
       ${border || "border-[1px] border-black"}
       hover:bg-black hover:text-white p-3 px-10 text-pink-900 font-bold rounded-lg 
       ${sx && sx}
-      `)}
+      `}
       type={type ? type : "button"}
       onClick={onClick ? onClick : handleClick}
     >

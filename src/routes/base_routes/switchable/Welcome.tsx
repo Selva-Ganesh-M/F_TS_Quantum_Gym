@@ -97,11 +97,10 @@ const Welcome = (props: Props) => {
             {/* google */}
             <div className=" hover:text-white m-auto">
               <OutlineBtn
-                className="hover:text-white"
                 px="px-[14px]"
                 rounded={isGButtonFull ? "rounded-lg" : "rounded-full"}
                 width="w-max"
-                sx={`${isGoogleLoggingIn && "hover:bg-transparent border-none shadow-none cursor-progress"}`}
+                sx={`${isGoogleLoggingIn && "hover:bg-transparent border-none shadow-none cursor-progress hover:text-white"}`}
                 content={
                   isGoogleLoggingIn ? (
                     <>
