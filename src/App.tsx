@@ -4,11 +4,10 @@ import Login from "./routes/base_routes/switchable/Login";
 import SignUp from "./routes/base_routes/switchable/SignUp";
 import Welcome from "./routes/base_routes/switchable/Welcome";
 import "./app.css"
-import { useEffect, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import HomeLayout from "./routes/home_routes/HomeLayout";
 import { useSelector } from "react-redux";
 import { getUser } from "./features/user/authSlice";
-import GlobalPage from "./routes/home_routes/switchable/GlobalPage";
 import EventsPage from "./routes/home_routes/switchable/events/EventsPage";
 import MyWorkoutsPage from "./routes/home_routes/switchable/myWorkouts/MyWorkoutsPage";
 import "./app.css"
@@ -17,10 +16,9 @@ import CreateEvent from "./routes/home_routes/switchable/events/CreateEvent";
 import ViewWorkoutLoadingPage from "./components/loaders/pages/ViewWorkoutLoadingPage";
 import ViewEventLoadingPage from "./components/loaders/pages/ViewEventLoadingPage";
 import CreateWorkout from "./routes/home_routes/switchable/myWorkouts/CreateWorkout";
+import GlobalLoadingPage from "./components/loaders/pages/GlobalLoadingPage";
 
 type Props = {};
-
-// #region : loadable pages
 
 // #region : view workout
 
@@ -35,6 +33,21 @@ const ViewWorkoutLoadable = (Component: React.FC) => (props: any) => {
 const ViewWorkout = ViewWorkoutLoadable(
   lazy(() => import("./routes/home_routes/switchable/myWorkouts/ViewWorkout"))
 )
+// #endregion
+
+// #region : global loadable
+const GlobalLoadable = (Component: React.FC) => (props: any) => {
+  return (
+    <Suspense fallback={<GlobalLoadingPage />}>
+      <Component {...props} />
+    </Suspense>
+  )
+}
+
+const GlobalPage = GlobalLoadable(
+  lazy(() => import("./routes/home_routes/switchable/GlobalPage"))
+)
+
 // #endregion
 
 // #region : view events loader
@@ -52,9 +65,6 @@ const ViewEvent = viewEventLoadable(
 // #endregion
 
 
-
-
-// #region : lazy loaders
 const App = (props: Props) => {
   // declaration
   const user = useSelector(getUser)
@@ -71,6 +81,7 @@ const App = (props: Props) => {
             <Route path="/home/" element={<HomeLayout />}>
               <Route index element={<Navigate to="/home/global" />} />
               <Route path="global" element={<GlobalPage />} />
+              {/* <Route path="global" element={<GlobalLoadingPage />} /> */}
 
               {/* events route */}
               <Route path="events" element={<EventsLayout />}>
