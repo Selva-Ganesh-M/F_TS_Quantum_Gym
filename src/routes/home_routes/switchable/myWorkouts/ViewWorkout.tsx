@@ -261,7 +261,35 @@ const ViewWorkout = (props: Props) => {
                                                                     setNewComment("")
                                                                 }} />
                                                         ) : (
-                                                            <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' />
+
+                                                            <FilledBtn
+                                                                px="px-5"
+                                                                rounded='rounded-full'
+                                                                fz='text-2xl'
+                                                                content={
+                                                                    isCreating ? (
+                                                                        <div
+                                                                            className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                                            role="status">
+                                                                            <span
+                                                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                                            >Loading...</span>
+                                                                        </div>
+                                                                    ) :
+                                                                        "+"
+                                                                }
+                                                                onClick={async () => {
+                                                                    setIsCreating(true)
+                                                                    await dispatch(createComment({
+                                                                        userId: user._id,
+                                                                        workoutId: item._id,
+                                                                        content: newComment,
+                                                                        likes: []
+                                                                    }))
+                                                                    setIsCreating(false)
+                                                                    setNewComment("")
+                                                                }}
+                                                            />
                                                         )
                                                     }
                                                 </div>
