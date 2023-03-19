@@ -11,11 +11,11 @@ const GlobalLoadingPage = (props: Props) => {
 
                 {/* text */}
                 <div className="w-full space-y-8 md:space-y-12 flex flex-col ">
-                    <div className="h-2 bg-slate-700 rounded w-[90%] md:w-[70%]"></div>
-                    <div className="h-2 bg-slate-700 rounded w-[80%] md:w-[60%]"></div>
+                    <div className="h-6 bg-slate-700 rounded w-[90%] md:w-[70%]"></div>
+                    <div className="h-6 bg-slate-700 rounded w-[80%] md:w-[60%]"></div>
                     <div className='flex gap-3 w-[50%]'>
-                        <div className="h-2 bg-slate-700 rounded flex-1"></div>
-                        <div className="h-2 bg-slate-700 rounded flex-1"></div>
+                        <div className="h-6 bg-slate-700 rounded flex-1"></div>
+                        <div className="h-6 bg-slate-700 rounded flex-1"></div>
                     </div>
                 </div>
 

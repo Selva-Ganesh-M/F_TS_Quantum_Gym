@@ -36,6 +36,9 @@ const commentSlice = createSlice({
     setAll: (state, action) => {
       state.comments = action.payload;
     },
+    resetAll: (state) => {
+      state.comments = [];
+    },
     deleteOne: (state, action: { type: string; payload: string }) => {
       state.comments.filter((item) => item._id !== action.payload);
     },
@@ -131,7 +134,8 @@ export const selectOneComment = (state: TRootState, id: string) =>
   state.comment.comments.find((item) => item._id === id);
 
 // export actions
-export const { setAll, deleteOne, addOne, updateOne } = commentSlice.actions;
+export const { setAll, deleteOne, resetAll, addOne, updateOne } =
+  commentSlice.actions;
 
 // exporting reducer
 export default commentSlice.reducer;

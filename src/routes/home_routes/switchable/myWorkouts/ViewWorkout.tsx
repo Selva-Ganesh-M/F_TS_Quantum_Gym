@@ -14,11 +14,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getUser } from '@/features/user/authSlice'
-import { createComment, fetchAllComments, selectAllComments } from '@/features/comments/comment.slice'
+import { createComment, fetchAllComments, resetAll, selectAllComments } from '@/features/comments/comment.slice'
 import Comment from '@/components/comment/Comment'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import { deleteVideo } from '@/utils/deleteFromFirebase'
-import { ETogglers, toggleSetFalse } from '@/features/togglers/togglerSlice'
 
 type Props = {}
 
@@ -49,12 +48,24 @@ const ViewWorkout = (props: Props) => {
 
     //#region : side-effects
 
-    // if url doesn't have id redirect to one step back
+    // as soon as the id in url changes
     useEffect(() => {
+        // if url doesn't have id redirect to one step back
         if (!id) {
             navigate(-1)
+            return
+        }
+
+        // fetch comments
+        dispatch(fetchAllComments(id))
+
+        // return
+        return () => {
+            dispatch(resetAll())
         }
     }, [id])
+
+
 
     //#endregion
 
