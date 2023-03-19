@@ -222,7 +222,9 @@ const CreateWorkout = (props: Props) => {
         // assigning values from form in other forms
         values.focuses = selectedFocuses.map(item => item.toLowerCase())
         values.dropset = isDropset
-        values.superSetWith = [selectedSupersetWorkout.id]
+        if (selectedSupersetWorkout.id) {
+            values.superSetWith = [selectedSupersetWorkout.id]
+        }
         // values.
 
         // assigning values not obtained from the form
@@ -273,20 +275,20 @@ const CreateWorkout = (props: Props) => {
         await dispatch(create(values));
 
         // clean up
-        resetForm();
-        setOverallWarning(false);
-        setUploadedImage(undefined);
-        setUploadedVideo(undefined);
-        setImagePer(0)
-        setVideoPer(0)
-        setImageFirebaseUploadSuccess(false)
-        setVideoFirebaseUploadSuccess(false)
-        setUploadedImageUrl("")
-        setUploadedVideoUrl("")
-        setCustomWarning("")
-        setOverallWarning(false)
-        setIsSubmittin(false)
-        navigate("/home/my_workouts")
+        // resetForm();
+        // setOverallWarning(false);
+        // setUploadedImage(undefined);
+        // setUploadedVideo(undefined);
+        // setImagePer(0)
+        // setVideoPer(0)
+        // setImageFirebaseUploadSuccess(false)
+        // setVideoFirebaseUploadSuccess(false)
+        // setUploadedImageUrl("")
+        // setUploadedVideoUrl("")
+        // setCustomWarning("")
+        // setOverallWarning(false)
+        // setIsSubmittin(false)
+        // navigate("/home/my_workouts")
     };
 
     const customError = (msg: string) => {

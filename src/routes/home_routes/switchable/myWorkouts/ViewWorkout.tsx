@@ -30,6 +30,10 @@ const ViewWorkout = (props: Props) => {
     const user = useSelector(getUser).user
     const comments = useSelector(selectAllComments)
 
+    // #region : responsive
+
+    // #endregion
+
     //#region : selectors
     const item = useSelector((state: TRootState) => selectOneWorkout(state, id!))
     const { isDeleting } = useSelector((state: TRootState) => state.workout)
@@ -102,182 +106,186 @@ const ViewWorkout = (props: Props) => {
                     (
                         <section className='w-full h-[calc(100vh-72px)] bg-white flex p-5 gap-5'>
 
-                            {/* back btn */}
-                            <div className='w-max cursor-pointer hidden md:sticky md:top-0 md:flex md:flex-col md:gap-5 items-center'>
-                                <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
-                                {
-                                    item.userId === user._id && (
-                                        <>
-                                            {
-                                                isDeleting ? (
-                                                    <>
-                                                        <div
-                                                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                                            role="status">
-                                                            <span
-                                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                                                                Loading...</span>
-                                                        </div>
-                                                    </>
-                                                ) : (
-                                                    <BiTrash
-                                                        color='white'
-                                                        size={50}
-                                                        className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
-                                                        onClick={async () => {
-                                                            await deleteVideo(item.videoUrl)
-                                                            await dispatch(deleteWorkout(item._id))
-                                                            navigate("/home/my_workouts")
-                                                        }}
-                                                    />
-
-                                                )
-                                            }
-                                        </>
-                                    )
-                                }
-                            </div>
-
-                            {/* video, description, comments */}
-                            <div className='flex-[5]  h-full overflow-scroll flex flex-col gap-6 relative '>
+                            {/* back and video section wrapper */}
+                            <div className='md:flex flex-1 gap-5 relative h-full overflow-scroll'>
 
 
-                                {/* video */}
-                                <div>
-                                    <iframe
-                                        className='basis-full'
-                                        width="100%"
-                                        height="550px"
-                                        src={item.videoUrl}
-                                        title="YouTube video player"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                    ></iframe>
+                                {/* back btn */}
+                                <div className='w-max cursor-pointer md:sticky md:top-[72px] z-[48] flex mb-3 gap-3 md:mb-0 flex-row md:flex-col md:gap-5 items-center'>
+                                    <BsFillArrowLeftCircleFill color='white' size={40} onClick={() => navigate(-1)} />
+                                    {
+                                        item.userId === user._id && (
+                                            <>
+                                                {
+                                                    isDeleting ? (
+                                                        <>
+                                                            <div
+                                                                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                                role="status">
+                                                                <span
+                                                                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                                                    Loading...</span>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <BiTrash
+                                                            color='white'
+                                                            size={50}
+                                                            className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
+                                                            onClick={async () => {
+                                                                await deleteVideo(item.videoUrl)
+                                                                await dispatch(deleteWorkout(item._id))
+                                                                navigate("/home/my_workouts")
+                                                            }}
+                                                        />
+
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </div>
 
-                                {/* title and likes, comments */}
-                                <div className='flex justify-between bg-white sticky top-[-2px] z-[45] px-3 pb-3 shadow-md items-start shadow-[1px 2px 3px 4px rgba(0,0,0,0.8)]'>
-
-                                    {/* title */}
-                                    <span className='text-3xl'>{item.title}</span>
+                                {/* video, description, comments */}
+                                <div className='flex-[5]  h-full overflow-scroll flex flex-col gap-6 relative '>
 
 
-                                    {/* likes and cmnts */}
-                                    <div className='flex gap-3 items-center'>
-
-
-                                        {/* likes icon */}
-                                        <div className='flex gap-3 items-center'>
-                                            {
-                                                item.likes.includes(user._id) ? (
-                                                    <AiFillHeart size={24} onClick={() => dislikeWorkoutHandler(item._id)} className={"cursor-pointer"} />
-                                                ) : (
-                                                    <AiOutlineHeart size={24} onClick={() => likeWorkoutHandler(item._id)} className={"cursor-pointer"} />
-                                                )
-                                            }
-                                            <span className='text-lg'>{item.likes.length}</span>
-                                        </div>
-
-
-                                        {/* comments icon */}
-                                        <div className='flex gap-3 items-center'>
-                                            <a href="#comments">
-                                                <AiOutlineComment size={24} className={"cursor-pointer"} />
-                                            </a>
-                                            <span className='text-lg' >{comments.length}</span>
-                                        </div>
+                                    {/* video */}
+                                    <div>
+                                        <iframe
+                                            className='basis-full h-[220px] sm:h-[500px] w-full'
+                                            src={item.videoUrl}
+                                            title="YouTube video player"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        ></iframe>
                                     </div>
 
+                                    {/* title and likes, comments */}
+                                    <div className='flex justify-between bg-white sticky top-[-2px] z-[45] px-3 pb-3 shadow-md items-start shadow-[1px 2px 3px 4px rgba(0,0,0,0.8)]'>
 
-                                </div>
+                                        {/* title */}
+                                        <span className='text-3xl'>{item.title}</span>
 
-                                {/* actions */}
-                                <div className='flex w-max'>
-                                    <div
-                                        className={`${isComments && "bg-pink-100"} p-3 border-2 border-r-0 border-pink-100  rounded-l-lg cursor-pointer`}
-                                        onClick={() => setIsComments(true)}
-                                    >Comments</div>
-                                    <div
-                                        className={`${!isComments && "bg-pink-100"} p-3 border-2 border-l-0 border-pink-100 rounded-r-lg cursor-pointer`}
-                                        onClick={() => setIsComments(false)}
-                                    >Description</div>
-                                </div>
 
-                                {/* switch: comment & description */}
-                                {
-                                    isComments ? (
+                                        {/* likes and cmnts */}
+                                        <div className='flex gap-3 items-center'>
 
-                                        // comments
-                                        <div id='comments'>
-                                            {/* create new comment*/}
-                                            <div className='flex w-full gap-3'>
 
-                                                {/* input */}
-                                                <div className='flex-1 shadown-lg'>
-                                                    <input
-                                                        type="text"
-                                                        value={newComment}
-                                                        onChange={(e) => setNewComment(e.target.value)}
-                                                        className=' px-2 outline-1 outline-gray-200 border-2 border-gray-200 shadow-sm h-full w-full'
-                                                        placeholder='eg. this is awesome' />
+                                            {/* likes icon */}
+                                            <div className='flex gap-3 items-center'>
+                                                {
+                                                    item.likes.includes(user._id) ? (
+                                                        <AiFillHeart size={24} onClick={() => dislikeWorkoutHandler(item._id)} className={"cursor-pointer"} />
+                                                    ) : (
+                                                        <AiOutlineHeart size={24} onClick={() => likeWorkoutHandler(item._id)} className={"cursor-pointer"} />
+                                                    )
+                                                }
+                                                <span className='text-lg'>{item.likes.length}</span>
+                                            </div>
+
+
+                                            {/* comments icon */}
+                                            <div className='flex gap-3 items-center'>
+                                                <a href="#comments">
+                                                    <AiOutlineComment size={24} className={"cursor-pointer"} />
+                                                </a>
+                                                <span className='text-lg' >{comments.length}</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    {/* actions */}
+                                    <div className='flex w-max'>
+                                        <div
+                                            className={`${isComments && "bg-pink-100"} p-3 border-2 border-r-0 border-pink-100  rounded-l-lg cursor-pointer`}
+                                            onClick={() => setIsComments(true)}
+                                        >Comments</div>
+                                        <div
+                                            className={`${!isComments && "bg-pink-100"} p-3 border-2 border-l-0 border-pink-100 rounded-r-lg cursor-pointer`}
+                                            onClick={() => setIsComments(false)}
+                                        >Description</div>
+                                    </div>
+
+                                    {/* switch: comment & description */}
+                                    {
+                                        isComments ? (
+
+                                            // comments
+                                            <div id='comments'>
+                                                {/* create new comment*/}
+                                                <div className='flex w-full gap-3'>
+
+                                                    {/* input */}
+                                                    <div className='flex-1 shadown-lg'>
+                                                        <input
+                                                            type="text"
+                                                            value={newComment}
+                                                            onChange={(e) => setNewComment(e.target.value)}
+                                                            className=' px-2 outline-1 outline-gray-200 border-2 border-gray-200 shadow-sm h-full w-full'
+                                                            placeholder='eg. this is awesome' />
+                                                    </div>
+
+                                                    {/* create button */}
+                                                    {
+                                                        <FilledBtn
+                                                            sx={isCreating && 'border-none hover:shadow-none cursor-progress bg-transparent'}
+                                                            content={
+                                                                isCreating ? (
+                                                                    <div
+                                                                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                                        role="status">
+                                                                        <span
+                                                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                                        >Loading...</span>
+                                                                    </div>
+                                                                ) :
+                                                                    <>
+                                                                        Create
+                                                                    </>
+                                                            } onClick={async () => {
+                                                                setIsCreating(true)
+                                                                await dispatch(createComment({
+                                                                    userId: user._id,
+                                                                    workoutId: item._id,
+                                                                    content: newComment,
+                                                                    likes: []
+                                                                }))
+                                                                setIsCreating(false)
+                                                                setNewComment("")
+                                                            }} />
+                                                    }
                                                 </div>
 
-                                                {/* create button */}
-                                                {
-                                                    <FilledBtn
-                                                        sx={isCreating && 'border-none hover:shadow-none cursor-progress bg-transparent'}
-                                                        content={
-                                                            isCreating ? (
-                                                                <div
-                                                                    className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                                                    role="status">
-                                                                    <span
-                                                                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                                                    >Loading...</span>
-                                                                </div>
-                                                            ) :
-                                                                <>
-                                                                    Create
-                                                                </>
-                                                        } onClick={async () => {
-                                                            setIsCreating(true)
-                                                            await dispatch(createComment({
-                                                                userId: user._id,
-                                                                workoutId: item._id,
-                                                                content: newComment,
-                                                                likes: []
-                                                            }))
-                                                            setIsCreating(false)
-                                                            setNewComment("")
-                                                        }} />
-                                                }
+                                                {/* list */}
+                                                <div className='mt-5 flex flex-col gap-2'>
+                                                    {
+                                                        comments.map((item) => (
+                                                            <Comment item={item} key={item._id} />
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
+                                        ) : (
+
+                                            // description
+                                            <div id="description" className='text-justify bg-pink-100 p-3 w-full '>
+                                                <div className='text-xl font-bold mb-5'>
+                                                    {item.title}
+                                                </div>
+                                                <div>
+                                                    {item.desc}
+                                                </div>
                                             </div>
 
-                                            {/* list */}
-                                            <div className='mt-5 flex flex-col gap-2'>
-                                                {
-                                                    comments.map((item) => (
-                                                        <Comment item={item} key={item._id} />
-                                                    ))
-                                                }
-                                            </div>
-                                        </div>
-                                    ) : (
-
-                                        // description
-                                        <div id="description" className='text-justify bg-pink-100 p-3 w-full '>
-                                            <div className='text-xl font-bold mb-5'>
-                                                {item.title}
-                                            </div>
-                                            <div>
-                                                {item.desc}
-                                            </div>
-                                        </div>
-
-                                    )
-                                }
+                                        )
+                                    }
+                                </div>
                             </div>
+
 
                             {/* workout card */}
                             <div className=' basis-[350px] h-max hidden lg:block'>
@@ -391,12 +399,17 @@ const ViewWorkout = (props: Props) => {
 
 
                                                 {/* superset */}
-                                                <div className='flex gap-2 items-center' >
-                                                    <FaSuperpowers size={18} />
-                                                    <span>
-                                                        superset with{" "}{supersetWorkout && supersetWorkout.title.substring(0, 15)}
-                                                    </span>
-                                                </div>
+                                                {
+                                                    item.superSetWith.length > 0 && (
+                                                        <div className='flex gap-2 items-center' >
+                                                            <FaSuperpowers size={18} />
+                                                            <span>
+                                                                superset with{" "}{supersetWorkout && supersetWorkout.title.substring(0, 15)}
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                }
+
                                                 {/* dropset */}
                                                 <div className='flex gap-2 items-center' >
                                                     <RiNumbersLine size={18} />
