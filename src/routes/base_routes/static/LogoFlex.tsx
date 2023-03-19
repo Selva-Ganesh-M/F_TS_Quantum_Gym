@@ -1,9 +1,12 @@
 import { Outlet } from "react-router-dom";
 import transperant from "@/assets/transperant.png";
-import gym_vector from "@/assets/gym_vector.jpg"
 import useMediaQuery from "@/hooks/useMediaQuery";
+import BaseLayoutLoadingPage from "@/components/loaders/layouts/BaseLayoutLoadingPage";
+import { Component, lazy, Suspense } from "react";
 
 type Props = {};
+
+
 
 const LogoFlex = (props: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
@@ -20,17 +23,26 @@ const LogoFlex = (props: Props) => {
       {/* LOGO ITEM */}
       {isAboveMediumScreens ? (
         // {/* logo section */}
-        <div className="basis-1/2 ">
-          <img
-            className="object-cover h-full"
-            src={gym_vector}
-            alt="quantum-gym-logo"
-          // className="absolute top-0"
-          />
-        </div>
+        <BaseLogo />
       ) : null}
     </section>
   );
 };
 
 export default LogoFlex;
+
+// #region : base loadable
+
+const BaseLogoLoadale = (Component: React.FC) => (props: any) => {
+  return (
+    <Suspense fallback={<BaseLayoutLoadingPage />}>
+      <Component {...props} />
+    </Suspense>
+  )
+}
+
+const BaseLogo = BaseLogoLoadale(
+  lazy(() => import("@/components/BaseLogo"))
+)
+
+// #endregion
