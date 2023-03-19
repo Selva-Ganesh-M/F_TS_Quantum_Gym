@@ -18,6 +18,7 @@ import { createComment, fetchAllComments, resetAll, selectAllComments } from '@/
 import Comment from '@/components/comment/Comment'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import { deleteVideo } from '@/utils/deleteFromFirebase'
+import useMediaQuery from '@/hooks/useMediaQuery'
 
 type Props = {}
 
@@ -31,6 +32,7 @@ const ViewWorkout = (props: Props) => {
     const comments = useSelector(selectAllComments)
 
     // #region : responsive
+    const isAboveMobile = useMediaQuery("(min-width:426px)")
 
     // #endregion
 
@@ -231,32 +233,36 @@ const ViewWorkout = (props: Props) => {
 
                                                     {/* create button */}
                                                     {
-                                                        <FilledBtn
-                                                            sx={isCreating && 'border-none hover:shadow-none cursor-progress bg-transparent'}
-                                                            content={
-                                                                isCreating ? (
-                                                                    <div
-                                                                        className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                                                        role="status">
-                                                                        <span
-                                                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                                                        >Loading...</span>
-                                                                    </div>
-                                                                ) :
-                                                                    <>
-                                                                        Create
-                                                                    </>
-                                                            } onClick={async () => {
-                                                                setIsCreating(true)
-                                                                await dispatch(createComment({
-                                                                    userId: user._id,
-                                                                    workoutId: item._id,
-                                                                    content: newComment,
-                                                                    likes: []
-                                                                }))
-                                                                setIsCreating(false)
-                                                                setNewComment("")
-                                                            }} />
+                                                        isAboveMobile ? (
+                                                            <FilledBtn
+                                                                sx={isCreating && 'border-none hover:shadow-none cursor-progress bg-transparent'}
+                                                                content={
+                                                                    isCreating ? (
+                                                                        <div
+                                                                            className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                                            role="status">
+                                                                            <span
+                                                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                                            >Loading...</span>
+                                                                        </div>
+                                                                    ) :
+                                                                        <>
+                                                                            Create
+                                                                        </>
+                                                                } onClick={async () => {
+                                                                    setIsCreating(true)
+                                                                    await dispatch(createComment({
+                                                                        userId: user._id,
+                                                                        workoutId: item._id,
+                                                                        content: newComment,
+                                                                        likes: []
+                                                                    }))
+                                                                    setIsCreating(false)
+                                                                    setNewComment("")
+                                                                }} />
+                                                        ) : (
+                                                            <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' />
+                                                        )
                                                     }
                                                 </div>
 

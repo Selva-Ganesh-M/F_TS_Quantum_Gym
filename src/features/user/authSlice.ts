@@ -114,17 +114,21 @@ export const googleAuth = createAsyncThunk(
   }
 );
 
+export const signOut = createAsyncThunk("auth/signOut", async (_, thunkApi) => {
+  const res = await api.post("/auth/signout");
+  if (res.status === 200) {
+    return thunkApi.fulfillWithValue(true);
+  }
+  return thunkApi.rejectWithValue(false);
+});
+
 //#endregion
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   // reducers
-  reducers: {
-    signout: (state) => {
-      return initialState;
-    },
-  },
+  reducers: {},
   // extra reducers
   extraReducers: (builder) => {
     builder
@@ -141,6 +145,19 @@ const authSlice = createSlice({
       .addCase(googleAuth.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isUser = true;
+      })
+      .addCase(signOut.fulfilled, (state) => {
+        state.user = {
+          fullname: "",
+          username: "",
+          email: "",
+          image: "",
+          age: 0,
+          gender: "",
+          token: "",
+          _id: "",
+        };
+        state.isUser = false;
       });
   },
 });
@@ -148,7 +165,5 @@ const authSlice = createSlice({
 export const getUser = (state: TRootState) => {
   return state.auth;
 };
-
-export const { signout } = authSlice.actions;
 
 export default authSlice.reducer;

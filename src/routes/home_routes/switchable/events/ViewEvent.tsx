@@ -15,6 +15,7 @@ import { TRootState, TStoreDispatch } from '@/store/store'
 import { getUser } from '@/features/user/authSlice'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { deleteImg } from '@/utils/deleteFromFirebase'
+import EventMember from '@/components/EventMember'
 
 type Props = {}
 
@@ -80,7 +81,7 @@ const ViewEvent = (props: Props) => {
                     </div>
 
                     {/* left */}
-                    <div id="left" className='flex flex-col md:max-w-[300px] gap-7 md:sticky md:top-0'>
+                    <div id="left" className='flex flex-col md:max-w-[350px] gap-7 md:sticky md:top-0'>
 
                         {/* event card */}
                         <div className='w-auto'>
@@ -124,20 +125,13 @@ const ViewEvent = (props: Props) => {
                                 {/* competitors list */}
                                 <div className=' flex flex-col gap-1 text-sm'>
                                     {
-                                        event.registrations.length > 0 ? (event.registrations.map(event => (
-                                            <div className='px-3 py-2 flex gap-3 items-center'>
-                                                {/* image */}
-                                                <div className='h-8 w-8 rounded-full overflow-hidden'>
-                                                    <img src={event1} alt="" className='rounded-full h-8 w-8 object-cover' />
-                                                </div>
-
-                                                {/* username */}
-                                                <h3 className='flex-1 text-gray-600 uppercase' >SELVA GANESH M</h3>
-
-                                                {/* age */}
-                                                <h3 className='text-gray-600'>23</h3>
-
-                                            </div>
+                                        event.registrations.length > 0 ? (event.registrations.map(id => (
+                                            <React.Fragment key={id}>
+                                                <EventMember _id={id} />
+                                                <EventMember _id={id} />
+                                                <EventMember _id={id} />
+                                                <EventMember _id={id} />
+                                            </React.Fragment>
                                         ))) : (
                                             <div className='p-3'>Be the first to register for this event.</div>
                                         )

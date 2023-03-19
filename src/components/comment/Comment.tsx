@@ -72,12 +72,11 @@ const Comment = ({ item }: Props) => {
 
             {/* content */}
             <div className='flex-1 self-center flex flex-col gap-2'>
-
                 {/* user info + actions */}
                 <div className='flex justify-between items-start'>
 
                     {/* username and time */}
-                    <div className='flex items-center gap-2 flex-col sm:flex-row self-start sm:self-auto'>
+                    <div className='flex items-start sm:items-center gap-1 flex-col sm:flex-row self-start sm:self-auto'>
                         <span className='font-bold text-md capitalize'>
                             {currentUser.username}
                         </span>

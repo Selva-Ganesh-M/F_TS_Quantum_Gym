@@ -1,4 +1,4 @@
-import { getUser, signout } from '@/features/user/authSlice'
+import { getUser, signOut } from '@/features/user/authSlice'
 import React, { useEffect, useState } from 'react'
 import { GiHamburgerMenu } from "react-icons/gi"
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,14 +9,22 @@ import { MdAccountBox } from "react-icons/md"
 import { MdManageAccounts } from "react-icons/md"
 import { GoSignOut } from "react-icons/go"
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/api/api';
+import { TStoreDispatch } from '@/store/store';
+// import { useCookies } from 'react-cookie';
 
 type Props = {}
 
 const HomeNavbar = (props: Props) => {
     //#region : declarations
     const isLargeScreen = useMediaQuery("(min-width:769px)");
+
+    // const [cookies, setCookie, removeCookie] = useCookies(['access_token']);
+
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<TStoreDispatch>()
+
+
     const user = useSelector(getUser).user
     const isUser = useSelector(getUser).isUser
     const toggler = useSelector(getToggler)
@@ -113,7 +121,7 @@ const HomeNavbar = (props: Props) => {
                     style={{ boxShadow: "0 3px 10px 8px rgba(0 0 0 / 8%)" }}
                     className={`
                     ${toggler.userMenu ? ` ${isLargeScreen ? `w-[400px] h-[380px]` : `w-60 h-[370px]`}` : "h-0 w-0"}
-                    absolute top-0 right-0 bg-pink-900 text-white transition-all rounded-2xl pb-[2.5em] z-50` }>
+                    absolute top-0 right-0 bg-pink-900 text-white transition-all rounded-2xl rounded-tr-3xl pb-[2.5em] z-50` }>
 
 
                     {
@@ -187,7 +195,7 @@ const HomeNavbar = (props: Props) => {
                                 </div>
                                 <div className='hover:bg-slate-100 cursor-pointer rounded-b-xl p-2'
                                     onClick={() => {
-                                        dispatch(signout())
+                                        dispatch(signOut())
                                         dispatch(toggle(ETogglers.userMenu))
                                         navigate("/")
                                     }}>
