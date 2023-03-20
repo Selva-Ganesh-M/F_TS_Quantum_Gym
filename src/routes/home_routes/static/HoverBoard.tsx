@@ -131,7 +131,7 @@ const HoverBoard = (props: Props) => {
                                 <div className='h-10 w-10 overflow-hidden rounded-full'>
                                     <img src={workout} alt="events-img" className='w-full h-full object-cover' />
                                 </div>
-                                <p className={`${resp} font-bold text-lg`}>MY WORKOUTS</p>
+                                <p className={`${resp} font-bold text-lg`}>WORKOUTS</p>
                                 {/* <MdOutlineFitnessCenter /> */}
                             </div>
                         </div>

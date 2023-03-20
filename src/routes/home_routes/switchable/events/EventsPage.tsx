@@ -253,7 +253,7 @@ const EventsPage = (props: Props) => {
 
                             ) : (
 
-                                <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' />
+                                <FilledBtn content={"+"} px="px-5" rounded='rounded-full' fz='text-2xl' to="/home/events/create" />
                             )
                         }
 

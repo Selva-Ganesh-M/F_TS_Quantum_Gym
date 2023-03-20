@@ -102,7 +102,7 @@ const ViewEvent = (props: Props) => {
                             </div>
 
                             {/* body */}
-                            <div className='p-5'>
+                            <div className={`p-5`}>
                                 {event.desc}
                             </div>
                         </div>

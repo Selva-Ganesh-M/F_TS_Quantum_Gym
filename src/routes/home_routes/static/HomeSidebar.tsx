@@ -73,7 +73,7 @@ const HomeSidebar = (props: Props) => {
                     </div>
                     <div
                         onClick={() => handleRedirect(EHomeRoutes.myWorkouts)}
-                        className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md cursor-pointer'><MdOutlineFitnessCenter />My Workouts</div>
+                        className='p-2 hover:bg-slate-100 flex items-center gap-3 text-md cursor-pointer'><MdOutlineFitnessCenter />Workouts</div>
                 </div>
 
                 {/* section-2 */}
