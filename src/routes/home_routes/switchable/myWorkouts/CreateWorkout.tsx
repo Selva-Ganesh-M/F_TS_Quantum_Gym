@@ -122,7 +122,7 @@ const CreateWorkout = (props: Props) => {
     //#endregion
 
     //#region : loaders
-    const [isSubmittin, setIsSubmittin] = useState(true)
+    const [isSubmittin, setIsSubmittin] = useState(false)
 
     //#endregion
 
