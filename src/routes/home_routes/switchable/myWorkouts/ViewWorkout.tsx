@@ -135,8 +135,8 @@ const ViewWorkout = (props: Props) => {
                                                             size={50}
                                                             className={`${false ? "cursor-wait" : "cursor-pointer"} rounded-full hover:bg-red-100 p-2`}
                                                             onClick={async () => {
-                                                                await deleteVideo(item.videoUrl)
                                                                 await dispatch(deleteWorkout(item._id))
+                                                                await deleteVideo(item.videoUrl)
                                                                 navigate("/home/my_workouts")
                                                             }}
                                                         />
