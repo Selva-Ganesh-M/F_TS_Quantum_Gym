@@ -392,7 +392,7 @@ const CreateWorkout = (props: Props) => {
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setImagePer(progress)
+                setImagePer(Math.round(progress))
                 switch (snapshot.state) {
                     case 'paused':
                         console.log('Upload is paused');
@@ -431,7 +431,7 @@ const CreateWorkout = (props: Props) => {
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setVideoPer(progress)
+                setVideoPer(Math.round(progress))
                 switch (snapshot.state) {
                     case 'paused':
                         console.log('Upload is paused');
@@ -594,7 +594,7 @@ const CreateWorkout = (props: Props) => {
                                                                                 onClick={() => {
                                                                                     setSelectedCategory(cat)
                                                                                     // manually setting the value
-                                                                                    setFieldValue("category", cat)
+                                                                                    setFieldValue("category", cat.toLowerCase())
                                                                                     // close the board
                                                                                     setIsCatOpen(false)
                                                                                 }}
